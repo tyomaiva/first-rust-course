@@ -1,0 +1,6 @@
+[book]
+authors = ["Artem Ivashko", "George Cristian"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Rust Course"
