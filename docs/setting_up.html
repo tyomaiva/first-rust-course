@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - Rust Course</title>
+        <title>Setting Up The Environment - Rust Course</title>
 
 
         <!-- Custom HTML head -->
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html" class="active"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html" class="active"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -142,26 +142,41 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>The goal of the course:</p>
+                        <h1 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting Up The Environment</a></h1>
+<h2 id="installing-rust-on-windows"><a class="header" href="#installing-rust-on-windows">Installing Rust on Windows</a></h2>
+<p>Before installing Rust, it also requires the C++ build tools. In case you do not have those, you can get them via this link: <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">https://visualstudio.microsoft.com/visual-cpp-build-tools/</a></p>
+<p>To install Rust itself, go to the following link and follow the instructions for installation: <a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a></p>
+<h2 id="installing-rust-on-linux-or-macos"><a class="header" href="#installing-rust-on-linux-or-macos">Installing Rust on Linux or macOS</a></h2>
+<p>The following command downloads and installs the latest stable version of Rust:</p>
+<pre><code class="language-shell">curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+</code></pre>
+<p>Rust also needs a C compiler. In case you do not have one, do the following:</p>
 <ul>
-<li>Write and read some basic Rust code</li>
-<li>Experience with Embedded Rust</li>
+<li>For <strong>Linux</strong></li>
 </ul>
-<p>What knowledge is expected:</p>
+<pre><code class="language-shell">sudo apt-get update
+sudo apt install build-essential
+</code></pre>
 <ul>
-<li>how stack/heap work</li>
-<li>UNIX shell (e.g. bash)</li>
-<li>C++ experience is useful, as we will draw analogies and make comparisons from time to time</li>
+<li>For <strong>macOS</strong></li>
+</ul>
+<pre><code class="language-shell">xcode-select install
+</code></pre>
+<h2 id="what-ides-can-be-used"><a class="header" href="#what-ides-can-be-used">What IDEs can be used?</a></h2>
+<p>Mainly for syntax highlighting, code completion, etc. Both have Rust plugins:</p>
+<ul>
+<li>Visual Studio Code</li>
+<li>IntelliJ IDEA</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-
-                            <a rel="next" href="setting_up.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                            <a rel="prev" href="introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
                             </a>
+
 
                         <div style="clear: both"></div>
                     </nav>
@@ -169,10 +184,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-
-                    <a rel="next" href="setting_up.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                    <a rel="prev" href="introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
                     </a>
+
             </nav>
 
         </div>
