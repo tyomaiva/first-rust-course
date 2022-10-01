@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Rust Course</title>
-        <meta name="robots" content="noindex" />
+        <title>Hello, Embedded world! - Rust Course</title>
 
 
         <!-- Custom HTML head -->
@@ -82,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">5.</strong> Enums (put before ownership?)</a></li><li class="chapter-item expanded "><a href="traits.html"><strong aria-hidden="true">6.</strong> Traits</a></li><li class="chapter-item expanded "><a href="generics.html"><strong aria-hidden="true">7.</strong> Generics</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">8.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">9.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">10.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">11.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">12.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">13.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">5.</strong> Enums (put before ownership?)</a></li><li class="chapter-item expanded "><a href="traits.html"><strong aria-hidden="true">6.</strong> Traits</a></li><li class="chapter-item expanded "><a href="generics.html"><strong aria-hidden="true">7.</strong> Generics</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">8.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_world.html" class="active"><strong aria-hidden="true">9.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">10.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">11.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">12.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">13.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -143,77 +142,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>The goals of the course:</p>
-<ul>
-<li>Learn to write and read basic Rust code</li>
-<li>Get experience with Embedded Rust with a real hardware system</li>
-</ul>
-<p><em>Out</em> of scope:</p>
-<ul>
-<li>Motivate to learn Rust (we tried to accomplish that in the previous sessions)</li>
-<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable on embedded systems</li>
-<li>Multithreading and asynchronous programming, though both are <a href="https://docs.rust-embedded.org/book/concurrency/">relatively easy</a> with Embedded Rust, and almost unavoidable when implementing an RTOS</li>
-<li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
-</ul>
-<!-- + Smart pointers like [Box](https://doc.rust-lang.org/std/boxed/struct.Box.html), for the same reason -->
-<!-- What knowledge is expected: -->
-<!-- + how stack/heap works -->
-<!-- + UNIX shell (e.g. bash) ?????????? -->
-<!-- + C++ experience is useful, as we will draw analogies and make comparisons from time to time -->
-<div style="break-before: page; page-break-before: always;"></div><h1 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting Up The Environment</a></h1>
-<h2 id="installing-rust-on-windows"><a class="header" href="#installing-rust-on-windows">Installing Rust on Windows</a></h2>
-<p>Before installing Rust, it also requires the C++ build tools. In case you do not have those, you can get them via this link: <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">https://visualstudio.microsoft.com/visual-cpp-build-tools/</a></p>
-<p>To install Rust itself, go to the following link and follow the instructions for installation: <a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a></p>
-<h2 id="installing-rust-on-linux-or-macos"><a class="header" href="#installing-rust-on-linux-or-macos">Installing Rust on Linux or macOS</a></h2>
-<p>The following command downloads and installs the latest stable version of Rust:</p>
-<pre><code class="language-shell">curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
-</code></pre>
-<p>Rust also needs a C compiler. In case you do not have one, do the following:</p>
-<ul>
-<li>For <strong>Linux</strong></li>
-</ul>
-<pre><code class="language-shell">sudo apt-get update
-sudo apt install build-essential
-</code></pre>
-<ul>
-<li>For <strong>macOS</strong></li>
-</ul>
-<pre><code class="language-shell">xcode-select install
-</code></pre>
-<h2 id="what-ides-can-be-used"><a class="header" href="#what-ides-can-be-used">What IDEs can be used?</a></h2>
-<p>Mainly for syntax highlighting, code completion, etc. Both have Rust plugins:</p>
-<ul>
-<li>Visual Studio Code</li>
-<li>IntelliJ IDEA</li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="syntax-basics"><a class="header" href="#syntax-basics">Syntax basics</a></h1>
-<ul>
-<li>=fn=, =use=, =println!= and formatted printing, =loop=, =array= (example of nested 5x5 micro:bit LED array from =blink.rs=), comments</li>
-<li>=let=, it's immutable by default</li>
-<li>=uint8=, =i32=, =f64=, and other basic types</li>
-<li>do we really need structs and tuples (for understanding docs maybe)?
-<ul>
-<li>functions associated to a struct</li>
-</ul>
-</li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ownership-and-borrow-checker"><a class="header" href="#ownership-and-borrow-checker">Ownership and borrow checker</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="enums-put-before-ownership"><a class="header" href="#enums-put-before-ownership">Enums (put before ownership?)</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="traits"><a class="header" href="#traits">Traits</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="generics"><a class="header" href="#generics">Generics</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="what-makes-embedded-rust-special"><a class="header" href="#what-makes-embedded-rust-special">What makes Embedded Rust special</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="what-is-microbit"><a class="header" href="#what-is-microbit">What is Micro:bit?</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="the-led-matrix"><a class="header" href="#the-led-matrix">The LED matrix</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="serial-communication-with-uart"><a class="header" href="#serial-communication-with-uart">Serial communication with UART</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="putting-all-together-streaming-data-from-the-accelerometer"><a class="header" href="#putting-all-together-streaming-data-from-the-accelerometer">Putting all together: streaming data from the accelerometer</a></h1>
+                        <h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="embedded_introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
+                            <a rel="next" href="microbit_introduction.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -221,7 +162,13 @@ sudo apt install build-essential
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="embedded_introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
+                    <a rel="next" href="microbit_introduction.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -260,11 +207,6 @@ sudo apt install build-essential
 
         <!-- Custom JS scripts -->
 
-        <script type="text/javascript">
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
 
     </body>
 </html>
