@@ -7,3 +7,6 @@ title = "Rust Course"
 
 [build]
 build-dir = "docs"
+
+[output.html.playground]
+editable = true

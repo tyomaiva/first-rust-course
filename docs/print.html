@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">5.</strong> Enums (put before ownership?)</a></li><li class="chapter-item expanded "><a href="traits.html"><strong aria-hidden="true">6.</strong> Traits</a></li><li class="chapter-item expanded "><a href="generics.html"><strong aria-hidden="true">7.</strong> Generics</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">8.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">9.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">10.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">11.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">12.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">13.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">5.</strong> Enums (put before ownership?)</a></li><li class="chapter-item expanded "><a href="traits.html"><strong aria-hidden="true">6.</strong> Traits</a></li><li class="chapter-item expanded "><a href="generics.html"><strong aria-hidden="true">7.</strong> Generics</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">8.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">9.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">10.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">11.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">12.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">13.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -153,7 +153,7 @@
 <ul>
 <li>Motivate to learn Rust (we tried to accomplish that in the previous sessions)</li>
 <li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable on embedded systems</li>
-<li>Multithreading and asynchronous programming, though both are <a href="https://docs.rust-embedded.org/book/concurrency/">relatively easy</a> with Embedded Rust, and almost unavoidable when implementing an RTOS</li>
+<li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS</li>
 <li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
 </ul>
 <!-- + Smart pointers like [Box](https://doc.rust-lang.org/std/boxed/struct.Box.html), for the same reason -->
@@ -184,20 +184,108 @@ sudo apt install build-essential
 <h2 id="what-ides-can-be-used"><a class="header" href="#what-ides-can-be-used">What IDEs can be used?</a></h2>
 <p>Mainly for syntax highlighting, code completion, etc. Both have Rust plugins:</p>
 <ul>
-<li>Visual Studio Code</li>
+<li>Visual Studio Code (<a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">rust-analyzer</a>)</li>
 <li>IntelliJ IDEA</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="syntax-basics"><a class="header" href="#syntax-basics">Syntax basics</a></h1>
+<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
 <ul>
-<li>=fn=, =use=, =println!= and formatted printing, =loop=, =array= (example of nested 5x5 micro:bit LED array from =blink.rs=), comments</li>
-<li>=let=, it's immutable by default</li>
-<li>=uint8=, =i32=, =f64=, and other basic types</li>
+<li>=use=, =loop=, =array= (example of nested 5x5 micro:bit LED array from =blink.rs=), comments
+<ul>
+<li><code>use</code> creates shorthand aliases, so instead of typing <code>std::io::stdin()</code> we type <code>io::stdin()</code></li>
+</ul>
+</li>
 <li>do we really need structs and tuples (for understanding docs maybe)?
 <ul>
 <li>functions associated to a struct</li>
 </ul>
 </li>
 </ul>
+<h2 id="first-code-snippet"><a class="header" href="#first-code-snippet">First code snippet</a></h2>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let mut index = 10; // Define a variable
+    while index != 0 {
+        println!(&quot;Counting down: {}&quot;, index);
+        /* Decrease the value on each iteration */
+        index -= 1;
+    }
+}
+</code></pre></pre>
+<p>Several things to note here:</p>
+<ul>
+<li><code>fn</code> defines a new function, in this case it is called <code>main</code>, it does not have any input arguments and does not return anything either</li>
+<li><code>let mut</code> binds a value <code>10</code> to a <em>mutable</em> variable called <code>index</code>
+<ul>
+<li>If you omit <code>mut</code>, you get instead an <em>immutable</em> variable, which does not work in this case, try it!</li>
+<li>So variables in Rust are immutable by default</li>
+</ul>
+</li>
+<li>Syntax is similar to C and languages that (partially) inherited the C syntax (like C++, Java, and JavaScript): brackets, braces, semicolons, comparison and increment/decrement operators, comments</li>
+<li><code>println!()</code> does formatted printing, similar to <code>printf()</code> in C, but more powerful</li>
+<li>You can edit this code snippet and re-run it without leaving this webpage. Alternatively, you can copy it and run in the <a href="https://play.rust-lang.org/">Rust Playground</a></li>
+</ul>
+<h2 id="basic-numerical-types"><a class="header" href="#basic-numerical-types">Basic numerical types</a></h2>
+<p>In the example above, the type of the variable <code>index</code> is inferred automatically</p>
+<ul>
+<li>In that case it is <code>i32</code>, which is a 32-bit signed integer</li>
+<li>You can get this information by hovering over <code>index</code> in your IDE with Rust Language Server enabled (e.g. in Visual Studio Code)</li>
+<li>If we change <code>10</code> to <code>10.</code>, we get instead the double-precision floating-point type, <code>f64</code></li>
+<li>If you want to use a different type, you need to specify it explicitly</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let index: u8 = 10;
+    // OR
+    let index2 = 10_u8;
+}
+</code></pre></pre>
+<ul>
+<li><code>u8</code> is 8-bit unsigned integer type, which is very popular in Embedded Rust and in general in low-level programming, where we have to shuffle individual bytes</li>
+<li>More types here: <a href="https://doc.rust-lang.org/book/ch03-02-data-types.html#scalar-types">Scalar Types</a></li>
+</ul>
+<h2 id="user-defined-types"><a class="header" href="#user-defined-types">User-defined types</a></h2>
+<p>Apart from the basic types, we often want to combine them in a <em>compound</em> user-defined type</p>
+<h3 id="tuples"><a class="header" href="#tuples">Tuples</a></h3>
+<!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
+<h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
+<p>Array is a fixed-size collection of elements of the <em>same</em> type
+...</p>
+<p>What happens if we access an index out of range?</p>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let array = [7, 21, 42];
+    let mut index = 0;
+    loop {
+        println!(&quot;The element #{} is {}&quot;, index, array[index]);
+        index += 1;
+    }
+}
+</code></pre></pre>
+<ul>
+<li>It is safe to do (i.e., no undefined behaviour), the Rust program just panics and writes a diagnostic post-mortem message</li>
+<li><code>loop</code> is an infinite loop (a dedicated language construct, unlike the hacky <code>while(1) {}</code> and <code>for(;;) {}</code> in C)</li>
+</ul>
+<p>More idiomatic (and less error-prone) alternative is to use Rust <em>iterators</em></p>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let array = [7, 21, 42];
+    for (index, element) in array.iter().enumerate() {
+        println!(&quot;The element #{} is {}&quot;, index, element);
+    }
+}
+</code></pre></pre>
+<p>Nested arrays</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    let light_pattern = [
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 0, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+    ];
+    println!(&quot;{}&quot;, light_pattern[0][0]);
+    println!(&quot;{}&quot;, light_pattern[2][2]);
+<span class="boring">}
+</span></code></pre></pre>
+<p>We will use it for blinking a 5x5 LED matrix in the <a href="./blink.html">Embedded Rust part</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ownership-and-borrow-checker"><a class="header" href="#ownership-and-borrow-checker">Ownership and borrow checker</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="enums-put-before-ownership"><a class="header" href="#enums-put-before-ownership">Enums (put before ownership?)</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="traits"><a class="header" href="#traits">Traits</a></h1>
@@ -249,6 +337,11 @@ sudo apt install build-essential
             window.playground_copyable = true;
         </script>
 
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
 
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>

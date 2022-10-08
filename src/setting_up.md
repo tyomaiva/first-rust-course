@@ -24,5 +24,5 @@ xcode-select install
 
 ## What IDEs can be used?
 Mainly for syntax highlighting, code completion, etc. Both have Rust plugins:
-* Visual Studio Code
+* Visual Studio Code ([rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer))
 * IntelliJ IDEA

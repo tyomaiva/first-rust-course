@@ -14,8 +14,8 @@
 # Embedded Rust
 
 - [What makes Embedded Rust special](./embedded_introduction.md)
-- [Hello, Embedded world!](./hello_world.md)
+- [Hello, Embedded world!](./hello_embedded_world.md)
 - [What is Micro:bit?](./microbit_introduction.md)
-- [The LED matrix](blink.rs)
-- [Serial communication with UART](serial.md)
-- [Putting all together: streaming data from the accelerometer](accelerometer_streaming.md)
+- [The LED matrix](./blink.md)
+- [Serial communication with UART](./serial.md)
+- [Putting all together: streaming data from the accelerometer](./accelerometer_streaming.md)

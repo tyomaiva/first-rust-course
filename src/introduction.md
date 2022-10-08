@@ -7,7 +7,7 @@ The goals of the course:
 _Out_ of scope:
 + Motivate to learn Rust (we tried to accomplish that in the previous sessions)
 + Data collections like [Vec](https://doc.rust-lang.org/std/vec/struct.Vec.html) or [HashMap](https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html), since they involve heap allocation, which is often undesirable on embedded systems
-+ Multithreading and asynchronous programming, though both are [relatively easy](https://docs.rust-embedded.org/book/concurrency/) with Embedded Rust, and almost unavoidable when implementing an RTOS
++ Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see [here](https://embassy.dev/) and [here](https://rtic.rs/1/book/en/)), and almost unavoidable when implementing an RTOS
 + Unit testing, modularization, and other good development practices, since all of our projects will be very small
 <!-- + Smart pointers like [Box](https://doc.rust-lang.org/std/boxed/struct.Box.html), for the same reason -->
 
