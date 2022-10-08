@@ -2,10 +2,7 @@
 
 ## TODO
 
-+ =use=, =loop=, =array= (example of nested 5x5 micro:bit LED array from =blink.rs=), comments
-  + `use` creates shorthand aliases, so instead of typing `std::io::stdin()` we type `io::stdin()`
-+ do we really need structs and tuples (for understanding docs maybe)?
-  + functions associated to a struct
++ `use` creates shorthand aliases, so instead of typing `std::io::stdin()` we type `io::stdin()`
 
 ## First code snippet
 
@@ -39,7 +36,9 @@ In the example above, the type of the variable `index` is inferred automatically
 fn main() {
     let index: u8 = 10;
     // OR
-    let index2 = 10_u8;
+    let index = 10_u8;
+    // OR
+    let index = 10 as u8;
 }
 ```
 + `u8` is 8-bit unsigned integer type, which is very popular in Embedded Rust and in general in low-level programming, where we have to shuffle individual bytes
@@ -50,11 +49,66 @@ fn main() {
 Apart from the basic types, we often want to combine them in a _compound_ user-defined type
 
 ### Tuples
+
 <!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
 
+A tuple combines values of different types
+```rust
+    let tuple = ("Something", 2);
+    println!("{}, {}", tuple.0, tuple.1);
+```
+
+### Structs
+
+Structs are similar to tuples in that they combine potentially different types, but each field is _named_:
+```rust
+struct MyComplex {
+    x: f64,
+    y: f64,
+}
+
+    let number = MyComplex{x: 3., y: 4.};
+    println!("The number is: {} + {}*i", number.x, number.y);
+```
++ Note that if you pass `{x: 3, y: 4)` instead of `(x: 3., y:4.)`, you get a compiler error: you need to convert the types explicitly, e.g. `{x: 3 as f64, y: 4 as f64)` will do the trick. It is a safety feature, to avoid accidental type castings
+
+You can associate methods acting on a given struct type (encapsulation):
+```rust
+# struct MyComplex {
+#     x: f64,
+#     y: f64,
+# }
+
+impl MyComplex {
+    fn new(x: f64, y: f64) -> Self {
+        MyComplex{x: x, y: y}
+    }
+
+    fn length(self) -> f64 {
+        (self.x * self.x + self.y * self.y).sqrt()
+    }
+}
+
+fn main() {
+    let mut number = MyComplex::new(3., 4.);
+    println!("The length is: {}", number.length());
+}
+```
++ Implementing `new()` is a customary way of initializing structs. It's like a class constructor in C++, with two major differences:
+  + Call of `new()` should be always _explicit_ (no implicit construction)
+  + There can be only one implementation of `new()`, since Rust intentionally does not have function overloading. If you need multiple ways to construct an object (e.g. construct a default struct value and a custom one), use the [Builder pattern](https://rust-unofficial.github.io/patterns/patterns/creational/builder.html) instead
++ `Self` is an alias to the current struct _type_, so `Self` \\( \iff \\) `MyComplex`
++ `self` is an alias to the current struct _instance_, so `self` \\( \iff \\) `number`
+
 ### Arrays
-Array is a fixed-size collection of elements of the _same_ type
-...
+
+Array is a fixed-size collection of elements of the _same_ type (similar to C arrays)
+```rust
+    let mut array = [7, 21, 42];
+    array[0] += 20;
+    println!("{:?}", array);
+```
++ Note the `{:?}` syntax which normally tells to dump the contents of the variable. We will elaborate on this [later](./traits.md), while discussing the `Debug` trait.
 
 What happens if we access an index out of range?
 ```rust,editable
@@ -68,7 +122,7 @@ fn main() {
 }
 ```
 + It is safe to do (i.e., no undefined behaviour), the Rust program just panics and writes a diagnostic post-mortem message
-+ `loop` is an infinite loop (a dedicated language construct, unlike the hacky `while(1) {}` and `for(;;) {}` in C)
++ `loop` denotes an infinite loop (a dedicated language construct, unlike the hacky `while(1) {}` and `for(;;) {}` in C)
 
 More idiomatic (and less error-prone) alternative is to use Rust _iterators_
 ```rust,editable
@@ -92,4 +146,4 @@ Nested arrays
     println!("{}", light_pattern[0][0]);
     println!("{}", light_pattern[2][2]);
 ```
-We will use it for blinking a 5x5 LED matrix in the [Embedded Rust part](./blink.md)
+We will use this code for blinking a 5x5 LED matrix in the [Embedded Rust part](./blink.md)

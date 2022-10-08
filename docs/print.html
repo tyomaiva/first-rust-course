@@ -32,6 +32,8 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -190,16 +192,7 @@ sudo apt install build-essential
 <div style="break-before: page; page-break-before: always;"></div><h1 id="syntax-basics"><a class="header" href="#syntax-basics">Syntax basics</a></h1>
 <h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
 <ul>
-<li>=use=, =loop=, =array= (example of nested 5x5 micro:bit LED array from =blink.rs=), comments
-<ul>
 <li><code>use</code> creates shorthand aliases, so instead of typing <code>std::io::stdin()</code> we type <code>io::stdin()</code></li>
-</ul>
-</li>
-<li>do we really need structs and tuples (for understanding docs maybe)?
-<ul>
-<li>functions associated to a struct</li>
-</ul>
-</li>
 </ul>
 <h2 id="first-code-snippet"><a class="header" href="#first-code-snippet">First code snippet</a></h2>
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
@@ -235,7 +228,9 @@ sudo apt install build-essential
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
     let index: u8 = 10;
     // OR
-    let index2 = 10_u8;
+    let index = 10_u8;
+    // OR
+    let index = 10 as u8;
 }
 </code></pre></pre>
 <ul>
@@ -246,9 +241,72 @@ sudo apt install build-essential
 <p>Apart from the basic types, we often want to combine them in a <em>compound</em> user-defined type</p>
 <h3 id="tuples"><a class="header" href="#tuples">Tuples</a></h3>
 <!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
+<p>A tuple combines values of different types</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    let tuple = (&quot;Something&quot;, 2);
+    println!(&quot;{}, {}&quot;, tuple.0, tuple.1);
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="structs"><a class="header" href="#structs">Structs</a></h3>
+<p>Structs are similar to tuples in that they combine potentially different types, but each field is <em>named</em>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct MyComplex {
+    x: f64,
+    y: f64,
+}
+
+    let number = MyComplex{x: 3., y: 4.};
+    println!(&quot;The number is: {} + {}*i&quot;, number.x, number.y);
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>Note that if you pass <code>{x: 3, y: 4)</code> instead of <code>(x: 3., y:4.)</code>, you get a compiler error: you need to convert the types explicitly, e.g. <code>{x: 3 as f64, y: 4 as f64)</code> will do the trick. It is a safety feature, to avoid accidental type castings</li>
+</ul>
+<p>You can associate methods acting on a given struct type (encapsulation):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyComplex {
+</span><span class="boring">    x: f64,
+</span><span class="boring">    y: f64,
+</span><span class="boring">}
+</span>
+impl MyComplex {
+    fn new(x: f64, y: f64) -&gt; Self {
+        MyComplex{x: x, y: y}
+    }
+
+    fn length(self) -&gt; f64 {
+        (self.x * self.x + self.y * self.y).sqrt()
+    }
+}
+
+fn main() {
+    let mut number = MyComplex::new(3., 4.);
+    println!(&quot;The length is: {}&quot;, number.length());
+}
+</code></pre></pre>
+<ul>
+<li>Implementing <code>new()</code> is a customary way of initializing structs. It's like a class constructor in C++, with two major differences:
+<ul>
+<li>Call of <code>new()</code> should be always <em>explicit</em> (no implicit construction)</li>
+<li>There can be only one implementation of <code>new()</code>, since Rust intentionally does not have function overloading. If you need multiple ways to construct an object (e.g. construct a default struct value and a custom one), use the <a href="https://rust-unofficial.github.io/patterns/patterns/creational/builder.html">Builder pattern</a> instead</li>
+</ul>
+</li>
+<li><code>Self</code> is an alias to the current struct <em>type</em>, so <code>Self</code> \( \iff \) <code>MyComplex</code></li>
+<li><code>self</code> is an alias to the current struct <em>instance</em>, so <code>self</code> \( \iff \) <code>number</code></li>
+</ul>
 <h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
-<p>Array is a fixed-size collection of elements of the <em>same</em> type
-...</p>
+<p>Array is a fixed-size collection of elements of the <em>same</em> type (similar to C arrays)</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    let mut array = [7, 21, 42];
+    array[0] += 20;
+    println!(&quot;{:?}&quot;, array);
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>Note the <code>{:?}</code> syntax which normally tells to dump the contents of the variable. We will elaborate on this <a href="./traits.html">later</a>, while discussing the <code>Debug</code> trait.</li>
+</ul>
 <p>What happens if we access an index out of range?</p>
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
     let array = [7, 21, 42];
@@ -261,7 +319,7 @@ sudo apt install build-essential
 </code></pre></pre>
 <ul>
 <li>It is safe to do (i.e., no undefined behaviour), the Rust program just panics and writes a diagnostic post-mortem message</li>
-<li><code>loop</code> is an infinite loop (a dedicated language construct, unlike the hacky <code>while(1) {}</code> and <code>for(;;) {}</code> in C)</li>
+<li><code>loop</code> denotes an infinite loop (a dedicated language construct, unlike the hacky <code>while(1) {}</code> and <code>for(;;) {}</code> in C)</li>
 </ul>
 <p>More idiomatic (and less error-prone) alternative is to use Rust <em>iterators</em></p>
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
@@ -285,11 +343,30 @@ sudo apt install build-essential
     println!(&quot;{}&quot;, light_pattern[2][2]);
 <span class="boring">}
 </span></code></pre></pre>
-<p>We will use it for blinking a 5x5 LED matrix in the <a href="./blink.html">Embedded Rust part</a></p>
+<p>We will use this code for blinking a 5x5 LED matrix in the <a href="./blink.html">Embedded Rust part</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ownership-and-borrow-checker"><a class="header" href="#ownership-and-borrow-checker">Ownership and borrow checker</a></h1>
+<p>Case with fn length(self) -&gt; f64 : move occurs, the number is not usable anymore</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="enums-put-before-ownership"><a class="header" href="#enums-put-before-ownership">Enums (put before ownership?)</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="traits"><a class="header" href="#traits">Traits</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="generics"><a class="header" href="#generics">Generics</a></h1>
+<pre><pre class="playground"><code class="language-rust editable">use std::io::Write;
+
+fn display_message&lt;T&gt;(serial: &amp;mut uarte::Uarte&lt;T&gt;, string: &amp;str)
+where
+    T: MySerial,
+{
+    // We need to add \r here in order for the serial terminal to properly start new line
+    write!(serial, &quot;{}\r\n&quot;, string).unwrap();
+    // Side effect: increase a counter (number of output characters) for statistics
+    ????
+}
+
+fn main() {
+    display_message(???, &quot;How much &quot;);
+    display_message(???, &quot;do I talk?&quot;);
+    println!(&quot;Counter: {}&quot;, serial.counter);
+}
+</code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-makes-embedded-rust-special"><a class="header" href="#what-makes-embedded-rust-special">What makes Embedded Rust special</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-is-microbit"><a class="header" href="#what-is-microbit">What is Micro:bit?</a></h1>
@@ -355,7 +432,9 @@ sudo apt install build-essential
 
         <script type="text/javascript">
         window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
         });
         </script>
 

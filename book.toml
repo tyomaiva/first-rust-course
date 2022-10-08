@@ -8,5 +8,8 @@ title = "Rust Course"
 [build]
 build-dir = "docs"
 
+[output.html]
+mathjax-support = true
+
 [output.html.playground]
 editable = true
