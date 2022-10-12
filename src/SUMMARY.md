@@ -7,9 +7,8 @@
 - [Setting Up The Environment](./setting_up.md)
 - [Syntax basics](./syntax_basics.md)
 - [Ownership and borrow checker](./ownership.md)
-- [Enums (put before ownership?)](./enums.md)
-- [Traits](./traits.md)
-- [Generics](./generics.md)
+- [Traits and generics](./traits_generics.md)
+- [Enums](./enums.md)
 
 # Embedded Rust
 

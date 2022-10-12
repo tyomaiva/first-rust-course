@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="rustviz_plugin/visualization.css">
 
         <!-- MathJax -->
         <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -83,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">5.</strong> Enums (put before ownership?)</a></li><li class="chapter-item expanded "><a href="traits.html"><strong aria-hidden="true">6.</strong> Traits</a></li><li class="chapter-item expanded "><a href="generics.html"><strong aria-hidden="true">7.</strong> Generics</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html" class="active"><strong aria-hidden="true">8.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">9.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">10.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">11.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">12.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">13.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="traits_generics.html"><strong aria-hidden="true">5.</strong> Traits and generics</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">6.</strong> Enums</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html" class="active"><strong aria-hidden="true">7.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">8.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">9.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">10.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">11.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">12.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -150,7 +151,7 @@
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="generics.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="enums.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -164,7 +165,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="generics.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="enums.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
@@ -213,6 +214,7 @@
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="rustviz_plugin/helpers.js"></script>
 
 
     </body>

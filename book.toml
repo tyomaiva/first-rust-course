@@ -10,6 +10,8 @@ build-dir = "docs"
 
 [output.html]
 mathjax-support = true
+additional-css = ["rustviz_plugin/visualization.css"]
+additional-js = ["rustviz_plugin/helpers.js"]
 
 [output.html.playground]
 editable = true

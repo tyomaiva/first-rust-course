@@ -1,5 +1,10 @@
 # Setting Up The Environment
 
+If something below goes wrong, go for more details to <https://doc.rust-lang.org/book/ch01-01-installation.html>
+
+## TODO
+cargo init ...
+
 ## Installing Rust on Windows
 
 Before installing Rust, it also requires the C++ build tools. In case you do not have those, you can get them via this link: <https://visualstudio.microsoft.com/visual-cpp-build-tools/>

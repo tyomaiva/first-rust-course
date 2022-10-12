@@ -31,6 +31,7 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="rustviz_plugin/visualization.css">
 
         <!-- MathJax -->
         <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -84,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">5.</strong> Enums (put before ownership?)</a></li><li class="chapter-item expanded "><a href="traits.html"><strong aria-hidden="true">6.</strong> Traits</a></li><li class="chapter-item expanded "><a href="generics.html"><strong aria-hidden="true">7.</strong> Generics</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">8.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">9.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">10.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">11.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">12.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">13.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="traits_generics.html"><strong aria-hidden="true">5.</strong> Traits and generics</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">6.</strong> Enums</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">7.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">8.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">9.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">10.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">11.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">12.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -154,7 +155,7 @@
 <p><em>Out</em> of scope:</p>
 <ul>
 <li>Motivate to learn Rust (we tried to accomplish that in the previous sessions)</li>
-<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable on embedded systems</li>
+<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems</li>
 <li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS</li>
 <li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
 </ul>
@@ -164,6 +165,9 @@
 <!-- + UNIX shell (e.g. bash) ?????????? -->
 <!-- + C++ experience is useful, as we will draw analogies and make comparisons from time to time -->
 <div style="break-before: page; page-break-before: always;"></div><h1 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting Up The Environment</a></h1>
+<p>If something below goes wrong, go for more details to <a href="https://doc.rust-lang.org/book/ch01-01-installation.html">https://doc.rust-lang.org/book/ch01-01-installation.html</a></p>
+<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
+<p>cargo init ...</p>
 <h2 id="installing-rust-on-windows"><a class="header" href="#installing-rust-on-windows">Installing Rust on Windows</a></h2>
 <p>Before installing Rust, it also requires the C++ build tools. In case you do not have those, you can get them via this link: <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">https://visualstudio.microsoft.com/visual-cpp-build-tools/</a></p>
 <p>To install Rust itself, go to the following link and follow the instructions for installation: <a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a></p>
@@ -190,7 +194,7 @@ sudo apt install build-essential
 <li>IntelliJ IDEA</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="syntax-basics"><a class="header" href="#syntax-basics">Syntax basics</a></h1>
-<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
+<h2 id="todo-1"><a class="header" href="#todo-1">TODO</a></h2>
 <ul>
 <li><code>use</code> creates shorthand aliases, so instead of typing <code>std::io::stdin()</code> we type <code>io::stdin()</code></li>
 </ul>
@@ -345,28 +349,113 @@ fn main() {
 </span></code></pre></pre>
 <p>We will use this code for blinking a 5x5 LED matrix in the <a href="./blink.html">Embedded Rust part</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ownership-and-borrow-checker"><a class="header" href="#ownership-and-borrow-checker">Ownership and borrow checker</a></h1>
-<p>Case with fn length(self) -&gt; f64 : move occurs, the number is not usable anymore</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="enums-put-before-ownership"><a class="header" href="#enums-put-before-ownership">Enums (put before ownership?)</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="traits"><a class="header" href="#traits">Traits</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="generics"><a class="header" href="#generics">Generics</a></h1>
-<pre><pre class="playground"><code class="language-rust editable">use std::io::Write;
+<h2 id="todo-2"><a class="header" href="#todo-2">TODO</a></h2>
+<ul>
+<li>Case with fn length(self) -&gt; f64 : move occurs, the number is not usable anymore</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = 5;
+    let y = x;
+}
+</code></pre></pre>
+<div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display">
+    <object type="image/svg+xml" class="copy code_panel" data="rustviz_assets/example1/vis_code.svg"></object>
+    <object type="image/svg+xml" class="copy tl_panel" data="rustviz_assets/example1/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('copy')"></object>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="traits-and-generics"><a class="header" href="#traits-and-generics">Traits and generics</a></h1>
+<h2 id="todo-3"><a class="header" href="#todo-3">TODO</a></h2>
+<p>Good for dependency injection and mocking while testing</p>
+<h2 id="traits"><a class="header" href="#traits">Traits</a></h2>
+<p>Real-world trait: <a href="https://doc.rust-lang.org/core/fmt/trait.Write.html">core::fmt::Write</a></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Write {
+    fn write_str(&amp;mut self, s: &amp;str) -&gt; Result;
 
-fn display_message&lt;T&gt;(serial: &amp;mut uarte::Uarte&lt;T&gt;, string: &amp;str)
-where
-    T: MySerial,
-{
-    // We need to add \r here in order for the serial terminal to properly start new line
-    write!(serial, &quot;{}\r\n&quot;, string).unwrap();
-    // Side effect: increase a counter (number of output characters) for statistics
-    ????
+    fn write_char(&amp;mut self, c: char) -&gt; Result { ... }
+    fn write_fmt(&amp;mut self, args: Arguments&lt;'_&gt;) -&gt; Result { ... }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>The trait is normally used for unbuffered writes (like appending characters to a string)</li>
+<li>Good thing: you only need to implement <code>write_str()</code>, the other two methods are provided automatically</li>
+<li>Allows to use <code>println!</code>-like formatted printing</li>
+</ul>
+<pre><code class="language-rust noplayground">    // w implements core::fmt::Write
+    // ...
+    write!(w, &quot;Formatted {}&quot;, &quot;printing&quot;).unwrap();
+</code></pre>
+<ul>
+<li>We will use this feature later for <a href="./serial.html">serial communication</a></li>
+</ul>
+<blockquote>
+<h4 id="exercise"><a class="header" href="#exercise">Exercise:</a></h4>
+<p>Implement a struct that implements <code>core::fmt::Write</code>, so that writing to that struct does several things:</p>
+<ul>
+<li>The message contents is printed on screen</li>
+<li>An internal statistical counter is updated (side effect). The counter keeps track of total number of characters being ever written</li>
+<li>(*) Every second time you write to the struct, the counter value is printed on screen</li>
+<li>(**) You print only whenever end-of-line is encountered in your message, but buffer the message otherwise (similar to <code>printf()</code> in C). Yes, <code>core::fmt::Write</code> is used for <em>unbuffered</em> writes, so such an implementation is not recommended for production use :-)</li>
+</ul>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="enums"><a class="header" href="#enums">Enums</a></h1>
+<h2 id="todo-4"><a class="header" href="#todo-4">TODO</a></h2>
+<ul>
+<li>Pattern matching</li>
+</ul>
+<p>Whenever an operation may return either some value or <em>no value at all</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Option&lt;T&gt; {
+    Some(T),
+    None
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><code>Option</code> has many batteries included:</p>
+<ul>
+<li><code>#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]</code></li>
+<li>Plenty of functions</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let x: Option&lt;u8&gt; = Some(2);
+    assert_eq!(x.is_some(), true);
+    assert_eq!(x.unwrap(), 2);
+    assert_eq!(x.expect(&quot;Oops!&quot;), 2);
+}
+</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let x: Option&lt;u8&gt; = None;
+    x.expect(&quot;Oops!&quot;);
+}
+</code></pre></pre>
+<p>Whenever an operation may <em>fail</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/result/enum.Result.html"><code>core::result::Result</code></a> instead</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>It has a set of batteries very similar to <code>Option</code></li>
+<li>It is very popular to use the <code>?</code> syntactic sugar to propagate errors in an elegant way:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust editable">fn problematic_function() -&gt; Result&lt;u8, ()&gt; {
+    let x: Result&lt;u8, ()&gt; = Err(());
+    println!(&quot;{:?}&quot;, x?);
+    Ok(4)
 }
 
 fn main() {
-    display_message(???, &quot;How much &quot;);
-    display_message(???, &quot;do I talk?&quot;);
-    println!(&quot;Counter: {}&quot;, serial.counter);
+    println!(&quot;{:?}&quot;, problematic_function());
 }
 </code></pre></pre>
+<ul>
+<li>Compare this approach with C++/Java/Python exceptions, where error propagation is <em>non-local</em> and you may easily get an exception at runtime that you were not even aware of and which crashes the application! (Or even worse, catch all exceptions in a paranoic fashion, just to be on the safe side.)</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-makes-embedded-rust-special"><a class="header" href="#what-makes-embedded-rust-special">What makes Embedded Rust special</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-is-microbit"><a class="header" href="#what-is-microbit">What is Micro:bit?</a></h1>
@@ -429,6 +518,7 @@ fn main() {
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="rustviz_plugin/helpers.js"></script>
 
         <script type="text/javascript">
         window.addEventListener('load', function() {
