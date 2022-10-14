@@ -4,7 +4,7 @@
 
 # Basics of Rust
 
-- [Setting Up The Environment](./setting_up.md)
+- [Setup](./setting_up.md)
 - [Syntax basics](./syntax_basics.md)
 - [Ownership and borrow checker](./ownership.md)
 - [Traits and generics](./traits_generics.md)

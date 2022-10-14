@@ -1,10 +1,10 @@
 # Traits and generics
 
 ## TODO
-Good for dependency injection and mocking while testing
++ Good for dependency injection and mocking while testing
++ Some objects can be neither copied nor cloned (makes sense for a unique resource like an open file)
 
 ## Traits
-
 Real-world trait: [core::fmt::Write](https://doc.rust-lang.org/core/fmt/trait.Write.html)
 ```rust
 trait Write {
@@ -30,3 +30,6 @@ trait Write {
 > - An internal statistical counter is updated (side effect). The counter keeps track of total number of characters being ever written
 > - (*) Every second time you write to the struct, the counter value is printed on screen
 > - (**) You print only whenever end-of-line is encountered in your message, but buffer the message otherwise (similar to `printf()` in C). Yes, `core::fmt::Write` is used for _unbuffered_ writes, so such an implementation is not recommended for production use :-)
+
+## Resources for deeper understanding
++ [Chapter 10](https://doc.rust-lang.org/book/ch10-00-generics.html) of the Rust book

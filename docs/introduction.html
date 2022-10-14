@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html" class="active"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="traits_generics.html"><strong aria-hidden="true">5.</strong> Traits and generics</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">6.</strong> Enums</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">7.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">8.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">9.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">10.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">11.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">12.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html" class="active"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setup</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="traits_generics.html"><strong aria-hidden="true">5.</strong> Traits and generics</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">6.</strong> Enums</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">7.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">8.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">9.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">10.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">11.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">12.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -146,15 +146,16 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>Welcome to a course for the Rust programming language!</p>
 <p>The goals of the course:</p>
 <ul>
-<li>Learn to write and read basic Rust code</li>
-<li>Get experience with Embedded Rust with a real hardware system</li>
+<li>Learn to write basic Rust code and read API docs like <a href="https://doc.rust-lang.org/core/option/enum.Option.html">this</a></li>
+<li>Get experience with Embedded Rust on a real hardware platform</li>
 </ul>
 <p><em>Out</em> of scope:</p>
 <ul>
-<li>Motivate to learn Rust (we tried to accomplish that in the previous sessions)</li>
-<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems</li>
+<li>Motivation to learn Rust (we tried to accomplish that in the previous sessions)</li>
+<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems. In general, we omit the Rust standard library completely</li>
 <li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS</li>
 <li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
 </ul>
@@ -163,6 +164,12 @@
 <!-- + how stack/heap works -->
 <!-- + UNIX shell (e.g. bash) ?????????? -->
 <!-- + C++ experience is useful, as we will draw analogies and make comparisons from time to time -->
+<h2 id="resources"><a class="header" href="#resources">Resources</a></h2>
+<ul>
+<li>The official <a href="https://doc.rust-lang.org/book/">Rust book</a> is written extremely clear and is quite comprehensive. Absolute recommendation if you are serious about Rust!</li>
+<li><a href="https://fasterthanli.me/articles/a-half-hour-to-learn-rust">A half-hour to learn Rust</a> is a nice crash course without much theory. Note: it may actually take more than 30 minutes to read and digest.</li>
+<li><a href="https://docs.rust-embedded.org/discovery/microbit/">The Discovery book</a> is an introductory resource on Embedded Rust using the same hardware platform that we cover here</li>
+</ul>
 
                     </main>
 

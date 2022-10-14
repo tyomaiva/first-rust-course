@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setting Up The Environment</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="traits_generics.html"><strong aria-hidden="true">5.</strong> Traits and generics</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">6.</strong> Enums</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">7.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">8.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">9.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">10.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">11.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">12.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setup</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="traits_generics.html"><strong aria-hidden="true">5.</strong> Traits and generics</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">6.</strong> Enums</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">7.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">8.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">9.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">10.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">11.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">12.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -147,15 +147,16 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>Welcome to a course for the Rust programming language!</p>
 <p>The goals of the course:</p>
 <ul>
-<li>Learn to write and read basic Rust code</li>
-<li>Get experience with Embedded Rust with a real hardware system</li>
+<li>Learn to write basic Rust code and read API docs like <a href="https://doc.rust-lang.org/core/option/enum.Option.html">this</a></li>
+<li>Get experience with Embedded Rust on a real hardware platform</li>
 </ul>
 <p><em>Out</em> of scope:</p>
 <ul>
-<li>Motivate to learn Rust (we tried to accomplish that in the previous sessions)</li>
-<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems</li>
+<li>Motivation to learn Rust (we tried to accomplish that in the previous sessions)</li>
+<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems. In general, we omit the Rust standard library completely</li>
 <li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS</li>
 <li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
 </ul>
@@ -164,18 +165,27 @@
 <!-- + how stack/heap works -->
 <!-- + UNIX shell (e.g. bash) ?????????? -->
 <!-- + C++ experience is useful, as we will draw analogies and make comparisons from time to time -->
-<div style="break-before: page; page-break-before: always;"></div><h1 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting Up The Environment</a></h1>
+<h2 id="resources"><a class="header" href="#resources">Resources</a></h2>
+<ul>
+<li>The official <a href="https://doc.rust-lang.org/book/">Rust book</a> is written extremely clear and is quite comprehensive. Absolute recommendation if you are serious about Rust!</li>
+<li><a href="https://fasterthanli.me/articles/a-half-hour-to-learn-rust">A half-hour to learn Rust</a> is a nice crash course without much theory. Note: it may actually take more than 30 minutes to read and digest.</li>
+<li><a href="https://docs.rust-embedded.org/discovery/microbit/">The Discovery book</a> is an introductory resource on Embedded Rust using the same hardware platform that we cover here</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="setup"><a class="header" href="#setup">Setup</a></h1>
+<blockquote>
+<p><em>Note</em>: this Section is optional for the first part of the course. You need it only whenever you want to run the code examples <em>locally</em> on your system. Otherwise, use the online sandbox <a href="https://play.rust-lang.org/">Rust Playground</a>.
+However, for the embedded part, this Section is mandatory, since we want to interface our physical microcontroller boards.</p>
+</blockquote>
+<h2 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting up the environment</a></h2>
 <p>If something below goes wrong, go for more details to <a href="https://doc.rust-lang.org/book/ch01-01-installation.html">https://doc.rust-lang.org/book/ch01-01-installation.html</a></p>
-<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
-<p>cargo init ...</p>
-<h2 id="installing-rust-on-windows"><a class="header" href="#installing-rust-on-windows">Installing Rust on Windows</a></h2>
+<h3 id="installing-rust-on-windows"><a class="header" href="#installing-rust-on-windows">Installing Rust on Windows</a></h3>
 <p>Before installing Rust, it also requires the C++ build tools. In case you do not have those, you can get them via this link: <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">https://visualstudio.microsoft.com/visual-cpp-build-tools/</a></p>
 <p>To install Rust itself, go to the following link and follow the instructions for installation: <a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a></p>
-<h2 id="installing-rust-on-linux-or-macos"><a class="header" href="#installing-rust-on-linux-or-macos">Installing Rust on Linux or macOS</a></h2>
+<h3 id="installing-rust-on-linux-or-macos"><a class="header" href="#installing-rust-on-linux-or-macos">Installing Rust on Linux or macOS</a></h3>
 <p>The following command downloads and installs the latest stable version of Rust:</p>
 <pre><code class="language-shell">curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 </code></pre>
-<p>Rust also needs a C compiler. In case you do not have one, do the following:</p>
+<p>Rust also needs a C linker. In case you do not have one, do the following:</p>
 <ul>
 <li>For <strong>Linux</strong></li>
 </ul>
@@ -187,14 +197,27 @@ sudo apt install build-essential
 </ul>
 <pre><code class="language-shell">xcode-select install
 </code></pre>
-<h2 id="what-ides-can-be-used"><a class="header" href="#what-ides-can-be-used">What IDEs can be used?</a></h2>
+<h3 id="what-ides-can-be-used"><a class="header" href="#what-ides-can-be-used">What IDEs can be used?</a></h3>
 <p>Mainly for syntax highlighting, code completion, etc. Both have Rust plugins:</p>
 <ul>
 <li>Visual Studio Code (<a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">rust-analyzer</a>)</li>
 <li>IntelliJ IDEA</li>
 </ul>
+<h2 id="setting-up-a-basic-project"><a class="header" href="#setting-up-a-basic-project">Setting up a basic project</a></h2>
+<p>It's easy to generate a new Rust project template using the <code>cargo</code> command (it is bundled automatically with Rust), by running the following in your shell:</p>
+<pre><code class="language-shell">cargo new my_rust_sandbox
+cd my_rust_sandbox
+</code></pre>
+<p>Inside the new directory,</p>
+<ul>
+<li><em>src</em> sub-directory is generated with a file inside called <em>main.rs</em> which contains a &quot;Hello World!&quot; program. In order to run examples from the next Sections, just copy the code from an example and replace the contents of this file with that.</li>
+<li><em>Cargo.toml</em> file is generated which basically configures your program. We don't need any external dependencies for the first part of the course, so this file can be kept untouched.</li>
+</ul>
+<p>To (re-)build and run the executable, use</p>
+<pre><code class="language-shell">cargo run
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="syntax-basics"><a class="header" href="#syntax-basics">Syntax basics</a></h1>
-<h2 id="todo-1"><a class="header" href="#todo-1">TODO</a></h2>
+<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
 <ul>
 <li><code>use</code> creates shorthand aliases, so instead of typing <code>std::io::stdin()</code> we type <code>io::stdin()</code></li>
 </ul>
@@ -239,6 +262,7 @@ sudo apt install build-essential
 </code></pre></pre>
 <ul>
 <li><code>u8</code> is 8-bit unsigned integer type, which is very popular in Embedded Rust and in general in low-level programming, where we have to shuffle individual bytes</li>
+<li><code>usize</code> is another extremely popular type, which is an unsigned integer with native size (32-bit for 32-bit architectures like ARM Cortex-M, 64-bit for a destop/laptop CPU)</li>
 <li>More types here: <a href="https://doc.rust-lang.org/book/ch03-02-data-types.html#scalar-types">Scalar Types</a></li>
 </ul>
 <h2 id="user-defined-types"><a class="header" href="#user-defined-types">User-defined types</a></h2>
@@ -348,23 +372,58 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>We will use this code for blinking a 5x5 LED matrix in the <a href="./blink.html">Embedded Rust part</a></p>
+<h2 id="resources-for-deeper-understanding"><a class="header" href="#resources-for-deeper-understanding">Resources for deeper understanding</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html">Chapter 3</a>, <a href="https://doc.rust-lang.org/book/ch05-00-structs.html">Chapter 5</a> and <a href="https://doc.rust-lang.org/book/ch13-02-iterators.html">here</a> in the Rust book</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ownership-and-borrow-checker"><a class="header" href="#ownership-and-borrow-checker">Ownership and borrow checker</a></h1>
-<h2 id="todo-2"><a class="header" href="#todo-2">TODO</a></h2>
+<h2 id="todo-1"><a class="header" href="#todo-1">TODO</a></h2>
 <ul>
 <li>Case with fn length(self) -&gt; f64 : move occurs, the number is not usable anymore</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    let x = 5;
-    let y = x;
-}
-</code></pre></pre>
+<h2 id="warm-up-example"><a class="header" href="#warm-up-example">Warm up example</a></h2>
+<h2 id="ownership"><a class="header" href="#ownership">Ownership</a></h2>
+<p>The ownership and access system in Rust is quite restrictive and also non-intuitive at first for developers with C++/Java/C# background. As we will see, the reason is to facilitate safety, at compile time. In this Section, we will use the <a href="https://github.com/rustviz/rustviz">RustViz</a> tool to visualize these challenging concepts.</p>
+<p>Here are the basic rules:</p>
+<ul>
+<li>Objects in Rust have only <em>one</em> owner at a time, meaning there is <em>one and only one</em> responsible for deallocating the object when it's not needed anymore.
+<ul>
+<li>No memory leaks or <a href="https://stackoverflow.com/a/21057524">double frees</a> anymore</li>
+<li>Owner can change over time by <em>moving</em> the object, but at any given time there is only one owner</li>
+</ul>
+</li>
+<li>Deallocation is similar to RAII in C++: the object is droppped when the last owner goes out of scope</li>
+<li>All the potential code locations for deallocation can be determined at compile-time, so no need for garbage collection (unlike Java and C#)</li>
+</ul>
+<h2 id="borrow-checker"><a class="header" href="#borrow-checker">Borrow checker</a></h2>
+<ul>
+<li>You can access an object without owning it. You are then <em>borrowing</em> it, which basically means you have a reference (or a pointer, if we dig at lower level) to an object</li>
+<li>Either you only read the object contents (<em>immutable borrow</em>) or both read and write (<em>mutable borrow</em>)</li>
+<li>You can have <em>multiple immutable</em> borrows OR a <em>single mutable</em> borrow (not both at the same time)
+<ul>
+<li>Immutable borrow means not only that you can't change the object, but nobody else can do that either!</li>
+</ul>
+</li>
+<li>By default, objects are moved, not copied, when assigned or passed as function arguments (in contrast with C++)
+<ul>
+<li>No implicit copies apart from some basic types (like <code>u8</code>) and special user-defined types (we will cover it in <a href="./traits_generics.html">the traits Section</a>)</li>
+</ul>
+</li>
+</ul>
 <div class="flex-container vis_block" style="position:relative; margin-left:-75px; margin-right:-75px; display">
     <object type="image/svg+xml" class="copy code_panel" data="rustviz_assets/example1/vis_code.svg"></object>
     <object type="image/svg+xml" class="copy tl_panel" data="rustviz_assets/example1/vis_timeline.svg" style="width: auto;" onmouseenter="helpers('copy')"></object>
 </div>
+<h2 id="resources-for-deeper-understanding-1"><a class="header" href="#resources-for-deeper-understanding-1">Resources for deeper understanding</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">Chapter 4</a> of the Rust book</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="traits-and-generics"><a class="header" href="#traits-and-generics">Traits and generics</a></h1>
-<h2 id="todo-3"><a class="header" href="#todo-3">TODO</a></h2>
-<p>Good for dependency injection and mocking while testing</p>
+<h2 id="todo-2"><a class="header" href="#todo-2">TODO</a></h2>
+<ul>
+<li>Good for dependency injection and mocking while testing</li>
+<li>Some objects can be neither copied nor cloned (makes sense for a unique resource like an open file)</li>
+</ul>
 <h2 id="traits"><a class="header" href="#traits">Traits</a></h2>
 <p>Real-world trait: <a href="https://doc.rust-lang.org/core/fmt/trait.Write.html">core::fmt::Write</a></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -399,8 +458,12 @@ fn main() {
 <li>(**) You print only whenever end-of-line is encountered in your message, but buffer the message otherwise (similar to <code>printf()</code> in C). Yes, <code>core::fmt::Write</code> is used for <em>unbuffered</em> writes, so such an implementation is not recommended for production use :-)</li>
 </ul>
 </blockquote>
+<h2 id="resources-for-deeper-understanding-2"><a class="header" href="#resources-for-deeper-understanding-2">Resources for deeper understanding</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch10-00-generics.html">Chapter 10</a> of the Rust book</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="enums"><a class="header" href="#enums">Enums</a></h1>
-<h2 id="todo-4"><a class="header" href="#todo-4">TODO</a></h2>
+<h2 id="todo-3"><a class="header" href="#todo-3">TODO</a></h2>
 <ul>
 <li>Pattern matching</li>
 </ul>
@@ -413,6 +476,9 @@ fn main() {
 }
 <span class="boring">}
 </span></code></pre></pre>
+<ul>
+<li><code>Option</code> is similar to C++ <code>std::optional</code>, which was introduced only in C++17</li>
+</ul>
 <p><code>Option</code> has many batteries included:</p>
 <ul>
 <li><code>#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]</code></li>
@@ -441,6 +507,7 @@ fn main() {
 </span></code></pre></pre>
 <ul>
 <li>It has a set of batteries very similar to <code>Option</code></li>
+<li>If a function returns a <code>Result</code> and the caller ignores the returned value, the compiler gives a warning</li>
 <li>It is very popular to use the <code>?</code> syntactic sugar to propagate errors in an elegant way:</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust editable">fn problematic_function() -&gt; Result&lt;u8, ()&gt; {
@@ -454,7 +521,11 @@ fn main() {
 }
 </code></pre></pre>
 <ul>
-<li>Compare this approach with C++/Java/Python exceptions, where error propagation is <em>non-local</em> and you may easily get an exception at runtime that you were not even aware of and which crashes the application! (Or even worse, catch all exceptions in a paranoic fashion, just to be on the safe side.)</li>
+<li>Compare this approach with C++/Java/Python exceptions, where error propagation is <em>non-local</em> and you may easily get an exception at runtime that you were not even aware of and which crashes the application! (Or even worse, bloat the code with catching all potential exceptions in a paranoic fashion, just to be on the safe side.)</li>
+</ul>
+<h2 id="resources-for-deeper-understanding-3"><a class="header" href="#resources-for-deeper-understanding-3">Resources for deeper understanding</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch06-00-enums.html">Chapter 6</a>, <a href="https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-the-result-type">also here</a> and <a href="https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html">here</a> in the Rust book</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-makes-embedded-rust-special"><a class="header" href="#what-makes-embedded-rust-special">What makes Embedded Rust special</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>

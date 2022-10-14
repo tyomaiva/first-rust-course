@@ -5,7 +5,6 @@
 + `use` creates shorthand aliases, so instead of typing `std::io::stdin()` we type `io::stdin()`
 
 ## First code snippet
-
 ```rust,editable
 fn main() {
     let mut index = 10; // Define a variable
@@ -26,7 +25,6 @@ Several things to note here:
 + You can edit this code snippet and re-run it without leaving this webpage. Alternatively, you can copy it and run in the [Rust Playground](https://play.rust-lang.org/)
 
 ## Basic numerical types
-
 In the example above, the type of the variable `index` is inferred automatically
 + In that case it is `i32`, which is a 32-bit signed integer
 + You can get this information by hovering over `index` in your IDE with Rust Language Server enabled (e.g. in Visual Studio Code)
@@ -42,14 +40,13 @@ fn main() {
 }
 ```
 + `u8` is 8-bit unsigned integer type, which is very popular in Embedded Rust and in general in low-level programming, where we have to shuffle individual bytes
++ `usize` is another extremely popular type, which is an unsigned integer with native size (32-bit for 32-bit architectures like ARM Cortex-M, 64-bit for a destop/laptop CPU)
 + More types here: [Scalar Types](https://doc.rust-lang.org/book/ch03-02-data-types.html#scalar-types)
 
 ## User-defined types
-
 Apart from the basic types, we often want to combine them in a _compound_ user-defined type
 
 ### Tuples
-
 <!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
 
 A tuple combines values of different types
@@ -59,7 +56,6 @@ A tuple combines values of different types
 ```
 
 ### Structs
-
 Structs are similar to tuples in that they combine potentially different types, but each field is _named_:
 ```rust
 struct MyComplex {
@@ -101,7 +97,6 @@ fn main() {
 + `self` is an alias to the current struct _instance_, so `self` \\( \iff \\) `number`
 
 ### Arrays
-
 Array is a fixed-size collection of elements of the _same_ type (similar to C arrays)
 ```rust
     let mut array = [7, 21, 42];
@@ -147,3 +142,6 @@ Nested arrays
     println!("{}", light_pattern[2][2]);
 ```
 We will use this code for blinking a 5x5 LED matrix in the [Embedded Rust part](./blink.md)
+
+## Resources for deeper understanding
++ [Chapter 3](https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html), [Chapter 5](https://doc.rust-lang.org/book/ch05-00-structs.html) and [here](https://doc.rust-lang.org/book/ch13-02-iterators.html) in the Rust book

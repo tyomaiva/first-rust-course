@@ -10,6 +10,8 @@ enum Option<T> {
     None
 }
 ```
++ `Option` is similar to C++ `std::optional`, which was introduced only in C++17
+
 `Option` has many batteries included:
 + `#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]`
 + Plenty of functions
@@ -36,6 +38,7 @@ enum Result<T, E> {
 }
 ```
 + It has a set of batteries very similar to `Option`
++ If a function returns a `Result` and the caller ignores the returned value, the compiler gives a warning
 + It is very popular to use the `?` syntactic sugar to propagate errors in an elegant way:
 ```rust,editable
 fn problematic_function() -> Result<u8, ()> {
@@ -48,4 +51,7 @@ fn main() {
     println!("{:?}", problematic_function());
 }
 ```
-+ Compare this approach with C++/Java/Python exceptions, where error propagation is _non-local_ and you may easily get an exception at runtime that you were not even aware of and which crashes the application! (Or even worse, catch all exceptions in a paranoic fashion, just to be on the safe side.)
++ Compare this approach with C++/Java/Python exceptions, where error propagation is _non-local_ and you may easily get an exception at runtime that you were not even aware of and which crashes the application! (Or even worse, bloat the code with catching all potential exceptions in a paranoic fashion, just to be on the safe side.)
+
+## Resources for deeper understanding
++ [Chapter 6](https://doc.rust-lang.org/book/ch06-00-enums.html), [also here](https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-the-result-type) and [here](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html) in the Rust book
