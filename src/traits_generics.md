@@ -14,7 +14,7 @@ trait Write {
     fn write_fmt(&mut self, args: Arguments<'_>) -> Result { ... }
 }
 ```
-+ The trait is normally used for unbuffered writes (like appending characters to a string)
++ This trait is normally used for unbuffered writes (like appending characters to a string)
 + Good thing: you only need to implement `write_str()`, the other two methods are provided automatically
 + Allows to use `println!`-like formatted printing
 ```rust,noplayground
@@ -24,7 +24,7 @@ trait Write {
 ```
 + We will use this feature later for [serial communication](./serial.md)
 
-> #### Exercise:
+> #### Exercise
 > Implement a struct that implements `core::fmt::Write`, so that writing to that struct does several things:
 > - The message contents is printed on screen
 > - An internal statistical counter is updated (side effect). The counter keeps track of total number of characters being ever written

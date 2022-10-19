@@ -7,7 +7,7 @@
 
 ## Ownership
 
-The ownership and access system in Rust is quite restrictive and also non-intuitive at first for developers with C++/Java/C# background. As we will see, the reason is to facilitate safety, at compile time. In this Section, we will use the [RustViz](https://github.com/rustviz/rustviz) tool to visualize these challenging concepts.
+The ownership and access system in Rust is quite restrictive and also non-intuitive at first for developers with C++/Java/C# background. As we will see, the reason is to guarantee safety, at compile time. In this Section, we will use the [RustViz](https://github.com/rustviz/rustviz) tool to visualize these challenging concepts.
 
 Here are the basic rules:
 + Objects in Rust have only _one_ owner at a time, meaning there is _one and only one_ responsible for deallocating the object when it's not needed anymore.
