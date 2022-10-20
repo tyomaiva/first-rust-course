@@ -148,6 +148,9 @@
                         <h1 id="syntax-basics"><a class="header" href="#syntax-basics">Syntax basics</a></h1>
 <!-- + `use` creates shorthand aliases, so instead of typing `std::io::stdin()` we type `io::stdin()` -->
 <h2 id="first-code-snippet"><a class="header" href="#first-code-snippet">First code snippet</a></h2>
+<blockquote>
+<p>You can edit and run most of the code snippets on this page without leaving your browser. Alternatively, you can copy them to the <a href="https://play.rust-lang.org/">Rust Playground</a> and run there</p>
+</blockquote>
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
     let mut index = 10; // Define a variable
     while index != 0 {
@@ -168,7 +171,6 @@
 </li>
 <li>Syntax is similar to C and languages that (partially) inherited the C syntax (like C++, Java, and JavaScript): brackets, braces, semicolons, comparison and increment/decrement operators, comments</li>
 <li><code>println!()</code> does formatted printing, similar to <code>printf()</code> in C, but more powerful</li>
-<li>You can edit this code snippet and re-run it without leaving this webpage. Alternatively, you can copy it and run in the <a href="https://play.rust-lang.org/">Rust Playground</a></li>
 </ul>
 <h2 id="basic-built-in-types"><a class="header" href="#basic-built-in-types">Basic built-in types</a></h2>
 <p>In the example above, the type of the variable <code>index</code> is inferred automatically</p>
@@ -197,30 +199,27 @@
 <h3 id="tuples"><a class="header" href="#tuples">Tuples</a></h3>
 <!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
 <p>A tuple combines values of different types</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let tuple = (&quot;Something&quot;, 2);
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let tuple = (&quot;Something&quot;, 2);
     println!(&quot;{}, {}&quot;, tuple.0, tuple.1);
-<span class="boring">}
-</span></code></pre></pre>
+}
+</code></pre></pre>
 <h3 id="structs"><a class="header" href="#structs">Structs</a></h3>
-<p>Structs are similar to tuples in that they combine potentially different types, but each field is <em>named</em>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>struct MyPoint {
+<p>Structs are similar to tuples in that they combine potentially different types, but each field is <em>named</em> and the struct type itself has a name:</p>
+<pre><pre class="playground"><code class="language-rust editable">struct MyPoint {
     x: f64,
     y: f64,
 }
-
+fn main() {
     let point = MyPoint{x: 3., y: 4.};
-    println!(&quot;The point is: (x: {}, y: {})&quot;, point.x, point.y);
-<span class="boring">}
-</span></code></pre></pre>
+    println!(&quot;The point coordinates are: x: {}, y: {}&quot;, point.x, point.y);
+}
+</code></pre></pre>
 <ul>
 <li>Note that if you pass <code>{x: 3, y: 4}</code> instead of <code>{x: 3., y:4.}</code>, you get a compiler error (try it!): you need to convert the types explicitly, e.g. <code>{x: 3 as f64, y: 4 as f64)</code> will do the trick. It is a safety feature, to avoid accidental type castings</li>
 </ul>
 <p>You can associate methods acting on a given struct type (encapsulation):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust editable"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -251,13 +250,12 @@ fn main() {
 </ul>
 <h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
 <p>Array is a fixed-size collection of elements of the <em>same</em> type (similar to C arrays)</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let mut array = [7, 21, 42];
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let mut array = [7, 21, 42];
     array[0] += 20;
     println!(&quot;{:?}&quot;, array);
-<span class="boring">}
-</span></code></pre></pre>
+}
+</code></pre></pre>
 <ul>
 <li>Note the <code>{:?}</code> syntax which normally tells to dump the contents of the variable. We will elaborate on this <a href="./traits.html">later</a>, while discussing the <code>Debug</code> trait.</li>
 </ul>
@@ -315,7 +313,9 @@ fn main() {
 </span><span class="boring">        Self{x: x, y: y}
 </span><span class="boring">    }
 </span><span class="boring">}
-</span>fn main() {
+</span>// ... add here your implementation of Line and it's methods
+// ...
+fn main() {
     let point1 = MyPoint::new(2., 1.);
     let point2 = MyPoint::new(-2., -1.);
     let segment1 = Line::new(point1, point2);

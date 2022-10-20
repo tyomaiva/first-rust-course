@@ -1,12 +1,31 @@
 # Ownership and borrow checker
 
-## TODO
-+ Case with fn length(self) -> f64 : move occurs, the number is not usable anymore
-
 ## Warm up example
 
-## Ownership
+The code below looks good, why is compiler not happy?
+```rust
+# struct MyPoint {
+#     x: f64,
+#     y: f64,
+# }
+impl MyPoint {
+#     fn new(x: f64, y: f64) -> Self {
+#         Self{x: x, y: y}
+#     }
+#
+    fn is_close_to_origin(self) -> bool {
+        (self.x * self.x + self.y * self.y) < f64::EPSILON
+    }
+}
 
+fn main() {
+    let point = MyPoint::new(3., 4.);
+    assert_eq!(point.is_close_to_origin(), false);
+    assert_eq!(point.is_close_to_origin(), false);
+}
+```
+
+## Ownership
 The ownership and access system in Rust is quite restrictive and also non-intuitive at first for developers with C++/Java/C# background. As we will see, the reason is to guarantee safety, at compile time. In this Section, we will use the [RustViz](https://github.com/rustviz/rustviz) tool to visualize these challenging concepts.
 
 Here are the basic rules:

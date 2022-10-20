@@ -219,6 +219,9 @@ cd my_rust_sandbox
 <div style="break-before: page; page-break-before: always;"></div><h1 id="syntax-basics"><a class="header" href="#syntax-basics">Syntax basics</a></h1>
 <!-- + `use` creates shorthand aliases, so instead of typing `std::io::stdin()` we type `io::stdin()` -->
 <h2 id="first-code-snippet"><a class="header" href="#first-code-snippet">First code snippet</a></h2>
+<blockquote>
+<p>You can edit and run most of the code snippets on this page without leaving your browser. Alternatively, you can copy them to the <a href="https://play.rust-lang.org/">Rust Playground</a> and run there</p>
+</blockquote>
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
     let mut index = 10; // Define a variable
     while index != 0 {
@@ -239,7 +242,6 @@ cd my_rust_sandbox
 </li>
 <li>Syntax is similar to C and languages that (partially) inherited the C syntax (like C++, Java, and JavaScript): brackets, braces, semicolons, comparison and increment/decrement operators, comments</li>
 <li><code>println!()</code> does formatted printing, similar to <code>printf()</code> in C, but more powerful</li>
-<li>You can edit this code snippet and re-run it without leaving this webpage. Alternatively, you can copy it and run in the <a href="https://play.rust-lang.org/">Rust Playground</a></li>
 </ul>
 <h2 id="basic-built-in-types"><a class="header" href="#basic-built-in-types">Basic built-in types</a></h2>
 <p>In the example above, the type of the variable <code>index</code> is inferred automatically</p>
@@ -268,30 +270,27 @@ cd my_rust_sandbox
 <h3 id="tuples"><a class="header" href="#tuples">Tuples</a></h3>
 <!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
 <p>A tuple combines values of different types</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let tuple = (&quot;Something&quot;, 2);
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let tuple = (&quot;Something&quot;, 2);
     println!(&quot;{}, {}&quot;, tuple.0, tuple.1);
-<span class="boring">}
-</span></code></pre></pre>
+}
+</code></pre></pre>
 <h3 id="structs"><a class="header" href="#structs">Structs</a></h3>
-<p>Structs are similar to tuples in that they combine potentially different types, but each field is <em>named</em>:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>struct MyPoint {
+<p>Structs are similar to tuples in that they combine potentially different types, but each field is <em>named</em> and the struct type itself has a name:</p>
+<pre><pre class="playground"><code class="language-rust editable">struct MyPoint {
     x: f64,
     y: f64,
 }
-
+fn main() {
     let point = MyPoint{x: 3., y: 4.};
-    println!(&quot;The point is: (x: {}, y: {})&quot;, point.x, point.y);
-<span class="boring">}
-</span></code></pre></pre>
+    println!(&quot;The point coordinates are: x: {}, y: {}&quot;, point.x, point.y);
+}
+</code></pre></pre>
 <ul>
 <li>Note that if you pass <code>{x: 3, y: 4}</code> instead of <code>{x: 3., y:4.}</code>, you get a compiler error (try it!): you need to convert the types explicitly, e.g. <code>{x: 3 as f64, y: 4 as f64)</code> will do the trick. It is a safety feature, to avoid accidental type castings</li>
 </ul>
 <p>You can associate methods acting on a given struct type (encapsulation):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust editable"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -322,13 +321,12 @@ fn main() {
 </ul>
 <h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
 <p>Array is a fixed-size collection of elements of the <em>same</em> type (similar to C arrays)</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let mut array = [7, 21, 42];
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let mut array = [7, 21, 42];
     array[0] += 20;
     println!(&quot;{:?}&quot;, array);
-<span class="boring">}
-</span></code></pre></pre>
+}
+</code></pre></pre>
 <ul>
 <li>Note the <code>{:?}</code> syntax which normally tells to dump the contents of the variable. We will elaborate on this <a href="./traits.html">later</a>, while discussing the <code>Debug</code> trait.</li>
 </ul>
@@ -386,7 +384,9 @@ fn main() {
 </span><span class="boring">        Self{x: x, y: y}
 </span><span class="boring">    }
 </span><span class="boring">}
-</span>fn main() {
+</span>// ... add here your implementation of Line and it's methods
+// ...
+fn main() {
     let point1 = MyPoint::new(2., 1.);
     let point2 = MyPoint::new(-2., -1.);
     let segment1 = Line::new(point1, point2);
@@ -419,11 +419,28 @@ fn main() {
 <li><a href="https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html">Chapter 3</a>, <a href="https://doc.rust-lang.org/book/ch05-00-structs.html">Chapter 5</a> and <a href="https://doc.rust-lang.org/book/ch13-02-iterators.html">here</a> in the Rust book</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ownership-and-borrow-checker"><a class="header" href="#ownership-and-borrow-checker">Ownership and borrow checker</a></h1>
-<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
-<ul>
-<li>Case with fn length(self) -&gt; f64 : move occurs, the number is not usable anymore</li>
-</ul>
 <h2 id="warm-up-example"><a class="header" href="#warm-up-example">Warm up example</a></h2>
+<p>The code below looks good, why is compiler not happy?</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+</span><span class="boring">    x: f64,
+</span><span class="boring">    y: f64,
+</span><span class="boring">}
+</span>impl MyPoint {
+<span class="boring">    fn new(x: f64, y: f64) -&gt; Self {
+</span><span class="boring">        Self{x: x, y: y}
+</span><span class="boring">    }
+</span><span class="boring">
+</span>    fn is_close_to_origin(self) -&gt; bool {
+        (self.x * self.x + self.y * self.y) &lt; f64::EPSILON
+    }
+}
+
+fn main() {
+    let point = MyPoint::new(3., 4.);
+    assert_eq!(point.is_close_to_origin(), false);
+    assert_eq!(point.is_close_to_origin(), false);
+}
+</code></pre></pre>
 <h2 id="ownership"><a class="header" href="#ownership">Ownership</a></h2>
 <p>The ownership and access system in Rust is quite restrictive and also non-intuitive at first for developers with C++/Java/C# background. As we will see, the reason is to guarantee safety, at compile time. In this Section, we will use the <a href="https://github.com/rustviz/rustviz">RustViz</a> tool to visualize these challenging concepts.</p>
 <p>Here are the basic rules:</p>
@@ -461,7 +478,7 @@ fn main() {
 <li><a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">Chapter 4</a> of the Rust book</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="traits-and-generics"><a class="header" href="#traits-and-generics">Traits and generics</a></h1>
-<h2 id="todo-1"><a class="header" href="#todo-1">TODO</a></h2>
+<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
 <ul>
 <li>Good for dependency injection and mocking while testing</li>
 <li>Some objects can be neither copied nor cloned (makes sense for a unique resource like an open file)</li>
@@ -505,7 +522,7 @@ fn main() {
 <li><a href="https://doc.rust-lang.org/book/ch10-00-generics.html">Chapter 10</a> of the Rust book</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="enums"><a class="header" href="#enums">Enums</a></h1>
-<h2 id="todo-2"><a class="header" href="#todo-2">TODO</a></h2>
+<h2 id="todo-1"><a class="header" href="#todo-1">TODO</a></h2>
 <ul>
 <li>Pattern matching</li>
 </ul>

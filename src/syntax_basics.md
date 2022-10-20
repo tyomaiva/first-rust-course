@@ -3,6 +3,8 @@
 <!-- + `use` creates shorthand aliases, so instead of typing `std::io::stdin()` we type `io::stdin()` -->
 
 ## First code snippet
+> You can edit and run most of the code snippets on this page without leaving your browser. Alternatively, you can copy them to the [Rust Playground](https://play.rust-lang.org/) and run there
+
 ```rust,editable
 fn main() {
     let mut index = 10; // Define a variable
@@ -20,7 +22,6 @@ Several things to note here:
   + So variables in Rust are immutable by default
 + Syntax is similar to C and languages that (partially) inherited the C syntax (like C++, Java, and JavaScript): brackets, braces, semicolons, comparison and increment/decrement operators, comments
 + `println!()` does formatted printing, similar to `printf()` in C, but more powerful
-+ You can edit this code snippet and re-run it without leaving this webpage. Alternatively, you can copy it and run in the [Rust Playground](https://play.rust-lang.org/)
 
 ## Basic built-in types
 In the example above, the type of the variable `index` is inferred automatically
@@ -47,28 +48,30 @@ Apart from the basic types, we often want to combine them in a _compound_ user-d
 
 ### Tuples
 <!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
-
 A tuple combines values of different types
-```rust
+```rust,editable
+fn main() {
     let tuple = ("Something", 2);
     println!("{}, {}", tuple.0, tuple.1);
+}
 ```
 
 ### Structs
-Structs are similar to tuples in that they combine potentially different types, but each field is _named_:
-```rust
+Structs are similar to tuples in that they combine potentially different types, but each field is _named_ and the struct type itself has a name:
+```rust,editable
 struct MyPoint {
     x: f64,
     y: f64,
 }
-
+fn main() {
     let point = MyPoint{x: 3., y: 4.};
-    println!("The point is: (x: {}, y: {})", point.x, point.y);
+    println!("The point coordinates are: x: {}, y: {}", point.x, point.y);
+}
 ```
 + Note that if you pass `{x: 3, y: 4}` instead of `{x: 3., y:4.}`, you get a compiler error (try it!): you need to convert the types explicitly, e.g. `{x: 3 as f64, y: 4 as f64)` will do the trick. It is a safety feature, to avoid accidental type castings
 
 You can associate methods acting on a given struct type (encapsulation):
-```rust
+```rust,editable
 # struct MyPoint {
 #     x: f64,
 #     y: f64,
@@ -96,10 +99,12 @@ fn main() {
 
 ### Arrays
 Array is a fixed-size collection of elements of the _same_ type (similar to C arrays)
-```rust
+```rust,editable
+fn main() {
     let mut array = [7, 21, 42];
     array[0] += 20;
     println!("{:?}", array);
+}
 ```
 + Note the `{:?}` syntax which normally tells to dump the contents of the variable. We will elaborate on this [later](./traits.md), while discussing the `Debug` trait.
 
@@ -155,6 +160,8 @@ We will use this code for blinking a 5x5 LED matrix in the [Embedded Rust part](
 #         Self{x: x, y: y}
 #     }
 # }
+// ... add here your implementation of Line and it's methods
+// ...
 fn main() {
     let point1 = MyPoint::new(2., 1.);
     let point2 = MyPoint::new(-2., -1.);
@@ -179,7 +186,6 @@ fn main() {
 > (*) Implement a type `Triangle` (you may choose between 2D and 3D triangles)
 > - `Triangle` can be constructed based on three vertices
 > - `Triangle` has a method to check whether a given point lies within it or not
-
 
 ## Resources for deeper understanding
 + [Chapter 3](https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html), [Chapter 5](https://doc.rust-lang.org/book/ch05-00-structs.html) and [here](https://doc.rust-lang.org/book/ch13-02-iterators.html) in the Rust book
