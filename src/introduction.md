@@ -19,6 +19,7 @@ _Out_ of scope:
 <!-- + C++ experience is useful, as we will draw analogies and make comparisons from time to time -->
 
 ## Resources
++ [A half-hour to learn Rust](https://fasterthanli.me/articles/a-half-hour-to-learn-rust) is a nice crash course without much theory. Note: it may actually take more than 30 minutes to read and digest 😊
++ [Teaching material](https://ferrous-systems.github.io/teaching-material/) developed by Ferrous Systems, a company which specializes in Rust development (including Embedded Rust) and in providing Rust trainings
 + The official [Rust book](https://doc.rust-lang.org/book/) is written extremely clear and is quite comprehensive. Absolute recommendation if you are serious about Rust!
-+ [A half-hour to learn Rust](https://fasterthanli.me/articles/a-half-hour-to-learn-rust) is a nice crash course without much theory. Note: it may actually take more than 30 minutes to read and digest.
 + [The Discovery book](https://docs.rust-embedded.org/discovery/microbit/) is an introductory resource on Embedded Rust using the same hardware platform that we cover here

@@ -4,7 +4,6 @@
 > However, for the embedded part, this Section is mandatory, since we want to interface our physical microcontroller boards.
 
 ## Setting up the environment
-
 If something below goes wrong, go for more details to <https://doc.rust-lang.org/book/ch01-01-installation.html>
 
 ### Installing Rust on Windows
@@ -34,8 +33,11 @@ Mainly for syntax highlighting, code completion, etc. Both have Rust plugins:
 + IntelliJ IDEA
 
 ## Setting up a basic project
+We will use Cargo, which comes with the Rust installation. What does it do?
++ Package manager (e.g., it fetches and builds external dependencies)
++ Build system (it compiles your packages)
 
-It's easy to generate a new Rust project template using the `cargo` command (it is bundled automatically with Rust), by running the following in your shell:
+Cargo can be used to generate a new Rust project template, by running the following in your shell:
 ```shell
 cargo new my_rust_sandbox
 cd my_rust_sandbox

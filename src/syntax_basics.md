@@ -16,7 +16,7 @@ fn main() {
 }
 ```
 Several things to note here:
-+ `fn` defines a new function, in this case it is called `main`, it does not have any input arguments and does not return anything either
++ `fn` defines a new function, in this case it is called `main`, it does not have any input arguments and does not return anything either. `main()` is the entry point of the program.
 + `let mut` binds a value `10` to a _mutable_ variable called `index`
   + If you omit `mut`, you get instead an _immutable_ variable, which does not work in this case, try it!
   + So variables in Rust are immutable by default
@@ -52,7 +52,7 @@ A tuple combines values of different types
 ```rust,editable
 fn main() {
     let tuple = ("Something", 2);
-    println!("{}, {}", tuple.0, tuple.1);
+    println!("The tuple contents are: {}, {}", tuple.0, tuple.1);
 }
 ```
 
@@ -70,8 +70,8 @@ fn main() {
 ```
 + Note that if you pass `{x: 3, y: 4}` instead of `{x: 3., y:4.}`, you get a compiler error (try it!): you need to convert the types explicitly, e.g. `{x: 3 as f64, y: 4 as f64)` will do the trick. It is a safety feature, to avoid accidental type castings
 
-You can associate methods acting on a given struct type (encapsulation):
-```rust,editable
+You can associate methods with the struct type (encapsulation):
+```rust
 # struct MyPoint {
 #     x: f64,
 #     y: f64,
@@ -96,55 +96,7 @@ fn main() {
   + There can be only one implementation of `new()`, since Rust intentionally does not have function overloading. If you need multiple ways to construct an object (e.g. construct a default struct value and a custom one), use the [Builder pattern](https://rust-unofficial.github.io/patterns/patterns/creational/builder.html) instead
 + `Self` is an alias to the current struct _type_, so `Self` \\( \iff \\) `MyPoint`
 + `self` is an alias to the current struct _instance_, so `self` \\( \iff \\) `point`
-
-### Arrays
-Array is a fixed-size collection of elements of the _same_ type (similar to C arrays)
-```rust,editable
-fn main() {
-    let mut array = [7, 21, 42];
-    array[0] += 20;
-    println!("{:?}", array);
-}
-```
-+ Note the `{:?}` syntax which normally tells to dump the contents of the variable. We will elaborate on this [later](./traits.md), while discussing the `Debug` trait.
-
-What happens if we access an index out of range?
-```rust,editable
-fn main() {
-    let array = [7, 21, 42];
-    let mut index = 0;
-    loop {
-        println!("The element #{} is {}", index, array[index]);
-        index += 1;
-    }
-}
-```
-+ It is safe to do (i.e., no undefined behaviour), the Rust program just panics and writes a diagnostic post-mortem message
-+ `loop` denotes an infinite loop (a dedicated language construct, unlike the hacky `while(1)` and `for(;;)` in C)
-
-More idiomatic (and less error-prone) alternative is to use Rust _iterators_
-```rust,editable
-fn main() {
-    let array = [7, 21, 42];
-    for (index, element) in array.iter().enumerate() {
-        println!("The element #{} is {}", index, element);
-    }
-}
-```
-
-Nested arrays
-```rust
-    let light_pattern = [
-        [1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1],
-        [1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1],
-    ];
-    println!("{}", light_pattern[0][0]);
-    println!("{}", light_pattern[2][2]);
-```
-We will use this code for blinking a 5x5 LED matrix in the [Embedded Rust part](./blink.md)
++ [`assert_eq!(a, b)`](https://doc.rust-lang.org/beta/core/macro.assert_eq.html) checks if `a == b`, if not, it panics (i.e., the whole process is shut down in a safe way and a diagnostic post-mortem message gets written).
 
 > #### Exercise
 > Implement a 2D straight-line type `Line`
@@ -160,7 +112,7 @@ We will use this code for blinking a 5x5 LED matrix in the [Embedded Rust part](
 #         Self{x: x, y: y}
 #     }
 # }
-// ... add here your implementation of Line and it's methods
+// ... add here your implementation of Line and its methods
 // ...
 fn main() {
     let point1 = MyPoint::new(2., 1.);
@@ -186,6 +138,55 @@ fn main() {
 > (*) Implement a type `Triangle` (you may choose between 2D and 3D triangles)
 > - `Triangle` can be constructed based on three vertices
 > - `Triangle` has a method to check whether a given point lies within it or not
+
+### Arrays
+Array is a fixed-size collection of elements of the _same_ type (similar to C arrays)
+```rust,editable
+fn main() {
+    let mut array = [7, 21, 42];
+    array[0] += 20;
+    println!("{:?}", array);
+}
+```
++ Note the `{:?}` syntax which normally tells to dump the contents of the variable. We will elaborate on this [later](./traits.md), while discussing the `Debug` trait.
+
+What happens if we access an index out of range?
+```rust,editable
+fn main() {
+    let array = [7, 21, 42];
+    let mut index = 0;
+    loop {
+        println!("The element #{} is {}", index, array[index]);
+        index += 1;
+    }
+}
+```
++ It is safe to do (i.e., no undefined behaviour), the Rust program just panics
++ `loop` denotes an infinite loop (a dedicated language construct, unlike the hacky `while(1)` and `for(;;)` in C)
+
+More idiomatic (and less error-prone) alternative is to use Rust _iterators_
+```rust,editable
+fn main() {
+    let array = [7, 21, 42];
+    for (index, element) in array.iter().enumerate() {
+        println!("The element #{} is {}", index, element);
+    }
+}
+```
+
+Nested arrays
+```rust
+    let light_pattern = [
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 0, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+    ];
+    println!("{}", light_pattern[0][0]);
+    println!("{}", light_pattern[2][2]);
+```
+We will use this code for blinking a 5x5 LED matrix in the [Embedded Rust part](./blink.md)
 
 ## Resources for deeper understanding
 + [Chapter 3](https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html), [Chapter 5](https://doc.rust-lang.org/book/ch05-00-structs.html) and [here](https://doc.rust-lang.org/book/ch13-02-iterators.html) in the Rust book

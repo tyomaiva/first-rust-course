@@ -3,7 +3,9 @@
 ## TODO
 + Pattern matching
 
-Whenever an operation may return either some value or _no value at all_, it is idiomatic to use [`core::option::Option`](https://doc.rust-lang.org/core/option/enum.Option.html)
+What do we do whenever a function either returns either some value or _no value at all_?
++ In C, and in the old-style C++, we use a null pointer for the latter case
++ In Rust, it is idiomatic to use [`core::option::Option`](https://doc.rust-lang.org/core/option/enum.Option.html):
 ```rust
 enum Option<T> {
     Some(T),
@@ -14,7 +16,7 @@ enum Option<T> {
 
 `Option` has many batteries included:
 + `#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]`
-+ Plenty of functions
++ Plenty of helper functions
 ```rust,editable
 fn main() {
     let x: Option<u8> = Some(2);

@@ -162,7 +162,7 @@
 </code></pre></pre>
 <p>Several things to note here:</p>
 <ul>
-<li><code>fn</code> defines a new function, in this case it is called <code>main</code>, it does not have any input arguments and does not return anything either</li>
+<li><code>fn</code> defines a new function, in this case it is called <code>main</code>, it does not have any input arguments and does not return anything either. <code>main()</code> is the entry point of the program.</li>
 <li><code>let mut</code> binds a value <code>10</code> to a <em>mutable</em> variable called <code>index</code>
 <ul>
 <li>If you omit <code>mut</code>, you get instead an <em>immutable</em> variable, which does not work in this case, try it!</li>
@@ -201,7 +201,7 @@
 <p>A tuple combines values of different types</p>
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
     let tuple = (&quot;Something&quot;, 2);
-    println!(&quot;{}, {}&quot;, tuple.0, tuple.1);
+    println!(&quot;The tuple contents are: {}, {}&quot;, tuple.0, tuple.1);
 }
 </code></pre></pre>
 <h3 id="structs"><a class="header" href="#structs">Structs</a></h3>
@@ -218,8 +218,8 @@ fn main() {
 <ul>
 <li>Note that if you pass <code>{x: 3, y: 4}</code> instead of <code>{x: 3., y:4.}</code>, you get a compiler error (try it!): you need to convert the types explicitly, e.g. <code>{x: 3 as f64, y: 4 as f64)</code> will do the trick. It is a safety feature, to avoid accidental type castings</li>
 </ul>
-<p>You can associate methods acting on a given struct type (encapsulation):</p>
-<pre><pre class="playground"><code class="language-rust editable"><span class="boring">struct MyPoint {
+<p>You can associate methods with the struct type (encapsulation):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -247,55 +247,8 @@ fn main() {
 </li>
 <li><code>Self</code> is an alias to the current struct <em>type</em>, so <code>Self</code> \( \iff \) <code>MyPoint</code></li>
 <li><code>self</code> is an alias to the current struct <em>instance</em>, so <code>self</code> \( \iff \) <code>point</code></li>
+<li><a href="https://doc.rust-lang.org/beta/core/macro.assert_eq.html"><code>assert_eq!(a, b)</code></a> checks if <code>a == b</code>, if not, it panics (i.e., the whole process is shut down in a safe way and a diagnostic post-mortem message gets written).</li>
 </ul>
-<h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
-<p>Array is a fixed-size collection of elements of the <em>same</em> type (similar to C arrays)</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
-    let mut array = [7, 21, 42];
-    array[0] += 20;
-    println!(&quot;{:?}&quot;, array);
-}
-</code></pre></pre>
-<ul>
-<li>Note the <code>{:?}</code> syntax which normally tells to dump the contents of the variable. We will elaborate on this <a href="./traits.html">later</a>, while discussing the <code>Debug</code> trait.</li>
-</ul>
-<p>What happens if we access an index out of range?</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
-    let array = [7, 21, 42];
-    let mut index = 0;
-    loop {
-        println!(&quot;The element #{} is {}&quot;, index, array[index]);
-        index += 1;
-    }
-}
-</code></pre></pre>
-<ul>
-<li>It is safe to do (i.e., no undefined behaviour), the Rust program just panics and writes a diagnostic post-mortem message</li>
-<li><code>loop</code> denotes an infinite loop (a dedicated language construct, unlike the hacky <code>while(1)</code> and <code>for(;;)</code> in C)</li>
-</ul>
-<p>More idiomatic (and less error-prone) alternative is to use Rust <em>iterators</em></p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
-    let array = [7, 21, 42];
-    for (index, element) in array.iter().enumerate() {
-        println!(&quot;The element #{} is {}&quot;, index, element);
-    }
-}
-</code></pre></pre>
-<p>Nested arrays</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let light_pattern = [
-        [1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1],
-        [1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1],
-    ];
-    println!(&quot;{}&quot;, light_pattern[0][0]);
-    println!(&quot;{}&quot;, light_pattern[2][2]);
-<span class="boring">}
-</span></code></pre></pre>
-<p>We will use this code for blinking a 5x5 LED matrix in the <a href="./blink.html">Embedded Rust part</a></p>
 <blockquote>
 <h4 id="exercise"><a class="header" href="#exercise">Exercise</a></h4>
 <p>Implement a 2D straight-line type <code>Line</code></p>
@@ -313,7 +266,7 @@ fn main() {
 </span><span class="boring">        Self{x: x, y: y}
 </span><span class="boring">    }
 </span><span class="boring">}
-</span>// ... add here your implementation of Line and it's methods
+</span>// ... add here your implementation of Line and its methods
 // ...
 fn main() {
     let point1 = MyPoint::new(2., 1.);
@@ -343,6 +296,54 @@ fn main() {
 <li><code>Triangle</code> has a method to check whether a given point lies within it or not</li>
 </ul>
 </blockquote>
+<h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
+<p>Array is a fixed-size collection of elements of the <em>same</em> type (similar to C arrays)</p>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let mut array = [7, 21, 42];
+    array[0] += 20;
+    println!(&quot;{:?}&quot;, array);
+}
+</code></pre></pre>
+<ul>
+<li>Note the <code>{:?}</code> syntax which normally tells to dump the contents of the variable. We will elaborate on this <a href="./traits.html">later</a>, while discussing the <code>Debug</code> trait.</li>
+</ul>
+<p>What happens if we access an index out of range?</p>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let array = [7, 21, 42];
+    let mut index = 0;
+    loop {
+        println!(&quot;The element #{} is {}&quot;, index, array[index]);
+        index += 1;
+    }
+}
+</code></pre></pre>
+<ul>
+<li>It is safe to do (i.e., no undefined behaviour), the Rust program just panics</li>
+<li><code>loop</code> denotes an infinite loop (a dedicated language construct, unlike the hacky <code>while(1)</code> and <code>for(;;)</code> in C)</li>
+</ul>
+<p>More idiomatic (and less error-prone) alternative is to use Rust <em>iterators</em></p>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let array = [7, 21, 42];
+    for (index, element) in array.iter().enumerate() {
+        println!(&quot;The element #{} is {}&quot;, index, element);
+    }
+}
+</code></pre></pre>
+<p>Nested arrays</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    let light_pattern = [
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 0, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+    ];
+    println!(&quot;{}&quot;, light_pattern[0][0]);
+    println!(&quot;{}&quot;, light_pattern[2][2]);
+<span class="boring">}
+</span></code></pre></pre>
+<p>We will use this code for blinking a 5x5 LED matrix in the <a href="./blink.html">Embedded Rust part</a></p>
 <h2 id="resources-for-deeper-understanding"><a class="header" href="#resources-for-deeper-understanding">Resources for deeper understanding</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html">Chapter 3</a>, <a href="https://doc.rust-lang.org/book/ch05-00-structs.html">Chapter 5</a> and <a href="https://doc.rust-lang.org/book/ch13-02-iterators.html">here</a> in the Rust book</li>

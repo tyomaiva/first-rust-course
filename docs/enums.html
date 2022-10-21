@@ -150,7 +150,11 @@
 <ul>
 <li>Pattern matching</li>
 </ul>
-<p>Whenever an operation may return either some value or <em>no value at all</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a></p>
+<p>What do we do whenever a function either returns either some value or <em>no value at all</em>?</p>
+<ul>
+<li>In C, and in the old-style C++, we use a null pointer for the latter case</li>
+<li>In Rust, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a>:</li>
+</ul>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Option&lt;T&gt; {
@@ -165,7 +169,7 @@
 <p><code>Option</code> has many batteries included:</p>
 <ul>
 <li><code>#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]</code></li>
-<li>Plenty of functions</li>
+<li>Plenty of helper functions</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
     let x: Option&lt;u8&gt; = Some(2);
