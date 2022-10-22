@@ -19,7 +19,7 @@ fn main() -> ! {
 }
 ```
 + `board` is a struct with all the peripherals we have, see [here](https://docs.rs/microbit-v2/latest/microbit/board/struct.Board.html)
-  + `TIMER0` is one of the 5 timers available on the board
+  + `TIMER0` is one of the 5 hardware timers available on the board
   + `display_pins` are the 10 GPIO pins that control the LED matrix
 + You can use methods `show()` and `clear()` of the struct [`microbit::display::blocking::Display`](https://docs.rs/microbit-v2/latest/microbit/display/blocking/struct.Display.html) to manipulate the LED state.
 + To introduce time delays ("sleeps"), the method `delay_ms()` is available for [`microbit::hal::Timer`](https://docs.rs/microbit-v2/latest/microbit/hal/struct.Timer.html).

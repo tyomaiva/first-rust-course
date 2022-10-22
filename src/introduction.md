@@ -11,6 +11,7 @@ _Out_ of scope:
 + Data collections like [Vec](https://doc.rust-lang.org/std/vec/struct.Vec.html) or [HashMap](https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html), since they involve heap allocation, which is often undesirable in embedded systems. In general, we omit the Rust standard library completely
 + Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see [here](https://embassy.dev/) and [here](https://rtic.rs/1/book/en/)), and almost unavoidable when implementing an RTOS
 + Unit testing, modularization, and other good development practices, since all of our projects will be very small
++ PAC layer of Embedded Rust. We start directly with the higher abstraction levels which are HAL and BSP. So no direct register manipulation.
 <!-- + Smart pointers like [Box](https://doc.rust-lang.org/std/boxed/struct.Box.html), for the same reason -->
 
 <!-- What knowledge is expected: -->

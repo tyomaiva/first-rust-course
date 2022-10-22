@@ -159,6 +159,7 @@
 <li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems. In general, we omit the Rust standard library completely</li>
 <li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS</li>
 <li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
+<li>PAC layer of Embedded Rust. We start directly with the higher abstraction levels which are HAL and BSP. So no direct register manipulation.</li>
 </ul>
 <!-- + Smart pointers like [Box](https://doc.rust-lang.org/std/boxed/struct.Box.html), for the same reason -->
 <!-- What knowledge is expected: -->
@@ -694,6 +695,48 @@ fn main() {
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-makes-embedded-rust-special"><a class="header" href="#what-makes-embedded-rust-special">What makes Embedded Rust special</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
+<h2 id="setting-up-the-environment-1"><a class="header" href="#setting-up-the-environment-1">Setting up the environment</a></h2>
+<p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>.</p>
+<h2 id="first-code-example"><a class="header" href="#first-code-example">First code example</a></h2>
+<p>Get template from ??????</p>
+<p>Run it so: ???</p>
+<pre><code class="language-rust noplayground">#![no_std]
+#![no_main]
+
+use panic_rtt_target as _;
+use rtt_target::{rprintln, rtt_init_print};
+// The import is unused, but otherwise the linker
+// somehow cannot find the interrupt table
+use microbit::hal::prelude::*;
+
+use cortex_m_rt::entry;
+
+#[entry]
+fn main() -&gt; ! {
+    rtt_init_print!();
+    rprintln!(&quot;Hello Embedded world, do you mind if I join?&quot;);
+    loop {}
+}
+</code></pre>
+<ul>
+<li><code>#![no_std]</code> tells that we don't have access to the Rust standard library</li>
+<li><code>#![no_main]</code> ???</li>
+<li><code>use panic_rtt_target as _;</code> provides us with some default implementation of the panic handler, so we don't spend time on that.</li>
+<li>???</li>
+</ul>
+<p>Layers:</p>
+<ul>
+<li>Peripheral-Access Crate (PAC) is the lowest level, you access here individual MCU registers. <a href="https://crates.io/crates/nrf52833-pac/">nrf52833-pac</a> is the PAC that we actually use under the hood for Micro:bit V2. This crate is generated automatically from an <a href="https://raw.githubusercontent.com/nrf-rs/nrf-pacs/master/svds/nrf52833.svd">XML file</a> provided by the manufacturer.
+<ul>
+<li>Normally you want to stay away from this level, unless higher-level layers do no provide all the functionality you need (or maybe you need to optimize the existing functionality).</li>
+</ul>
+</li>
+<li>Hardware-Abstraction Layer (HAL) is a way to abstract the /MCU/ peripherals into structs and methods. We will use <a href="https://crates.io/crates/nrf52833-hal">nrf52833-hal</a>.</li>
+<li>As an example, at this level you can create and start a built-in hardware timer or establish a serial (UART) communication.</li>
+<li>HALs in the Rust ecosystem normally build on top of the <a href="https://docs.rs/embedded-hal/">embedded-hal</a> crate, which is basically a collection of universal traits like <a href="https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html">digital::v2::OutputPin</a> for an output pin.</li>
+<li>Board Support Package (BSP) is the highest level, and provides access to all the peripherals of the board (not only the built into MCU) like the accelerometer and the LED.</li>
+<li>More explanation on different levels is <a href="https://docs.rust-embedded.org/discovery/microbit/04-meet-your-hardware/terminology.html">here</a>, together with a link to video.</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-is-microbit"><a class="header" href="#what-is-microbit">What is Micro:bit?</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-led-matrix"><a class="header" href="#the-led-matrix">The LED matrix</a></h1>
 <p>Now it's time to control some of the board peripherals, we start with the 5x5 LED matrix. The new things that we need compared to the &quot;Hello World&quot; example are</p>
@@ -716,7 +759,7 @@ fn main() -&gt; ! {
 <ul>
 <li><code>board</code> is a struct with all the peripherals we have, see <a href="https://docs.rs/microbit-v2/latest/microbit/board/struct.Board.html">here</a>
 <ul>
-<li><code>TIMER0</code> is one of the 5 timers available on the board</li>
+<li><code>TIMER0</code> is one of the 5 hardware timers available on the board</li>
 <li><code>display_pins</code> are the 10 GPIO pins that control the LED matrix</li>
 </ul>
 </li>
