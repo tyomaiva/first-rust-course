@@ -91,8 +91,9 @@ fn main() {
 ```
 + No accidental implicit copies for non-`Copy` types are possible! (in contrast with C++)
 
-<!-- > #### Exercise -->
-<!-- > ... -->
+> #### Exercise
+> ...
+> +
 
 ## Borrow checker
 We don't actually need an independent copy of `MyPoint` on every method call. (We get now in total 3 different copies of the same value!) What we really need is to read the value, how to do that? _Borrowing_ is the way to go.

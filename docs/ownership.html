@@ -244,8 +244,11 @@ fn main() {
 <ul>
 <li>No accidental implicit copies for non-<code>Copy</code> types are possible! (in contrast with C++)</li>
 </ul>
-<!-- > #### Exercise -->
-<!-- > ... -->
+<blockquote>
+<h4 id="exercise"><a class="header" href="#exercise">Exercise</a></h4>
+<p>...
++</p>
+</blockquote>
 <h2 id="borrow-checker"><a class="header" href="#borrow-checker">Borrow checker</a></h2>
 <p>We don't actually need an independent copy of <code>MyPoint</code> on every method call. (We get now in total 3 different copies of the same value!) What we really need is to read the value, how to do that? <em>Borrowing</em> is the way to go.</p>
 <p>Borrow rules:</p>

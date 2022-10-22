@@ -31,5 +31,8 @@ trait Write {
 > - (*) Every second time you write to the struct, the counter value is printed on screen
 > - (**) You print only whenever end-of-line is encountered in your message, but buffer the message otherwise (similar to `printf()` in C). Yes, `core::fmt::Write` is used for _unbuffered_ writes, so such an implementation is not recommended for production use :-)
 
+Copy, Clone, Debug...
+
+
 ## Resources for deeper understanding
 + [Chapter 10](https://doc.rust-lang.org/book/ch10-00-generics.html) of the Rust book

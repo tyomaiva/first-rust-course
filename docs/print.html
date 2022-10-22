@@ -524,8 +524,11 @@ fn main() {
 <ul>
 <li>No accidental implicit copies for non-<code>Copy</code> types are possible! (in contrast with C++)</li>
 </ul>
-<!-- > #### Exercise -->
-<!-- > ... -->
+<blockquote>
+<h4 id="exercise-1"><a class="header" href="#exercise-1">Exercise</a></h4>
+<p>...
++</p>
+</blockquote>
 <h2 id="borrow-checker"><a class="header" href="#borrow-checker">Borrow checker</a></h2>
 <p>We don't actually need an independent copy of <code>MyPoint</code> on every method call. (We get now in total 3 different copies of the same value!) What we really need is to read the value, how to do that? <em>Borrowing</em> is the way to go.</p>
 <p>Borrow rules:</p>
@@ -606,7 +609,7 @@ fn main() {
 <li>We will use this feature later for <a href="./serial.html">serial communication</a></li>
 </ul>
 <blockquote>
-<h4 id="exercise-1"><a class="header" href="#exercise-1">Exercise</a></h4>
+<h4 id="exercise-2"><a class="header" href="#exercise-2">Exercise</a></h4>
 <p>Implement a struct that implements <code>core::fmt::Write</code>, so that writing to that struct does several things:</p>
 <ul>
 <li>The message contents is printed on screen</li>
@@ -615,6 +618,7 @@ fn main() {
 <li>(**) You print only whenever end-of-line is encountered in your message, but buffer the message otherwise (similar to <code>printf()</code> in C). Yes, <code>core::fmt::Write</code> is used for <em>unbuffered</em> writes, so such an implementation is not recommended for production use :-)</li>
 </ul>
 </blockquote>
+<p>Copy, Clone, Debug...</p>
 <h2 id="resources-for-deeper-understanding-2"><a class="header" href="#resources-for-deeper-understanding-2">Resources for deeper understanding</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/book/ch10-00-generics.html">Chapter 10</a> of the Rust book</li>
@@ -692,6 +696,40 @@ fn main() {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-is-microbit"><a class="header" href="#what-is-microbit">What is Micro:bit?</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-led-matrix"><a class="header" href="#the-led-matrix">The LED matrix</a></h1>
+<p>Now it's time to control some of the board peripherals, we start with the 5x5 LED matrix. The new things that we need compared to the &quot;Hello World&quot; example are</p>
+<pre><code class="language-rust noplayground">// Add your code here ...
+use microbit::{
+    board::Board,
+    display::blocking::Display,
+    hal::Timer,
+};
+// Add your code here ...
+#[entry]
+fn main() -&gt; ! {
+// Add your code here ...
+    let board = Board::take().unwrap();
+    let mut timer = Timer::new(board.TIMER0);
+    let mut display = Display::new(board.display_pins);
+//  Add your code here ...
+}
+</code></pre>
+<ul>
+<li><code>board</code> is a struct with all the peripherals we have, see <a href="https://docs.rs/microbit-v2/latest/microbit/board/struct.Board.html">here</a>
+<ul>
+<li><code>TIMER0</code> is one of the 5 timers available on the board</li>
+<li><code>display_pins</code> are the 10 GPIO pins that control the LED matrix</li>
+</ul>
+</li>
+<li>You can use methods <code>show()</code> and <code>clear()</code> of the struct <a href="https://docs.rs/microbit-v2/latest/microbit/display/blocking/struct.Display.html"><code>microbit::display::blocking::Display</code></a> to manipulate the LED state.</li>
+<li>To introduce time delays (&quot;sleeps&quot;), the method <code>delay_ms()</code> is available for <a href="https://docs.rs/microbit-v2/latest/microbit/hal/struct.Timer.html"><code>microbit::hal::Timer</code></a>.</li>
+</ul>
+<blockquote>
+<h4 id="exercise-3"><a class="header" href="#exercise-3">Exercise</a></h4>
+<ul>
+<li>Make the matrix to light a pattern (e.g., all LEDs are on) for 1 second, then switch to another pattern (e.g., all LEDs are off) for another second, and repeat this switching indefinitely.</li>
+<li>(*) Make a dice: every second, light up one of 6 dice patterns, either in a deterministi fashion (e.g., first you show 1, then 2, and so on) or randomly (you can use the <a href="https://docs.rs/microbit-v2/latest/microbit/hal/struct.Timer.html#method.read"><code>hal::Timer::read()</code></a> method for generating random numbers).</li>
+</ul>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="serial-communication-with-uart"><a class="header" href="#serial-communication-with-uart">Serial communication with UART</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="putting-all-together-streaming-data-from-the-accelerometer"><a class="header" href="#putting-all-together-streaming-data-from-the-accelerometer">Putting all together: streaming data from the accelerometer</a></h1>
 
