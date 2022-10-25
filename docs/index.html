@@ -146,7 +146,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>Welcome to a course for the Rust programming language!</p>
+<p>Welcome to a Rust programming language course!</p>
 <p>The goals of the course:</p>
 <ul>
 <li>Learn to write basic Rust code and read API docs like <a href="https://doc.rust-lang.org/core/option/enum.Option.html">this</a></li>
@@ -155,7 +155,7 @@
 <p><em>Out</em> of scope:</p>
 <ul>
 <li>Motivation to learn Rust (we tried to accomplish that in the previous sessions)</li>
-<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems. In general, we omit the Rust standard library completely</li>
+<li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems. Also no file access and no other forms of I/O (printing to standard output is the only exception). In general, we omit the Rust standard library.</li>
 <li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS</li>
 <li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
 <li>PAC layer of Embedded Rust. We start directly with the higher abstraction levels which are HAL and BSP. So no direct register manipulation.</li>

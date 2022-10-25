@@ -251,7 +251,7 @@ fn main() {
 </ul>
 <blockquote>
 <h4 id="exercise"><a class="header" href="#exercise">Exercise</a></h4>
-<p>Implement a 2D straight-line type <code>Line</code></p>
+<p>Design a 2D straight-line type <code>Line</code></p>
 <ul>
 <li><code>Line</code> can be constructed by supplying two endpoints</li>
 <li><code>Line</code> has a method <code>is_point_on_line()</code> which checks whether a given point belongs to the line or not</li>
@@ -329,21 +329,103 @@ fn main() {
     }
 }
 </code></pre></pre>
-<p>Nested arrays</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>    let light_pattern = [
+<p>In the next exercise, we mock a 5x5 LED matrix, which resembles the Micro:bit peripheral from the <a href="./blink.html">Embedded Rust part</a></p>
+<blockquote>
+<h4 id="exercise-1"><a class="header" href="#exercise-1">Exercise</a></h4>
+<p>Implement a method <code>display()</code> for the type <code>LedMatrix</code> below which prints '.' for each 0 and '*' for each 1 that it encounters in <code>pattern</code></p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust">struct LedMatrix {
+    // Syntax for a nested array of size 5x5
+    pattern: [[u8; 5]; 5]
+}
+// Add your code here ...
+fn main() {
+    let light_pattern = [
         [1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1],
         [1, 1, 0, 1, 1],
         [1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1],
     ];
-    println!(&quot;{}&quot;, light_pattern[0][0]);
-    println!(&quot;{}&quot;, light_pattern[2][2]);
+    let matrix = LedMatrix{pattern: light_pattern};
+    matrix.show();
+    // The command above should print
+    // *****
+    // *****
+    // **.**
+    // *****
+    // *****
+}
+</code></pre></pre>
+<blockquote>
+<h4 id="exercise-2"><a class="header" href="#exercise-2">Exercise</a></h4>
+<p>(*) Extend the code so that it works for LED matrices of different sizes. It's tricky to have a variable-size data structure without heap allocation and <code>std</code> library, so we will pre-allocate an array of big enough size instead</p>
+<ul>
+<li><code>LedMatrix</code> now needs an extra field to indicate the <em>logical</em> size of the pattern,</li>
+</ul>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Syntax for a compile-time constant (let will not work here)
+const STATIC_DIMENSION: usize = 5;
+struct LedMatrix {
+    pattern: [[u8; STATIC_DIMENSION]; STATIC_DIMENSION],
+    dimension: usize
+}
 <span class="boring">}
 </span></code></pre></pre>
-<p>We will use this code for blinking a 5x5 LED matrix in the <a href="./blink.html">Embedded Rust part</a></p>
+<blockquote>
+<ul>
+<li>Add the <code>new()</code> method, which constructs an instance of <code>LedMatrix</code> that has an extra parameter <code>dimension</code>. Make the runtime check whether <code>dimension</code> has a valid value. <a href="https://doc.rust-lang.org/std/macro.panic.html"><code>panic!</code></a> if things go wrong.</li>
+</ul>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl LedMatrix {
+    fn new(pattern: [[u8; STATIC_DIMENSION]; STATIC_DIMENSION], dimension: usize) -&gt; Self {
+// Add your code here ...
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<blockquote>
+<ul>
+<li>Adjust <code>show()</code> so that it prints only the actually used part of the pattern</li>
+</ul>
+</blockquote>
+<!-- impl LedMatrix { -->
+<!--     fn new(pattern: [[u8; STATIC_DIMENSION]; STATIC_DIMENSION], dimension: usize) -> Self { -->
+<!--         if dimension > STATIC_DIMENSION { -->
+<!--             panic!("Size cannot exceed {}!", STATIC_DIMENSION); -->
+<!--         } -->
+<!--         Self{pattern: pattern, dimension: dimension} -->
+<!--     } -->
+<!--     fn show(self) { -->
+<!--         for i in 0..self.dimension { -->
+<!--             for j in 0..self.dimension { -->
+<!--                 if self.pattern[i][j] == 0 { -->
+<!--                     print!("."); -->
+<!--                 } -->
+<!--                 else { -->
+<!--                     print!("*"); -->
+<!--                 } -->
+<!--             } -->
+<!--             println!(""); -->
+<!--         } -->
+<!--     } -->
+<!-- } -->
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let matrix1 = LedMatrix::new([[1; STATIC_DIMENSION]; STATIC_DIMENSION], 3);
+    matrix1.show();
+    // The command above should print
+    // ***
+    // ***
+    // ***
+    let matrix2 = LedMatrix::new([[0; STATIC_DIMENSION]; STATIC_DIMENSION], 10);
+    // Here, a panic should happen
+    matrix2.show();
+}
+</code></pre></pre>
 <h2 id="resources-for-deeper-understanding"><a class="header" href="#resources-for-deeper-understanding">Resources for deeper understanding</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html">Chapter 3</a>, <a href="https://doc.rust-lang.org/book/ch05-00-structs.html">Chapter 5</a> and <a href="https://doc.rust-lang.org/book/ch13-02-iterators.html">here</a> in the Rust book</li>

@@ -99,7 +99,7 @@ fn main() {
 + [`assert_eq!(a, b)`](https://doc.rust-lang.org/beta/core/macro.assert_eq.html) checks if `a == b`, if not, it panics (i.e., the whole process is shut down in a safe way and a diagnostic post-mortem message gets written).
 
 > #### Exercise
-> Implement a 2D straight-line type `Line`
+> Design a 2D straight-line type `Line`
 > - `Line` can be constructed by supplying two endpoints
 > - `Line` has a method `is_point_on_line()` which checks whether a given point belongs to the line or not
 ```rust
@@ -174,8 +174,16 @@ fn main() {
 }
 ```
 
-Nested arrays
+In the next exercise, we mock a 5x5 LED matrix, which resembles the Micro:bit peripheral from the [Embedded Rust part](./blink.md)
+> #### Exercise
+> Implement a method `display()` for the type `LedMatrix` below which prints '.' for each 0 and '*' for each 1 that it encounters in `pattern`
 ```rust
+struct LedMatrix {
+    // Syntax for a nested array of size 5x5
+    pattern: [[u8; 5]; 5]
+}
+// Add your code here ...
+fn main() {
     let light_pattern = [
         [1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1],
@@ -183,10 +191,70 @@ Nested arrays
         [1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1],
     ];
-    println!("{}", light_pattern[0][0]);
-    println!("{}", light_pattern[2][2]);
+    let matrix = LedMatrix{pattern: light_pattern};
+    matrix.show();
+    // The command above should print
+    // *****
+    // *****
+    // **.**
+    // *****
+    // *****
+}
 ```
-We will use this code for blinking a 5x5 LED matrix in the [Embedded Rust part](./blink.md)
+> #### Exercise
+> (*) Extend the code so that it works for LED matrices of different sizes. It's tricky to have a variable-size data structure without heap allocation and `std` library, so we will pre-allocate an array of big enough size instead
+> + `LedMatrix` now needs an extra field to indicate the _logical_ size of the pattern,
+```rust
+// Syntax for a compile-time constant (let will not work here)
+const STATIC_DIMENSION: usize = 5;
+struct LedMatrix {
+    pattern: [[u8; STATIC_DIMENSION]; STATIC_DIMENSION],
+    dimension: usize
+}
+```
+> + Add the `new()` method, which constructs an instance of `LedMatrix` that has an extra parameter `dimension`. Make the runtime check whether `dimension` has a valid value. [`panic!`](https://doc.rust-lang.org/std/macro.panic.html) if things go wrong.
+```rust
+impl LedMatrix {
+    fn new(pattern: [[u8; STATIC_DIMENSION]; STATIC_DIMENSION], dimension: usize) -> Self {
+// Add your code here ...
+    }
+}
+```
+> + Adjust `show()` so that it prints only the actually used part of the pattern
+<!-- impl LedMatrix { -->
+<!--     fn new(pattern: [[u8; STATIC_DIMENSION]; STATIC_DIMENSION], dimension: usize) -> Self { -->
+<!--         if dimension > STATIC_DIMENSION { -->
+<!--             panic!("Size cannot exceed {}!", STATIC_DIMENSION); -->
+<!--         } -->
+<!--         Self{pattern: pattern, dimension: dimension} -->
+<!--     } -->
+<!--     fn show(self) { -->
+<!--         for i in 0..self.dimension { -->
+<!--             for j in 0..self.dimension { -->
+<!--                 if self.pattern[i][j] == 0 { -->
+<!--                     print!("."); -->
+<!--                 } -->
+<!--                 else { -->
+<!--                     print!("*"); -->
+<!--                 } -->
+<!--             } -->
+<!--             println!(""); -->
+<!--         } -->
+<!--     } -->
+<!-- } -->
+```rust
+fn main() {
+    let matrix1 = LedMatrix::new([[1; STATIC_DIMENSION]; STATIC_DIMENSION], 3);
+    matrix1.show();
+    // The command above should print
+    // ***
+    // ***
+    // ***
+    let matrix2 = LedMatrix::new([[0; STATIC_DIMENSION]; STATIC_DIMENSION], 10);
+    // Here, a panic should happen
+    matrix2.show();
+}
+```
 
 ## Resources for deeper understanding
 + [Chapter 3](https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html), [Chapter 5](https://doc.rust-lang.org/book/ch05-00-structs.html) and [here](https://doc.rust-lang.org/book/ch13-02-iterators.html) in the Rust book

@@ -1,6 +1,6 @@
 # Introduction
 
-Welcome to a course for the Rust programming language!
+Welcome to a Rust programming language course!
 
 The goals of the course:
 + Learn to write basic Rust code and read API docs like [this](https://doc.rust-lang.org/core/option/enum.Option.html)
@@ -8,7 +8,7 @@ The goals of the course:
 
 _Out_ of scope:
 + Motivation to learn Rust (we tried to accomplish that in the previous sessions)
-+ Data collections like [Vec](https://doc.rust-lang.org/std/vec/struct.Vec.html) or [HashMap](https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html), since they involve heap allocation, which is often undesirable in embedded systems. In general, we omit the Rust standard library completely
++ Data collections like [Vec](https://doc.rust-lang.org/std/vec/struct.Vec.html) or [HashMap](https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html), since they involve heap allocation, which is often undesirable in embedded systems. Also no file access and no other forms of I/O (printing to standard output is the only exception). In general, we omit the Rust standard library.
 + Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see [here](https://embassy.dev/) and [here](https://rtic.rs/1/book/en/)), and almost unavoidable when implementing an RTOS
 + Unit testing, modularization, and other good development practices, since all of our projects will be very small
 + PAC layer of Embedded Rust. We start directly with the higher abstraction levels which are HAL and BSP. So no direct register manipulation.

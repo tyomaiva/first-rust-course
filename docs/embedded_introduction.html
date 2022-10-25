@@ -146,6 +146,73 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="what-makes-embedded-rust-special"><a class="header" href="#what-makes-embedded-rust-special">What makes Embedded Rust special</a></h1>
+<h2 id="embedded-vs-os-based-application-development"><a class="header" href="#embedded-vs-os-based-application-development">Embedded vs. OS-based application development</a></h2>
+<p>Things that are easy to use from ordinary (non-embedded) applications:</p>
+<ul>
+<li>Heap allocation</li>
+<li>Run a new process (you just specify the executable file, OS loads it automatically)</li>
+<li>Spawn new threads and communicate between them</li>
+<li>Security
+<ul>
+<li>You don't even notice other processes unless you really want to</li>
+<li>OS takes care of emergency situations like the <a href="https://en.wikipedia.org/wiki/Stack_overflow">stack overflow</a></li>
+</ul>
+</li>
+<li>Read/write/create a file</li>
+<li>Networking (TCP/IP)
+In general, it is relatively easy to write OS-agnostic code (apart from some things are not portable in principle).</li>
+</ul>
+<p>In bare-metal embedded systems, you normally instead</p>
+<ul>
+<li>Avoid heap whatsoever (RAM is quite limited)</li>
+<li>Make your own custom scheduler to provide multi-tasking
+<ul>
+<li>You often need a real-time response (e.g. every 1 millisecond, you need to finish processing new chunk of sensor data)</li>
+<li>Data races between different tasks are easily introduced</li>
+</ul>
+</li>
+<li>Are responsible for writing your application into permanent (flash) memory and then initialize the RAM layout at runtime</li>
+<li>Have access to all the peripherals - easy to ruin everything</li>
+<li>Write/tailor drivers for the I/O (like accessing an SD card or an Ethernet controller)</li>
+<li>Have to understand board-specific hardware aspects even simply to make sure your software doesn't burn the board
+<ul>
+<li>Logic interfacing, motor control, power supplies, etc.</li>
+</ul>
+</li>
+</ul>
+<p>Embedded development sounds scary... Can Rust help here?</p>
+<h2 id="embedded-rust"><a class="header" href="#embedded-rust">Embedded Rust</a></h2>
+<p>Embedded Rust is different from normal Rust:</p>
+<ul>
+<li>You don't have access to the Rust <a href="https://doc.rust-lang.org/std/">standard library</a> (no off-the-shelf variable-size data structures and I/O).
+<ul>
+<li>Nevertheless all of the <code>core</code> (i.e., almost all that we've covered in previous Sections) is available.</li>
+</ul>
+</li>
+<li>No ordinary <code>main()</code> as the default entry point <!-- : you have to do the steps preceding `main()` as well. -->
+<ul>
+<li>The standard <code>main()</code> expects command-line arguments as input, which don't make sense in the embedded context. And you never return from <code>main()</code> either.</li>
+</ul>
+</li>
+<li>Panic behaviour is undefined by default: you can (and should) tailor it to your needs.</li>
+</ul>
+<p>You can work at 3 different abstraction layers:</p>
+<ul>
+<li>Peripheral-Access Crate (PAC) is the lowest layer, you access here individual MCU registers. <a href="https://crates.io/crates/nrf52833-pac/">nrf52833-pac</a> is the PAC that we actually use under the hood for Micro:bit V2. This crate is generated automatically from an <a href="https://raw.githubusercontent.com/nrf-rs/nrf-pacs/master/svds/nrf52833.svd">XML file</a> provided by the manufacturer.
+<ul>
+<li>Normally you want to stay away from this layer, unless higher-level layers do no provide all the functionality you need (or maybe you need to <em>optimize</em> the existing functionality).</li>
+</ul>
+</li>
+<li>Hardware-Abstraction Layer (HAL) is a way to abstract the <em>MCU</em> peripherals into structs and methods. We will use <a href="https://crates.io/crates/nrf52833-hal">nrf52833-hal</a>.
+<ul>
+<li>As an example, at this layer you can create and start a built-in hardware timer or establish a serial (UART) communication.</li>
+<li>HALs in the Rust ecosystem normally build on top of the <a href="https://docs.rs/embedded-hal/"><code>embedded-hal</code></a> crate, which is basically a collection of universal traits like <a href="https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html"><code>digital::v2::OutputPin</code></a> for an output pin.</li>
+<li>A lot of platform-agnostic drivers are written based on <code>embedded-hal</code>.</li>
+</ul>
+</li>
+<li>Board Support Package (BSP) is the highest layer, and provides access to all the peripherals of the board (not only the ones built into MCU) like the accelerometer and the LED.</li>
+<li>More explanation on different layers is <a href="https://docs.rust-embedded.org/discovery/microbit/04-meet-your-hardware/terminology.html">here</a>, together with a useful videolink.</li>
+</ul>
 
                     </main>
 

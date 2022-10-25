@@ -1,0 +1,17 @@
+# For the full description of available options for Embed.toml,
+# please take a look at https://github.com/probe-rs/cargo-embed/blob/master/src/config/default.toml
+[default.probe]
+protocol = "Swd"
+
+[default.general]
+chip = "nrf52833_xxAA" # micro:bit V2
+
+[default.rtt]
+enabled = true
+
+# When we set to true, it does not run the application immediately, but waits for GDB
+[default.reset]
+halt_afterwards = false
+
+[default.gdb]
+enabled = true

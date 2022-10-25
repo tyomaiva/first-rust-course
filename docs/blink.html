@@ -167,7 +167,11 @@ fn main() -&gt; ! {
 <li><code>board</code> is a struct with all the peripherals we have, see <a href="https://docs.rs/microbit-v2/latest/microbit/board/struct.Board.html">here</a>
 <ul>
 <li><code>TIMER0</code> is one of the 5 hardware timers available on the board</li>
-<li><code>display_pins</code> are the 10 GPIO pins that control the LED matrix</li>
+<li><code>display_pins</code> are the 10 GPIO pins that control the LED matrix
+<ul>
+<li>(*) How can 10 pins control 5 * 5 = 25 LEDs?</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>You can use methods <code>show()</code> and <code>clear()</code> of the struct <a href="https://docs.rs/microbit-v2/latest/microbit/display/blocking/struct.Display.html"><code>microbit::display::blocking::Display</code></a> to manipulate the LED state.</li>

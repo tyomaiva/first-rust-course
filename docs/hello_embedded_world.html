@@ -147,14 +147,20 @@
                     <main>
                         <h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 <h2 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting up the environment</a></h2>
-<p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>.</p>
+<p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>. Make sure you look at the instructions for Micro:bit V2 (not V1)!</p>
 <h2 id="first-code-example"><a class="header" href="#first-code-example">First code example</a></h2>
-<p>Get template from ??????</p>
+<p>Get template that is tailored to our board from <a href="https://github.com/tyomaiva/first-rust-course/blob/master/microbit_template">GitHub</a>. For more details, look at the <a href="https://github.com/rust-embedded/cortex-m-quickstart">original template</a>.</p>
 <p>Run it so: ???</p>
-<pre><code class="language-rust noplayground">#![no_std]
+<pre><code class="language-rust noplayground">// We don't have access to the Rust standard library
+#![no_std]
+// There is no standard main(), we cook it up ourselves
 #![no_main]
 
+// Implements a panic handler for us.
+// The handler conveniently logs the error message to RTT before entering an infinite loop.
 use panic_rtt_target as _;
+// Enables to capture the output from Micro:bit while debugging, using the so-called
+// Real-Time Transfer (RTT). Look at https://docs.rs/rtt-target/ for more details.
 use rtt_target::{rprintln, rtt_init_print};
 // The import is unused, but otherwise the linker
 // somehow cannot find the interrupt table
@@ -162,31 +168,18 @@ use microbit::hal::prelude::*;
 
 use cortex_m_rt::entry;
 
+// That is the actual entry point of our program
 #[entry]
+// '!' means that the function never returns
 fn main() -&gt; ! {
+    // This should be called once (and only once) in order to set up RTT
     rtt_init_print!();
     rprintln!(&quot;Hello Embedded world, do you mind if I join?&quot;);
     loop {}
 }
 </code></pre>
 <ul>
-<li><code>#![no_std]</code> tells that we don't have access to the Rust standard library</li>
-<li><code>#![no_main]</code> ???</li>
-<li><code>use panic_rtt_target as _;</code> provides us with some default implementation of the panic handler, so we don't spend time on that.</li>
-<li>???</li>
-</ul>
-<p>Layers:</p>
-<ul>
-<li>Peripheral-Access Crate (PAC) is the lowest level, you access here individual MCU registers. <a href="https://crates.io/crates/nrf52833-pac/">nrf52833-pac</a> is the PAC that we actually use under the hood for Micro:bit V2. This crate is generated automatically from an <a href="https://raw.githubusercontent.com/nrf-rs/nrf-pacs/master/svds/nrf52833.svd">XML file</a> provided by the manufacturer.
-<ul>
-<li>Normally you want to stay away from this level, unless higher-level layers do no provide all the functionality you need (or maybe you need to optimize the existing functionality).</li>
-</ul>
-</li>
-<li>Hardware-Abstraction Layer (HAL) is a way to abstract the /MCU/ peripherals into structs and methods. We will use <a href="https://crates.io/crates/nrf52833-hal">nrf52833-hal</a>.</li>
-<li>As an example, at this level you can create and start a built-in hardware timer or establish a serial (UART) communication.</li>
-<li>HALs in the Rust ecosystem normally build on top of the <a href="https://docs.rs/embedded-hal/">embedded-hal</a> crate, which is basically a collection of universal traits like <a href="https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html">digital::v2::OutputPin</a> for an output pin.</li>
-<li>Board Support Package (BSP) is the highest level, and provides access to all the peripherals of the board (not only the built into MCU) like the accelerometer and the LED.</li>
-<li>More explanation on different levels is <a href="https://docs.rust-embedded.org/discovery/microbit/04-meet-your-hardware/terminology.html">here</a>, together with a link to video.</li>
+<li><code>cortex_m_rt</code> does linking (based on the layout in <code>memory.x</code> file) and RAM initialization for ARM Cortex-M chips</li>
 </ul>
 
                     </main>
