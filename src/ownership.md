@@ -45,12 +45,14 @@ The ownership and access system in Rust is quite restrictive and also non-intuit
 <!-- In this Section, we will use the [RustViz](https://github.com/rustviz/rustviz) tool to visualize the ownership and access concepts. -->
 
 Here are the basic rules for ownership:
-+ Values in Rust have only _one_ owner at a time, meaning there is _one and only one_ responsible for deallocating the value when it's not needed anymore.
-  + No memory leaks or [double frees](https://stackoverflow.com/a/21057524) anymore
++ Values in Rust have exactly _one_ owner at a time, meaning there is _one and only one_ responsible for deallocating the value when it's not needed anymore.
+  + No memory leaks or [double frees](https://stackoverflow.com/a/21057524) anymore.
   + Owner can change over time by _moving_ the value, but at any given time there is only one owner. The old owner is said to be _consumed_ in this case.
-    + Move does not touch the value (neither the contents nor the memory location), no non-trivial move constructors (a la C++) are allowed
+    + Move does not touch the value (neither the contents nor the memory location), no non-trivial move constructors (à la C++) are allowed.
++ Owner always has a valid value as well
+  + No unitialized data
 + Deallocation is similar to RAII in C++: the value is droppped when the last owner goes out of scope
- + All the potential code locations for deallocation can be determined at compile-time, so no need for garbage collection (unlike Java and C#)
+  + All the potential code locations for deallocation (typically there is only one location) can be determined at compile-time, so no need for garbage collection (unlike Java and C#)
 
 It explains the problem with the double call,
 ```rust
@@ -67,6 +69,7 @@ But why then `x` is not consumed in the second example above?
 + `i32`, as well as many other stack-allocated types, can be efficiently copied by directly copying the bits
 + These types have `Copy` trait, which we cover in more detail in the [next Section](./traits_generics.md)
 + Rust _always copies_ types with `Copy` instead of moving them (on every assignment and passing to function)
++ No accidental implicit copies for non-`Copy` types are possible (in contrast with C++)
 + `MyPoint` has only stack-allocated values inside, can't we make it `Copy` as well? Yes, we can:
 ```rust
 #[derive(Copy,Clone)]
@@ -89,11 +92,6 @@ fn main() {
     assert_eq!(point.is_close_to_origin(), false);
 }
 ```
-+ No accidental implicit copies for non-`Copy` types are possible! (in contrast with C++)
-
-> #### Exercise
-> ...
-> +
 
 ## Borrow checker
 We don't actually need an independent copy of `MyPoint` on every method call. (We get now in total 3 different copies of the same value!) What we really need is to read the value, how to do that? _Borrowing_ is the way to go.
@@ -106,9 +104,9 @@ Borrow rules:
 + You can have _multiple immutable_ borrows OR a _single mutable_ borrow (not both at the same time)
   + Immutable borrow means not only that you can't change the value, but nobody else can do that either!
 
-Compiler makes sure that
-+ References are always valid
-+ In particular, they are not null pointers
+Compiler makes sure that references are always valid:
++ No [dangling pointers](https://en.wikipedia.org/wiki/Dangling_pointer)
++ References are never null pointers
 
 So what we need for the previous example is an immutable borrow:
 ```rust
@@ -132,6 +130,64 @@ fn main() {
 }
 ```
 + Note that we've removed `#[derive(...)]` as we don't need to copy the values anymore
+
+When do we need a mutable borrow?
+
+First trial:
+```rust
+# struct MyPoint {
+#     x: f64,
+#     y: f64,
+# }
+# impl MyPoint {
+#     fn new(x: f64, y: f64) -> Self {
+#         Self{x: x, y: y}
+#     }
+# }
+
+fn scalePoint(point: &mut MyPoint, factor: f64) {
+    point.x *= factor;
+    point.y *= factor;
+}
+
+fn main() {
+    let mut point = MyPoint::new(3., 4.);
+    let borrow1 = &mut point;
+    let borrow2 = &mut point;
+    scalePoint(borrow1, 10.);
+    println!("Coordinates are: {}, {}", point.x, point.y);
+    scalePoint(borrow2, 10.);
+    println!("Coordinates are: {}, {}", point.x, point.y);
+}
+```
++ Code can be fixed by swapping two lines. Which ones?
+ + NOTE: references have different scope rules than normal variables: the reference scope ends once it is used last (not at the end of the `{ ... }` block)
+
+Second trial (refactoring function into a method):
+```rust
+# struct MyPoint {
+#     x: f64,
+#     y: f64,
+# }
+impl MyPoint {
+#     fn new(x: f64, y: f64) -> Self {
+#         Self{x: x, y: y}
+#     }
+    fn scale(&mut self, factor: f64) {
+        self.x *= factor;
+        self.y *= factor;
+    }
+}
+
+fn main() {
+    let mut point = MyPoint::new(3., 4.);
+    point.scale(10.);
+    println!("Coordinates are: {}, {}", point.x, point.y);
+    point.scale(10.);
+    println!("Coordinates are: {}, {}", point.x, point.y);
+}
+```
++ We have two multiple borrows, but we don't violate any rules, since these two have different scopes.
 
 ## Resources for deeper understanding
 + [Chapter 4](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html) of the Rust book

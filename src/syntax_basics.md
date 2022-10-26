@@ -120,8 +120,6 @@ fn main() {
     let segment1 = Line::new(point1, point2);
     let point3 = MyPoint::new(4., 2.);
     assert_eq!(segment1.is_point_on_line(point3), true);
-    // let point4 = MyPoint::new(1., 1.);
-    // assert_eq!(segment2.is_point_on_line(point4), false);
 }
 ```
 <!-- struct Line(MyPoint, MyPoint); -->

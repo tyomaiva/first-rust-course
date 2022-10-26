@@ -186,18 +186,26 @@ fn main() {
 <!-- In this Section, we will use the [RustViz](https://github.com/rustviz/rustviz) tool to visualize the ownership and access concepts. -->
 <p>Here are the basic rules for ownership:</p>
 <ul>
-<li>Values in Rust have only <em>one</em> owner at a time, meaning there is <em>one and only one</em> responsible for deallocating the value when it's not needed anymore.
+<li>Values in Rust have exactly <em>one</em> owner at a time, meaning there is <em>one and only one</em> responsible for deallocating the value when it's not needed anymore.
 <ul>
-<li>No memory leaks or <a href="https://stackoverflow.com/a/21057524">double frees</a> anymore</li>
+<li>No memory leaks or <a href="https://stackoverflow.com/a/21057524">double frees</a> anymore.</li>
 <li>Owner can change over time by <em>moving</em> the value, but at any given time there is only one owner. The old owner is said to be <em>consumed</em> in this case.
 <ul>
-<li>Move does not touch the value (neither the contents nor the memory location), no non-trivial move constructors (a la C++) are allowed</li>
+<li>Move does not touch the value (neither the contents nor the memory location), no non-trivial move constructors (à la C++) are allowed.</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Deallocation is similar to RAII in C++: the value is droppped when the last owner goes out of scope</li>
-<li>All the potential code locations for deallocation can be determined at compile-time, so no need for garbage collection (unlike Java and C#)</li>
+<li>Owner always has a valid value as well
+<ul>
+<li>No unitialized data</li>
+</ul>
+</li>
+<li>Deallocation is similar to RAII in C++: the value is droppped when the last owner goes out of scope
+<ul>
+<li>All the potential code locations for deallocation (typically there is only one location) can be determined at compile-time, so no need for garbage collection (unlike Java and C#)</li>
+</ul>
+</li>
 </ul>
 <p>It explains the problem with the double call,</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -218,6 +226,7 @@ fn main() {
 <li><code>i32</code>, as well as many other stack-allocated types, can be efficiently copied by directly copying the bits</li>
 <li>These types have <code>Copy</code> trait, which we cover in more detail in the <a href="./traits_generics.html">next Section</a></li>
 <li>Rust <em>always copies</em> types with <code>Copy</code> instead of moving them (on every assignment and passing to function)</li>
+<li>No accidental implicit copies for non-<code>Copy</code> types are possible (in contrast with C++)</li>
 <li><code>MyPoint</code> has only stack-allocated values inside, can't we make it <code>Copy</code> as well? Yes, we can:</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust">#[derive(Copy,Clone)]
@@ -240,14 +249,6 @@ fn main() {
     assert_eq!(point.is_close_to_origin(), false);
 }
 </code></pre></pre>
-<ul>
-<li>No accidental implicit copies for non-<code>Copy</code> types are possible! (in contrast with C++)</li>
-</ul>
-<blockquote>
-<h4 id="exercise"><a class="header" href="#exercise">Exercise</a></h4>
-<p>...
-+</p>
-</blockquote>
 <h2 id="borrow-checker"><a class="header" href="#borrow-checker">Borrow checker</a></h2>
 <p>We don't actually need an independent copy of <code>MyPoint</code> on every method call. (We get now in total 3 different copies of the same value!) What we really need is to read the value, how to do that? <em>Borrowing</em> is the way to go.</p>
 <p>Borrow rules:</p>
@@ -265,10 +266,10 @@ fn main() {
 </ul>
 </li>
 </ul>
-<p>Compiler makes sure that</p>
+<p>Compiler makes sure that references are always valid:</p>
 <ul>
-<li>References are always valid</li>
-<li>In particular, they are not null pointers</li>
+<li>No <a href="https://en.wikipedia.org/wiki/Dangling_pointer">dangling pointers</a></li>
+<li>References are never null pointers</li>
 </ul>
 <p>So what we need for the previous example is an immutable borrow:</p>
 <pre><pre class="playground"><code class="language-rust">struct MyPoint {
@@ -292,6 +293,63 @@ fn main() {
 </code></pre></pre>
 <ul>
 <li>Note that we've removed <code>#[derive(...)]</code> as we don't need to copy the values anymore</li>
+</ul>
+<p>When do we need a mutable borrow?</p>
+<p>First trial:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+</span><span class="boring">    x: f64,
+</span><span class="boring">    y: f64,
+</span><span class="boring">}
+</span><span class="boring">impl MyPoint {
+</span><span class="boring">    fn new(x: f64, y: f64) -&gt; Self {
+</span><span class="boring">        Self{x: x, y: y}
+</span><span class="boring">    }
+</span><span class="boring">}
+</span>
+fn scalePoint(point: &amp;mut MyPoint, factor: f64) {
+    point.x *= factor;
+    point.y *= factor;
+}
+
+fn main() {
+    let mut point = MyPoint::new(3., 4.);
+    let borrow1 = &amp;mut point;
+    let borrow2 = &amp;mut point;
+    scalePoint(borrow1, 10.);
+    println!(&quot;Coordinates are: {}, {}&quot;, point.x, point.y);
+    scalePoint(borrow2, 10.);
+    println!(&quot;Coordinates are: {}, {}&quot;, point.x, point.y);
+}
+</code></pre></pre>
+<ul>
+<li>Code can be fixed by swapping two lines. Which ones?</li>
+<li>NOTE: references have different scope rules than normal variables: the reference scope ends once it is used last (not at the end of the <code>{ ... }</code> block)</li>
+</ul>
+<p>Second trial (refactoring function into a method):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+</span><span class="boring">    x: f64,
+</span><span class="boring">    y: f64,
+</span><span class="boring">}
+</span>impl MyPoint {
+<span class="boring">    fn new(x: f64, y: f64) -&gt; Self {
+</span><span class="boring">        Self{x: x, y: y}
+</span><span class="boring">    }
+</span>    fn scale(&amp;mut self, factor: f64) {
+        self.x *= factor;
+        self.y *= factor;
+    }
+}
+
+fn main() {
+    let mut point = MyPoint::new(3., 4.);
+    point.scale(10.);
+    println!(&quot;Coordinates are: {}, {}&quot;, point.x, point.y);
+    point.scale(10.);
+    println!(&quot;Coordinates are: {}, {}&quot;, point.x, point.y);
+}
+</code></pre></pre>
+<ul>
+<li>We have two multiple borrows, but we don't violate any rules, since these two have different scopes.</li>
 </ul>
 <h2 id="resources-for-deeper-understanding"><a class="header" href="#resources-for-deeper-understanding">Resources for deeper understanding</a></h2>
 <ul>

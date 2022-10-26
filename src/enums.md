@@ -13,6 +13,7 @@ enum Option<T> {
 }
 ```
 + `Option` is similar to C++ `std::optional`, which was introduced only in C++17
++ For types `T` that can never be 0 (in binary representation), Rust optimizes `None` to a null pointer, so no performance degradation at all!
 
 `Option` has many batteries included:
 + `#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]`
