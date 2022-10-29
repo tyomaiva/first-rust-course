@@ -1,19 +1,14 @@
 # Traits and generics
 
 ## Motivation
-> #### Exercises 2, 3, and 4 from [Rust By Practice](https://practice.rs/generics-traits/generics.html)
+> #### Exercises: 3, 4, and 2 from [Section on Generics](https://practice.rs/generics-traits/generics.html#exercises) in Rust By Practice (yes, do them in this particular order) and then Ex. 1 from [Section on Traits](https://practice.rs/generics-traits/traits.html#exercises).
 
 ## Traits
 Traits:
 + Are the Rust approach to interfaces (contracts between different parts of the code)
+  + Traits only declare methods (not data members)
 + Are powered by generics, though generics do not necessarily involve traits
 + Allow to write polymorphic code
-  + Compile-time polymorphism (runtime polymorphism is also possible, but using a bit different mechanism)
-+ Can be combined (composed)
-```rust,editable
-??????
-```
-  + Compare this approach with the idiomatic hierarchy-based solution in pre-C++20 (multiple inheritance) which leads to the infamous [diamond problem](https://en.wikipedia.org/wiki/Multiple_inheritance). See more about the Rust and the diamond problem [here](https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust/content/porting_from_cpp/multiple_inheritance.html).
 + Are good for dependency injection and mocking while testing
   + For example, you may emulate a hardware peripheral:
 ```rust,editable
@@ -40,16 +35,41 @@ fn main() {
     process_serial_input(&mock);
 }
 ```
++ Single type can have (and usually does have) multiple traits, traits are easily composed
+  + Compare this approach with the idiomatic hierarchy-based solution in pre-C++20 (multiple inheritance) which leads to the infamous [diamond problem](https://en.wikipedia.org/wiki/Multiple_inheritance). See more about the Rust and why it does not have the diamond problem [here](https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust/content/porting_from_cpp/multiple_inheritance.html).
+  + Inheritance in OOP languages involves runtime polymorphism while traits provide compile-time polymorphism
 
-## Standard traits
+## Traits from `core`
 ### `Copy` and `Clone`
-+ Some objects can be neither copied nor cloned (makes sense for a unique resource like an open file or a hardware peripheral)
-+ `Copy` is an example of a _marker_ trait: it does not introduce any new methods or types, it only indicates whether a certain operation is possible with the associated type
-+ Some traits can be automatically derived
+[`core::marker::Copy`](https://doc.rust-lang.org/core/marker/trait.Copy.html) is a trait used to simply copy values bit-by-bit, instead of moving the value
+```rust
+pub trait Copy: Clone { }
+```
++ `Copy` is an example of a _marker_ trait: it does not introduce any new methods or types, it only indicates whether a certain operation is possible with the type.
++ Syntax with `:` means a _trait bound_: any type implementing `Copy` should implement `Clone` as well.
++ [`core::clone::Clone`](https://doc.rust-lang.org/core/clone/trait.Clone.html) is a trait that allows _cloning_ the values:
+```rust
+pub trait Clone {
+    fn clone(&self) -> Self;
+
+    fn clone_from(&mut self, source: &Self) { ... }
+}
+```
++ Differences between cloning and copying:
+  + If you want to clone, you always should do this explicitly, `a = b.clone();` No implicit cloning!
+  + Cloning can be equivalent to copying, but can be totally different. On contrary, copying cannot be overriden.
++ Good thing: you only need to implement `clone()` (it is called a "required method"). Once that is done, the other method (`clone_from()`) is provided automatically for you ("provided method").
++ Both `Copy` and `Clone` can be automatically derived (with some default implementation), we saw that in [Section on Ownership](./ownership.md)
+```rust
+#[derive(Copy,Clone)]
+struct MyPoint { x: f64, y: f64 }
+```
++ Some values can be neither copied nor cloned: for example for a unique resource like an open file or a hardware peripheral
 
 ### `Debug`
-It's useful to dump contents of a variable, e.g. during the debugging
+It's useful to dump contents of a variable, e.g. during the debugging or error logging
 ```rust
+#[derive(Debug)]
 struct MyPoint {
     x: f64,
     y: f64,
@@ -63,11 +83,8 @@ struct MyPoint {
 fn main() {
     let point = MyPoint::new(3., 4.);
     println!("The point is {:?}", point);
+}
 ```
-Compiler tells that we need [`Debug`](https://doc.rust-lang.org/beta/core/fmt/trait.Debug.html) trait and even suggests two possible solutions
-> note: add `#[derive(Debug)]` to `MyPoint` or manually `impl Debug for MyPoint`
-+ Bad thing: we don't have `Debug` trait by default
-+ Good thing: we can write our custom implementation or derive a default implementation for free
 <!-- > #### Question why does the line below need `Debug`? --- we also need partialEq here,  -->
 <!-- ```rust,editable -->
 <!-- assert_eq!() -->
@@ -76,14 +93,15 @@ Compiler tells that we need [`Debug`](https://doc.rust-lang.org/beta/core/fmt/tr
 Documentation for [core::fmt::Write](https://doc.rust-lang.org/core/fmt/trait.Write.html) says:
 ```rust
 trait Write {
+    // Required method:
     fn write_str(&mut self, s: &str) -> Result;
 
+    // Provided methods:
     fn write_char(&mut self, c: char) -> Result { ... }
     fn write_fmt(&mut self, args: Arguments<'_>) -> Result { ... }
 }
 ```
 + This trait is normally used for unbuffered writes (like appending characters to a string)
-+ Good thing: you only need to implement `write_str()`, the other two methods are provided automatically
 + Allows to use `println!`-like formatted printing
 ```rust,noplayground
     // w implements core::fmt::Write

@@ -145,13 +145,28 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="enums"><a class="header" href="#enums">Enums</a></h1>
-<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
+<h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
+<p>Often we have a limited number of possible values, for example on our Micro:bit we have two buttons, A and B:</p>
+<pre><pre class="playground"><code class="language-rust editable">enum KeyPress {
+    A,
+    B,
+}
+
+fn main() {
+    let key = KeyPress::B;
+    match key {
+        KeyPress::A =&gt; println!(&quot;Start/stop collecting the data&quot;),
+        KeyPress::B =&gt; println!(&quot;Send collected data to cloud&quot;),
+    }
+}
+</code></pre></pre>
 <ul>
-<li>Pattern matching: exhaustive matching</li>
+<li>Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.</li>
 </ul>
+<h2 id="option"><a class="header" href="#option"><code>Option</code></a></h2>
 <p>What do we do whenever a function either returns either some value or <em>no value at all</em>?</p>
 <ul>
-<li>In C, and in the old-style C++, we use a null pointer for the latter case</li>
+<li>In C and in the old-style C++, we use a null pointer for the latter case</li>
 <li>In Rust, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a>:</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -163,7 +178,8 @@
 <span class="boring">}
 </span></code></pre></pre>
 <ul>
-<li><code>Option</code> is similar to C++ <code>std::optional</code>, which was introduced only in C++17</li>
+<li>Two enum variants store <em>different</em> values: <code>None</code> does not store anything, <code>Some</code> stores value of <code>T</code>.</li>
+<li><code>Option</code> is similar to C++ <a href="https://en.cppreference.com/w/cpp/utility/optional"><code>std::optional</code></a>, which was introduced only in C++17.</li>
 <li>For types <code>T</code> that can never be 0 (in binary representation), Rust optimizes <code>None</code> to a null pointer, so no performance degradation at all!</li>
 </ul>
 <p><code>Option</code> has many batteries included:</p>
@@ -183,7 +199,8 @@
     x.expect(&quot;Oops!&quot;);
 }
 </code></pre></pre>
-<p>Whenever an operation may <em>fail</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/result/enum.Result.html"><code>core::result::Result</code></a> instead</p>
+<h2 id="result"><a class="header" href="#result"><code>Result</code></a></h2>
+<p>Whenever an operation may <em>fail</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/result/enum.Result.html"><code>core::result::Result</code></a> instead of <code>Option</code></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Result&lt;T, E&gt; {

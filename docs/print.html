@@ -729,24 +729,18 @@ fn main() {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="traits-and-generics"><a class="header" href="#traits-and-generics">Traits and generics</a></h1>
 <h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
 <blockquote>
-<h4 id="exercises-2-3-and-4-from-rust-by-practice"><a class="header" href="#exercises-2-3-and-4-from-rust-by-practice">Exercises 2, 3, and 4 from <a href="https://practice.rs/generics-traits/generics.html">Rust By Practice</a></a></h4>
+<h4 id="exercises-3-4-and-2-from-section-on-generics-in-rust-by-practice-yes-do-them-in-this-particular-order-and-then-ex-1-from-section-on-traits"><a class="header" href="#exercises-3-4-and-2-from-section-on-generics-in-rust-by-practice-yes-do-them-in-this-particular-order-and-then-ex-1-from-section-on-traits">Exercises: 3, 4, and 2 from <a href="https://practice.rs/generics-traits/generics.html#exercises">Section on Generics</a> in Rust By Practice (yes, do them in this particular order) and then Ex. 1 from <a href="https://practice.rs/generics-traits/traits.html#exercises">Section on Traits</a>.</a></h4>
 </blockquote>
 <h2 id="traits"><a class="header" href="#traits">Traits</a></h2>
 <p>Traits:</p>
 <ul>
-<li>Are the Rust approach to interfaces (contracts between different parts of the code)</li>
-<li>Are powered by generics, though generics do not necessarily involve traits</li>
-<li>Allow to write polymorphic code
+<li>Are the Rust approach to interfaces (contracts between different parts of the code)
 <ul>
-<li>Compile-time polymorphism (runtime polymorphism is also possible, but using a bit different mechanism)</li>
+<li>Traits only declare methods (not data members)</li>
 </ul>
 </li>
-<li>Can be combined (composed)</li>
-</ul>
-<pre><pre class="playground"><code class="language-rust editable">??????
-</code></pre></pre>
-<ul>
-<li>Compare this approach with the idiomatic hierarchy-based solution in pre-C++20 (multiple inheritance) which leads to the infamous <a href="https://en.wikipedia.org/wiki/Multiple_inheritance">diamond problem</a>. See more about the Rust and the diamond problem <a href="https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust/content/porting_from_cpp/multiple_inheritance.html">here</a>.</li>
+<li>Are powered by generics, though generics do not necessarily involve traits</li>
+<li>Allow to write polymorphic code</li>
 <li>Are good for dependency injection and mocking while testing
 <ul>
 <li>For example, you may emulate a hardware peripheral:</li>
@@ -776,16 +770,59 @@ fn main() {
     process_serial_input(&amp;mock);
 }
 </code></pre></pre>
-<h2 id="standard-traits"><a class="header" href="#standard-traits">Standard traits</a></h2>
-<h3 id="copy-and-clone"><a class="header" href="#copy-and-clone"><code>Copy</code> and <code>Clone</code></a></h3>
 <ul>
-<li>Some objects can be neither copied nor cloned (makes sense for a unique resource like an open file or a hardware peripheral)</li>
-<li><code>Copy</code> is an example of a <em>marker</em> trait: it does not introduce any new methods or types, it only indicates whether a certain operation is possible with the associated type</li>
-<li>Some traits can be automatically derived</li>
+<li>Single type can have (and usually does have) multiple traits, traits are easily composed
+<ul>
+<li>Compare this approach with the idiomatic hierarchy-based solution in pre-C++20 (multiple inheritance) which leads to the infamous <a href="https://en.wikipedia.org/wiki/Multiple_inheritance">diamond problem</a>. See more about the Rust and why it does not have the diamond problem <a href="https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust/content/porting_from_cpp/multiple_inheritance.html">here</a>.</li>
+<li>Inheritance in OOP languages involves runtime polymorphism while traits provide compile-time polymorphism</li>
+</ul>
+</li>
+</ul>
+<h2 id="traits-from-core"><a class="header" href="#traits-from-core">Traits from <code>core</code></a></h2>
+<h3 id="copy-and-clone"><a class="header" href="#copy-and-clone"><code>Copy</code> and <code>Clone</code></a></h3>
+<p><a href="https://doc.rust-lang.org/core/marker/trait.Copy.html"><code>core::marker::Copy</code></a> is a trait used to simply copy values bit-by-bit, instead of moving the value</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Copy: Clone { }
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li><code>Copy</code> is an example of a <em>marker</em> trait: it does not introduce any new methods or types, it only indicates whether a certain operation is possible with the type.</li>
+<li>Syntax with <code>:</code> means a <em>trait bound</em>: any type implementing <code>Copy</code> should implement <code>Clone</code> as well.</li>
+<li><a href="https://doc.rust-lang.org/core/clone/trait.Clone.html"><code>core::clone::Clone</code></a> is a trait that allows <em>cloning</em> the values:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Clone {
+    fn clone(&amp;self) -&gt; Self;
+
+    fn clone_from(&amp;mut self, source: &amp;Self) { ... }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>Differences between cloning and copying:
+<ul>
+<li>If you want to clone, you always should do this explicitly, <code>a = b.clone();</code> No implicit cloning!</li>
+<li>Cloning can be equivalent to copying, but can be totally different. On contrary, copying cannot be overriden.</li>
+</ul>
+</li>
+<li>Good thing: you only need to implement <code>clone()</code> (it is called a &quot;required method&quot;). Once that is done, the other method (<code>clone_from()</code>) is provided automatically for you (&quot;provided method&quot;).</li>
+<li>Both <code>Copy</code> and <code>Clone</code> can be automatically derived (with some default implementation), we saw that in <a href="./ownership.html">Section on Ownership</a></li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Copy,Clone)]
+struct MyPoint { x: f64, y: f64 }
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>Some values can be neither copied nor cloned: for example for a unique resource like an open file or a hardware peripheral</li>
 </ul>
 <h3 id="debug"><a class="header" href="#debug"><code>Debug</code></a></h3>
-<p>It's useful to dump contents of a variable, e.g. during the debugging</p>
-<pre><pre class="playground"><code class="language-rust">struct MyPoint {
+<p>It's useful to dump contents of a variable, e.g. during the debugging or error logging</p>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct MyPoint {
     x: f64,
     y: f64,
 }
@@ -798,15 +835,8 @@ fn main() {
 fn main() {
     let point = MyPoint::new(3., 4.);
     println!(&quot;The point is {:?}&quot;, point);
+}
 </code></pre></pre>
-<p>Compiler tells that we need <a href="https://doc.rust-lang.org/beta/core/fmt/trait.Debug.html"><code>Debug</code></a> trait and even suggests two possible solutions</p>
-<blockquote>
-<p>note: add <code>#[derive(Debug)]</code> to <code>MyPoint</code> or manually <code>impl Debug for MyPoint</code></p>
-</blockquote>
-<ul>
-<li>Bad thing: we don't have <code>Debug</code> trait by default</li>
-<li>Good thing: we can write our custom implementation or derive a default implementation for free</li>
-</ul>
 <!-- > #### Question why does the line below need `Debug`? --- we also need partialEq here,  -->
 <!-- ```rust,editable -->
 <!-- assert_eq!() -->
@@ -815,8 +845,10 @@ fn main() {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>trait Write {
+    // Required method:
     fn write_str(&amp;mut self, s: &amp;str) -&gt; Result;
 
+    // Provided methods:
     fn write_char(&amp;mut self, c: char) -&gt; Result { ... }
     fn write_fmt(&amp;mut self, args: Arguments&lt;'_&gt;) -&gt; Result { ... }
 }
@@ -824,7 +856,6 @@ fn main() {
 </span></code></pre></pre>
 <ul>
 <li>This trait is normally used for unbuffered writes (like appending characters to a string)</li>
-<li>Good thing: you only need to implement <code>write_str()</code>, the other two methods are provided automatically</li>
 <li>Allows to use <code>println!</code>-like formatted printing</li>
 </ul>
 <pre><code class="language-rust noplayground">    // w implements core::fmt::Write
@@ -849,13 +880,28 @@ fn main() {
 <li><a href="https://doc.rust-lang.org/book/ch10-00-generics.html">Chapter 10</a> of the Rust book</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="enums"><a class="header" href="#enums">Enums</a></h1>
-<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
+<h2 id="motivation-1"><a class="header" href="#motivation-1">Motivation</a></h2>
+<p>Often we have a limited number of possible values, for example on our Micro:bit we have two buttons, A and B:</p>
+<pre><pre class="playground"><code class="language-rust editable">enum KeyPress {
+    A,
+    B,
+}
+
+fn main() {
+    let key = KeyPress::B;
+    match key {
+        KeyPress::A =&gt; println!(&quot;Start/stop collecting the data&quot;),
+        KeyPress::B =&gt; println!(&quot;Send collected data to cloud&quot;),
+    }
+}
+</code></pre></pre>
 <ul>
-<li>Pattern matching: exhaustive matching</li>
+<li>Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.</li>
 </ul>
+<h2 id="option"><a class="header" href="#option"><code>Option</code></a></h2>
 <p>What do we do whenever a function either returns either some value or <em>no value at all</em>?</p>
 <ul>
-<li>In C, and in the old-style C++, we use a null pointer for the latter case</li>
+<li>In C and in the old-style C++, we use a null pointer for the latter case</li>
 <li>In Rust, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a>:</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -867,7 +913,8 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <ul>
-<li><code>Option</code> is similar to C++ <code>std::optional</code>, which was introduced only in C++17</li>
+<li>Two enum variants store <em>different</em> values: <code>None</code> does not store anything, <code>Some</code> stores value of <code>T</code>.</li>
+<li><code>Option</code> is similar to C++ <a href="https://en.cppreference.com/w/cpp/utility/optional"><code>std::optional</code></a>, which was introduced only in C++17.</li>
 <li>For types <code>T</code> that can never be 0 (in binary representation), Rust optimizes <code>None</code> to a null pointer, so no performance degradation at all!</li>
 </ul>
 <p><code>Option</code> has many batteries included:</p>
@@ -887,7 +934,8 @@ fn main() {
     x.expect(&quot;Oops!&quot;);
 }
 </code></pre></pre>
-<p>Whenever an operation may <em>fail</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/result/enum.Result.html"><code>core::result::Result</code></a> instead</p>
+<h2 id="result"><a class="header" href="#result"><code>Result</code></a></h2>
+<p>Whenever an operation may <em>fail</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/result/enum.Result.html"><code>core::result::Result</code></a> instead of <code>Option</code></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Result&lt;T, E&gt; {
@@ -932,9 +980,9 @@ fn main() {
 </ul>
 </li>
 <li>Read/write/create a file</li>
-<li>Networking (TCP/IP)
-In general, it is relatively easy to write OS-agnostic code (apart from some things are not portable in principle).</li>
+<li>Networking (TCP/IP)</li>
 </ul>
+<p>In general, it is relatively easy to write OS-agnostic code (apart from some things are not portable in principle).</p>
 <p>In bare-metal embedded systems, you normally instead</p>
 <ul>
 <li>Avoid heap whatsoever (RAM is quite limited)</li>

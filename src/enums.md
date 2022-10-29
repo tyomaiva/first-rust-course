@@ -1,10 +1,26 @@
 # Enums
 
-## TODO
-+ Pattern matching: exhaustive matching
+## Motivation
+Often we have a limited number of possible values, for example on our Micro:bit we have two buttons, A and B:
+```rust,editable
+enum KeyPress {
+    A,
+    B,
+}
 
+fn main() {
+    let key = KeyPress::B;
+    match key {
+        KeyPress::A => println!("Start/stop collecting the data"),
+        KeyPress::B => println!("Send collected data to cloud"),
+    }
+}
+```
++ Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.
+
+## `Option`
 What do we do whenever a function either returns either some value or _no value at all_?
-+ In C, and in the old-style C++, we use a null pointer for the latter case
++ In C and in the old-style C++, we use a null pointer for the latter case
 + In Rust, it is idiomatic to use [`core::option::Option`](https://doc.rust-lang.org/core/option/enum.Option.html):
 ```rust
 enum Option<T> {
@@ -12,7 +28,8 @@ enum Option<T> {
     None
 }
 ```
-+ `Option` is similar to C++ `std::optional`, which was introduced only in C++17
++ Two enum variants store _different_ values: `None` does not store anything, `Some` stores value of `T`.
++ `Option` is similar to C++ [`std::optional`](https://en.cppreference.com/w/cpp/utility/optional), which was introduced only in C++17.
 + For types `T` that can never be 0 (in binary representation), Rust optimizes `None` to a null pointer, so no performance degradation at all!
 
 `Option` has many batteries included:
@@ -33,7 +50,8 @@ fn main() {
 }
 ```
 
-Whenever an operation may _fail_, it is idiomatic to use [`core::result::Result`](https://doc.rust-lang.org/core/result/enum.Result.html) instead
+## `Result`
+Whenever an operation may _fail_, it is idiomatic to use [`core::result::Result`](https://doc.rust-lang.org/core/result/enum.Result.html) instead of `Option`
 ```rust
 enum Result<T, E> {
     Ok(T),

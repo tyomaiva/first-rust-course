@@ -10,6 +10,7 @@ Things that are easy to use from ordinary (non-embedded) applications:
   + OS takes care of emergency situations like the [stack overflow](https://en.wikipedia.org/wiki/Stack_overflow)
 + Read/write/create a file
 + Networking (TCP/IP)
+
 In general, it is relatively easy to write OS-agnostic code (apart from some things are not portable in principle).
 
 In bare-metal embedded systems, you normally instead
