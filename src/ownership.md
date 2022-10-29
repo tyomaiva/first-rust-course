@@ -161,7 +161,7 @@ fn main() {
 }
 ```
 + Code can be fixed by swapping two lines. Which ones?
- + NOTE: references have different scope rules than normal variables: the reference scope ends once it is used last (not at the end of the `{ ... }` block)
+ + NOTE: references have scope rules other than normal variables: the reference scope ends once the reference is /used/ last (not at the end of the `{ ... }` block). It's called [Non-Lexical Lifetimes (NLL)](https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes).
 
 Second trial (refactoring function into a method):
 ```rust
@@ -188,6 +188,17 @@ fn main() {
 }
 ```
 + We have two multiple borrows, but we don't violate any rules, since these two have different scopes.
+
+To get the value back from a reference, use the dereferencing syntax `*`:
+```rust,editable
+fn main() {
+    let value = 5;
+    let reference = &mut value;
+    *value += 1;
+}
+```
+
+> #### Exercises: 2, 3, 4, 7, 8, and 10 from [here](https://practice.rs/ownership/borrowing.html)
 
 ## Resources for deeper understanding
 + [Chapter 4](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html) of the Rust book

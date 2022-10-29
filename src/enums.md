@@ -1,7 +1,7 @@
 # Enums
 
 ## TODO
-+ Pattern matching
++ Pattern matching: exhaustive matching
 
 What do we do whenever a function either returns either some value or _no value at all_?
 + In C, and in the old-style C++, we use a null pointer for the latter case

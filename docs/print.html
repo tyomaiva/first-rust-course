@@ -684,7 +684,7 @@ fn main() {
 </code></pre></pre>
 <ul>
 <li>Code can be fixed by swapping two lines. Which ones?</li>
-<li>NOTE: references have different scope rules than normal variables: the reference scope ends once it is used last (not at the end of the <code>{ ... }</code> block)</li>
+<li>NOTE: references have scope rules other than normal variables: the reference scope ends once the reference is /used/ last (not at the end of the <code>{ ... }</code> block). It's called <a href="https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes">Non-Lexical Lifetimes (NLL)</a>.</li>
 </ul>
 <p>Second trial (refactoring function into a method):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
@@ -712,17 +712,78 @@ fn main() {
 <ul>
 <li>We have two multiple borrows, but we don't violate any rules, since these two have different scopes.</li>
 </ul>
+<p>To get the value back from a reference, use the dereferencing syntax <code>*</code>:</p>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let value = 5;
+    let reference = &amp;mut value;
+    *value += 1;
+}
+</code></pre></pre>
+<blockquote>
+<h4 id="exercises-2-3-4-7-8-and-10-from-here"><a class="header" href="#exercises-2-3-4-7-8-and-10-from-here">Exercises: 2, 3, 4, 7, 8, and 10 from <a href="https://practice.rs/ownership/borrowing.html">here</a></a></h4>
+</blockquote>
 <h2 id="resources-for-deeper-understanding-1"><a class="header" href="#resources-for-deeper-understanding-1">Resources for deeper understanding</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html">Chapter 4</a> of the Rust book</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="traits-and-generics"><a class="header" href="#traits-and-generics">Traits and generics</a></h1>
-<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
-<ul>
-<li>Good for dependency injection and mocking while testing</li>
-<li>Some objects can be neither copied nor cloned (makes sense for a unique resource like an open file)</li>
-</ul>
 <h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
+<blockquote>
+<h4 id="exercises-2-3-and-4-from-rust-by-practice"><a class="header" href="#exercises-2-3-and-4-from-rust-by-practice">Exercises 2, 3, and 4 from <a href="https://practice.rs/generics-traits/generics.html">Rust By Practice</a></a></h4>
+</blockquote>
+<h2 id="traits"><a class="header" href="#traits">Traits</a></h2>
+<p>Traits:</p>
+<ul>
+<li>Are the Rust approach to interfaces (contracts between different parts of the code)</li>
+<li>Are powered by generics, though generics do not necessarily involve traits</li>
+<li>Allow to write polymorphic code
+<ul>
+<li>Compile-time polymorphism (runtime polymorphism is also possible, but using a bit different mechanism)</li>
+</ul>
+</li>
+<li>Can be combined (composed)</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust editable">??????
+</code></pre></pre>
+<ul>
+<li>Compare this approach with the idiomatic hierarchy-based solution in pre-C++20 (multiple inheritance) which leads to the infamous <a href="https://en.wikipedia.org/wiki/Multiple_inheritance">diamond problem</a>. See more about the Rust and the diamond problem <a href="https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust/content/porting_from_cpp/multiple_inheritance.html">here</a>.</li>
+<li>Are good for dependency injection and mocking while testing
+<ul>
+<li>For example, you may emulate a hardware peripheral:</li>
+</ul>
+</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust editable">trait SerialPort {
+    fn read_byte(&amp;self) -&gt; u8;
+}
+
+struct SerialPortMock;
+
+impl SerialPort for SerialPortMock {
+    fn read_byte(&amp;self) -&gt; u8 {
+        0
+    }
+}
+
+fn process_serial_input&lt;T: SerialPort&gt;(port: &amp;T) {
+    println!(&quot;Serial port gives: {}&quot;, port.read_byte());
+}
+
+fn main() {
+    let mock = SerialPortMock;
+    process_serial_input(&amp;mock);
+    process_serial_input(&amp;mock);
+    process_serial_input(&amp;mock);
+}
+</code></pre></pre>
+<h2 id="standard-traits"><a class="header" href="#standard-traits">Standard traits</a></h2>
+<h3 id="copy-and-clone"><a class="header" href="#copy-and-clone"><code>Copy</code> and <code>Clone</code></a></h3>
+<ul>
+<li>Some objects can be neither copied nor cloned (makes sense for a unique resource like an open file or a hardware peripheral)</li>
+<li><code>Copy</code> is an example of a <em>marker</em> trait: it does not introduce any new methods or types, it only indicates whether a certain operation is possible with the associated type</li>
+<li>Some traits can be automatically derived</li>
+</ul>
+<h3 id="debug"><a class="header" href="#debug"><code>Debug</code></a></h3>
 <p>It's useful to dump contents of a variable, e.g. during the debugging</p>
 <pre><pre class="playground"><code class="language-rust">struct MyPoint {
     x: f64,
@@ -738,7 +799,7 @@ fn main() {
     let point = MyPoint::new(3., 4.);
     println!(&quot;The point is {:?}&quot;, point);
 </code></pre></pre>
-<p>Compiler tells that we need <code>Debug</code> trait and even suggests possible solutions</p>
+<p>Compiler tells that we need <a href="https://doc.rust-lang.org/beta/core/fmt/trait.Debug.html"><code>Debug</code></a> trait and even suggests two possible solutions</p>
 <blockquote>
 <p>note: add <code>#[derive(Debug)]</code> to <code>MyPoint</code> or manually <code>impl Debug for MyPoint</code></p>
 </blockquote>
@@ -746,9 +807,11 @@ fn main() {
 <li>Bad thing: we don't have <code>Debug</code> trait by default</li>
 <li>Good thing: we can write our custom implementation or derive a default implementation for free</li>
 </ul>
-<p>What is <a href="https://doc.rust-lang.org/beta/core/fmt/trait.Debug.html"><code>Debug</code></a></p>
-<h2 id="traits"><a class="header" href="#traits">Traits</a></h2>
-<p>Real-world trait: <a href="https://doc.rust-lang.org/core/fmt/trait.Write.html">core::fmt::Write</a></p>
+<!-- > #### Question why does the line below need `Debug`? --- we also need partialEq here,  -->
+<!-- ```rust,editable -->
+<!-- assert_eq!() -->
+<h2 id="corefmtwrite"><a class="header" href="#corefmtwrite"><code>core::fmt::Write</code></a></h2>
+<p>Documentation for <a href="https://doc.rust-lang.org/core/fmt/trait.Write.html">core::fmt::Write</a> says:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>trait Write {
@@ -773,7 +836,7 @@ fn main() {
 </ul>
 <blockquote>
 <h4 id="exercise-3"><a class="header" href="#exercise-3">Exercise</a></h4>
-<p>Implement a struct that implements <code>core::fmt::Write</code>, so that writing to that struct does several things:</p>
+<p>Design a struct that implements <code>core::fmt::Write</code>, so that writing to that struct does several things simultaneously:</p>
 <ul>
 <li>The message contents is printed on screen</li>
 <li>An internal statistical counter is updated (side effect). The counter keeps track of total number of characters being ever written</li>
@@ -781,15 +844,14 @@ fn main() {
 <li>(**) You print only whenever end-of-line is encountered in your message, but buffer the message otherwise (similar to <code>printf()</code> in C). Yes, <code>core::fmt::Write</code> is used for <em>unbuffered</em> writes, so such an implementation is not recommended for production use :-)</li>
 </ul>
 </blockquote>
-<p>Copy, Clone, Debug...</p>
 <h2 id="resources-for-deeper-understanding-2"><a class="header" href="#resources-for-deeper-understanding-2">Resources for deeper understanding</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/book/ch10-00-generics.html">Chapter 10</a> of the Rust book</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="enums"><a class="header" href="#enums">Enums</a></h1>
-<h2 id="todo-1"><a class="header" href="#todo-1">TODO</a></h2>
+<h2 id="todo"><a class="header" href="#todo">TODO</a></h2>
 <ul>
-<li>Pattern matching</li>
+<li>Pattern matching: exhaustive matching</li>
 </ul>
 <p>What do we do whenever a function either returns either some value or <em>no value at all</em>?</p>
 <ul>
@@ -961,6 +1023,11 @@ fn main() -&gt; ! {
 <li><code>cortex_m_rt</code> does linking (based on the layout in <code>memory.x</code> file) and RAM initialization for ARM Cortex-M chips</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-is-microbit"><a class="header" href="#what-is-microbit">What is Micro:bit?</a></h1>
+<p>The highlights of Micro:bit V2 <a href="https://github.com/microbit-foundation/microbit-v2-hardware/blob/main/V2.00/MicroBit_V2.0.0_S_schematic.PDF">schematics</a>:
+<img src="images/mcu_connections.png" alt="MCU connections" />
+<img src="images/led_matrix.png" alt="LEDs" /></p>
+<p>The NRF52833 diagram from <a href="https://infocenter.nordicsemi.com/index.jsp?topic=%2Fstruct_nrf52%2Fstruct%2Fnrf52833.html&amp;cp=3_1">the manufacturer</a>:
+<img src="images/NRF52833_diagram.png" alt="" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-led-matrix"><a class="header" href="#the-led-matrix">The LED matrix</a></h1>
 <p>Now it's time to control some of the board peripherals, we start with the 5x5 LED matrix. The new things that we need compared to the &quot;Hello World&quot; example are</p>
 <pre><code class="language-rust noplayground">// Add your code here ...
