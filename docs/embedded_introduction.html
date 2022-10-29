@@ -164,13 +164,13 @@
 <p>In bare-metal embedded systems, you normally instead</p>
 <ul>
 <li>Avoid heap whatsoever (RAM is quite limited)</li>
-<li>Make your own custom scheduler to provide multi-tasking
+<li>Make your own custom scheduler to provide multi-tasking (i.e., frequent switching between multiple tasks to make illusion of concurrent execution)
 <ul>
 <li>You often need a real-time response (e.g. every 1 millisecond, you need to finish processing new chunk of sensor data)</li>
 <li>Data races between different tasks are easily introduced</li>
 </ul>
 </li>
-<li>Are responsible for writing your application into permanent (flash) memory and then initialize the RAM layout at runtime</li>
+<li>Are responsible for <!-- writing your application into permanent (flash) memory and then --> initializing the RAM layout at runtime</li>
 <li>Have access to all the peripherals - easy to ruin everything</li>
 <li>Write/tailor drivers for the I/O (like accessing an SD card or an Ethernet controller)</li>
 <li>Have to understand board-specific hardware aspects even simply to make sure your software doesn't burn the board
@@ -185,7 +185,7 @@
 <ul>
 <li>You don't have access to the Rust <a href="https://doc.rust-lang.org/std/">standard library</a> (no off-the-shelf variable-size data structures and I/O).
 <ul>
-<li>Nevertheless all of the <code>core</code> (i.e., almost all that we've covered in previous Sections) is available.</li>
+<li>Nevertheless all of the <a href="https://doc.rust-lang.org/core/"><code>core</code></a> (i.e., almost all that we've covered in previous Sections) is still available.</li>
 </ul>
 </li>
 <li>No ordinary <code>main()</code> as the default entry point <!-- : you have to do the steps preceding `main()` as well. -->
@@ -197,7 +197,7 @@
 </ul>
 <p>You can work at 3 different abstraction layers:</p>
 <ul>
-<li>Peripheral-Access Crate (PAC) is the lowest layer, you access here individual MCU registers. <a href="https://crates.io/crates/nrf52833-pac/">nrf52833-pac</a> is the PAC that we actually use under the hood for Micro:bit V2. This crate is generated automatically from an <a href="https://raw.githubusercontent.com/nrf-rs/nrf-pacs/master/svds/nrf52833.svd">XML file</a> provided by the manufacturer.
+<li>Peripheral-Access Crate (PAC) is the lowest layer, you access here individual MCU (MicroController Unit) registers. <a href="https://crates.io/crates/nrf52833-pac/">nrf52833-pac</a> is the PAC that we actually use under the hood for Micro:bit V2. This crate is generated automatically from an <a href="https://raw.githubusercontent.com/nrf-rs/nrf-pacs/master/svds/nrf52833.svd">XML file</a> provided by the manufacturer.
 <ul>
 <li>Normally you want to stay away from this layer, unless higher-level layers do no provide all the functionality you need (or maybe you need to <em>optimize</em> the existing functionality).</li>
 </ul>

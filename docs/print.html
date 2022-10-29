@@ -986,13 +986,13 @@ fn main() {
 <p>In bare-metal embedded systems, you normally instead</p>
 <ul>
 <li>Avoid heap whatsoever (RAM is quite limited)</li>
-<li>Make your own custom scheduler to provide multi-tasking
+<li>Make your own custom scheduler to provide multi-tasking (i.e., frequent switching between multiple tasks to make illusion of concurrent execution)
 <ul>
 <li>You often need a real-time response (e.g. every 1 millisecond, you need to finish processing new chunk of sensor data)</li>
 <li>Data races between different tasks are easily introduced</li>
 </ul>
 </li>
-<li>Are responsible for writing your application into permanent (flash) memory and then initialize the RAM layout at runtime</li>
+<li>Are responsible for <!-- writing your application into permanent (flash) memory and then --> initializing the RAM layout at runtime</li>
 <li>Have access to all the peripherals - easy to ruin everything</li>
 <li>Write/tailor drivers for the I/O (like accessing an SD card or an Ethernet controller)</li>
 <li>Have to understand board-specific hardware aspects even simply to make sure your software doesn't burn the board
@@ -1007,7 +1007,7 @@ fn main() {
 <ul>
 <li>You don't have access to the Rust <a href="https://doc.rust-lang.org/std/">standard library</a> (no off-the-shelf variable-size data structures and I/O).
 <ul>
-<li>Nevertheless all of the <code>core</code> (i.e., almost all that we've covered in previous Sections) is available.</li>
+<li>Nevertheless all of the <a href="https://doc.rust-lang.org/core/"><code>core</code></a> (i.e., almost all that we've covered in previous Sections) is still available.</li>
 </ul>
 </li>
 <li>No ordinary <code>main()</code> as the default entry point <!-- : you have to do the steps preceding `main()` as well. -->
@@ -1019,7 +1019,7 @@ fn main() {
 </ul>
 <p>You can work at 3 different abstraction layers:</p>
 <ul>
-<li>Peripheral-Access Crate (PAC) is the lowest layer, you access here individual MCU registers. <a href="https://crates.io/crates/nrf52833-pac/">nrf52833-pac</a> is the PAC that we actually use under the hood for Micro:bit V2. This crate is generated automatically from an <a href="https://raw.githubusercontent.com/nrf-rs/nrf-pacs/master/svds/nrf52833.svd">XML file</a> provided by the manufacturer.
+<li>Peripheral-Access Crate (PAC) is the lowest layer, you access here individual MCU (MicroController Unit) registers. <a href="https://crates.io/crates/nrf52833-pac/">nrf52833-pac</a> is the PAC that we actually use under the hood for Micro:bit V2. This crate is generated automatically from an <a href="https://raw.githubusercontent.com/nrf-rs/nrf-pacs/master/svds/nrf52833.svd">XML file</a> provided by the manufacturer.
 <ul>
 <li>Normally you want to stay away from this layer, unless higher-level layers do no provide all the functionality you need (or maybe you need to <em>optimize</em> the existing functionality).</li>
 </ul>
@@ -1037,9 +1037,15 @@ fn main() {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 <h2 id="setting-up-the-environment-1"><a class="header" href="#setting-up-the-environment-1">Setting up the environment</a></h2>
 <p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>. Make sure you look at the instructions for Micro:bit V2 (not V1)!</p>
+<pre><code class="language-shell">rustup target add thumbv7em-none-eabihf
+cargo install cargo-embed ?????
+</code></pre>
 <h2 id="first-code-example"><a class="header" href="#first-code-example">First code example</a></h2>
 <p>Get template that is tailored to our board from <a href="https://github.com/tyomaiva/first-rust-course/blob/master/microbit_template">GitHub</a>. For more details, look at the <a href="https://github.com/rust-embedded/cortex-m-quickstart">original template</a>.</p>
-<p>Run it so: ???</p>
+<p>Attach the Micro:bit using USB, go to the root of the template project,  and run it:</p>
+<pre><code class="language-shell">cargo embed --target thumbv7em-none-eabihf --bin hello
+</code></pre>
+<p>The contents of <code>src/bin/hello.rs</code>:</p>
 <pre><code class="language-rust noplayground">// We don't have access to the Rust standard library
 #![no_std]
 // There is no standard main(), we cook it up ourselves
@@ -1074,8 +1080,8 @@ fn main() -&gt; ! {
 <p>The highlights of Micro:bit V2 <a href="https://github.com/microbit-foundation/microbit-v2-hardware/blob/main/V2.00/MicroBit_V2.0.0_S_schematic.PDF">schematics</a>:
 <img src="images/mcu_connections.png" alt="MCU connections" />
 <img src="images/led_matrix.png" alt="LEDs" /></p>
-<p>The NRF52833 diagram from <a href="https://infocenter.nordicsemi.com/index.jsp?topic=%2Fstruct_nrf52%2Fstruct%2Fnrf52833.html&amp;cp=3_1">the manufacturer</a>:
-<img src="images/NRF52833_diagram.png" alt="" /></p>
+<p>The NRF52833 functional diagram from <a href="https://infocenter.nordicsemi.com/index.jsp?topic=%2Fstruct_nrf52%2Fstruct%2Fnrf52833.html&amp;cp=3_1">the manufacturer</a>:
+<img src="images/NRF52833_diagram.png" alt="MCU" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-led-matrix"><a class="header" href="#the-led-matrix">The LED matrix</a></h1>
 <p>Now it's time to control some of the board peripherals, we start with the 5x5 LED matrix. The new things that we need compared to the &quot;Hello World&quot; example are</p>
 <pre><code class="language-rust noplayground">// Add your code here ...

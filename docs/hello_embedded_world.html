@@ -147,9 +147,15 @@
                         <h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 <h2 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting up the environment</a></h2>
 <p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>. Make sure you look at the instructions for Micro:bit V2 (not V1)!</p>
+<pre><code class="language-shell">rustup target add thumbv7em-none-eabihf
+cargo install cargo-embed ?????
+</code></pre>
 <h2 id="first-code-example"><a class="header" href="#first-code-example">First code example</a></h2>
 <p>Get template that is tailored to our board from <a href="https://github.com/tyomaiva/first-rust-course/blob/master/microbit_template">GitHub</a>. For more details, look at the <a href="https://github.com/rust-embedded/cortex-m-quickstart">original template</a>.</p>
-<p>Run it so: ???</p>
+<p>Attach the Micro:bit using USB, go to the root of the template project,  and run it:</p>
+<pre><code class="language-shell">cargo embed --target thumbv7em-none-eabihf --bin hello
+</code></pre>
+<p>The contents of <code>src/bin/hello.rs</code>:</p>
 <pre><code class="language-rust noplayground">// We don't have access to the Rust standard library
 #![no_std]
 // There is no standard main(), we cook it up ourselves

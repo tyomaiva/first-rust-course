@@ -4,5 +4,5 @@ The highlights of Micro:bit V2 [schematics](https://github.com/microbit-foundati
 ![MCU connections](images/mcu_connections.png)
 ![LEDs](images/led_matrix.png)
 
-The NRF52833 diagram from [the manufacturer](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fstruct_nrf52%2Fstruct%2Fnrf52833.html&cp=3_1):
-![](images/NRF52833_diagram.png)
+The NRF52833 functional diagram from [the manufacturer](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fstruct_nrf52%2Fstruct%2Fnrf52833.html&cp=3_1):
+![MCU](images/NRF52833_diagram.png)
