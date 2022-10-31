@@ -179,13 +179,19 @@
 </ul>
 </li>
 </ul>
-<p>Embedded development sounds scary... Can Rust help here?</p>
+<p>There is one reward in embedded development: you have the <em>full</em> overview of your code (including all the dependencies).</p>
+<ul>
+<li>You design the <em>whole</em> application. Not only the userland part.</li>
+<li>You can inspect any function you use, in principle. No &quot;hidden layer&quot; (like the OS kernel) beneath what you write. No external library of unknown/uncontrolled version.</li>
+</ul>
+<p>Anyways, embedded development sounds scary... Can Rust help here?</p>
 <h2 id="embedded-rust"><a class="header" href="#embedded-rust">Embedded Rust</a></h2>
 <p>Embedded Rust is different from normal Rust:</p>
 <ul>
 <li>You don't have access to the Rust <a href="https://doc.rust-lang.org/std/">standard library</a> (no off-the-shelf variable-size data structures and I/O).
 <ul>
 <li>Nevertheless all of the <a href="https://doc.rust-lang.org/core/"><code>core</code></a> (i.e., almost all that we've covered in previous Sections) is still available.</li>
+<li>All the safety features of Rust are also in place.</li>
 </ul>
 </li>
 <li>No ordinary <code>main()</code> as the default entry point <!-- : you have to do the steps preceding `main()` as well. -->

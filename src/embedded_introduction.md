@@ -24,12 +24,17 @@ In bare-metal embedded systems, you normally instead
 + Have to understand board-specific hardware aspects even simply to make sure your software doesn't burn the board
   + Logic interfacing, motor control, power supplies, etc.
 
-Embedded development sounds scary... Can Rust help here?
+There is one reward in embedded development: you have the _full_ overview of your code (including all the dependencies).
++ You design the _whole_ application. Not only the userland part.
++ You can inspect any function you use, in principle. No "hidden layer" (like the OS kernel) beneath what you write. No external library of unknown/uncontrolled version.
+
+Anyways, embedded development sounds scary... Can Rust help here?
 
 ## Embedded Rust
 Embedded Rust is different from normal Rust:
 + You don't have access to the Rust [standard library](https://doc.rust-lang.org/std/) (no off-the-shelf variable-size data structures and I/O).
   + Nevertheless all of the [`core`](https://doc.rust-lang.org/core/) (i.e., almost all that we've covered in previous Sections) is still available.
+  + All the safety features of Rust are also in place.
 + No ordinary `main()` as the default entry point <!-- : you have to do the steps preceding `main()` as well. -->
   + The standard `main()` expects command-line arguments as input, which don't make sense in the embedded context. And you never return from `main()` either.
 + Panic behaviour is undefined by default: you can (and should) tailor it to your needs.
