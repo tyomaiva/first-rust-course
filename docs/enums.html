@@ -160,11 +160,12 @@ fn main() {
     }
 }
 </code></pre></pre>
+<p>Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.</p>
 <ul>
-<li>Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.</li>
+<li>Good safety feature if you add a new variant and forget to process it somewhere.</li>
 </ul>
 <h2 id="option"><a class="header" href="#option"><code>Option</code></a></h2>
-<p>What do we do whenever a function either returns either some value or <em>no value at all</em>?</p>
+<p>How to implement a function that either returns either some value or <em>no value at all</em>?</p>
 <ul>
 <li>In C and in the old-style C++, we use a null pointer for the latter case</li>
 <li>In Rust, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a>:</li>
@@ -178,9 +179,9 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <ul>
-<li>Two enum variants store <em>different</em> values: <code>None</code> does not store anything, <code>Some</code> stores value of <code>T</code>.</li>
+<li>Two enum variants store <em>different</em> values: <code>None</code> does not store anything, <code>Some</code> stores a value of <code>T</code>.</li>
 <li><code>Option</code> is similar to C++ <a href="https://en.cppreference.com/w/cpp/utility/optional"><code>std::optional</code></a>, which was introduced only in C++17.</li>
-<li>For types <code>T</code> that can never be 0 (in binary representation), Rust optimizes <code>None</code> to a null pointer, so no performance degradation at all!</li>
+<li>For types <code>T</code> that can never be 0 (in binary representation), Rust optimizes <code>None</code> to a null pointer, so no performance loss at all!</li>
 </ul>
 <p><code>Option</code> has many batteries included:</p>
 <ul>

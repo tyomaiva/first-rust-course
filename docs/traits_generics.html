@@ -198,7 +198,7 @@ fn main() {
 </ul>
 <h2 id="traits-from-core"><a class="header" href="#traits-from-core">Traits from <code>core</code></a></h2>
 <h3 id="copy-and-clone"><a class="header" href="#copy-and-clone"><code>Copy</code> and <code>Clone</code></a></h3>
-<p><a href="https://doc.rust-lang.org/core/marker/trait.Copy.html"><code>core::marker::Copy</code></a> is a trait used to simply copy values bit-by-bit, instead of moving the value</p>
+<p><a href="https://doc.rust-lang.org/core/marker/trait.Copy.html"><code>core::marker::Copy</code></a> is a trait used to implicitly copy values bit-by-bit, instead of moving the value</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Copy: Clone { }
@@ -221,7 +221,7 @@ fn main() {
 <ul>
 <li>Differences between cloning and copying:
 <ul>
-<li>If you want to clone, you always should do this explicitly, <code>a = b.clone();</code> No implicit cloning!</li>
+<li>If you want to clone, you always should do this explicitly, <code>a = b.clone();</code> No implicit cloning! (In this particular case, we get two values and two owners, <code>a</code> and <code>b</code>, <em>similar</em> to copying.)</li>
 <li>Cloning can be equivalent to copying, but can be totally different. On contrary, copying cannot be overriden.</li>
 </ul>
 </li>
@@ -235,7 +235,7 @@ struct MyPoint { x: f64, y: f64 }
 <span class="boring">}
 </span></code></pre></pre>
 <ul>
-<li>Some values can be neither copied nor cloned: for example for a unique resource like an open file or a hardware peripheral</li>
+<li>Some values can be neither copied nor cloned (only moved): for example for a unique resource like an open file or a hardware peripheral</li>
 </ul>
 <h3 id="debug"><a class="header" href="#debug"><code>Debug</code></a></h3>
 <p>It's useful to dump contents of a variable, e.g. during the debugging or error logging</p>
@@ -260,9 +260,7 @@ fn main() {
 <!-- assert_eq!() -->
 <h2 id="corefmtwrite"><a class="header" href="#corefmtwrite"><code>core::fmt::Write</code></a></h2>
 <p>Documentation for <a href="https://doc.rust-lang.org/core/fmt/trait.Write.html">core::fmt::Write</a> says:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>trait Write {
+<pre><code class="language-rust noplayground">trait Write {
     // Required method:
     fn write_str(&amp;mut self, s: &amp;str) -&gt; Result;
 
@@ -270,8 +268,7 @@ fn main() {
     fn write_char(&amp;mut self, c: char) -&gt; Result { ... }
     fn write_fmt(&amp;mut self, args: Arguments&lt;'_&gt;) -&gt; Result { ... }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <ul>
 <li>This trait is normally used for unbuffered writes (like appending characters to a string)</li>
 <li>Allows to use <code>println!</code>-like formatted printing</li>

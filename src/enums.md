@@ -16,10 +16,11 @@ fn main() {
     }
 }
 ```
-+ Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.
+Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.
++ Good safety feature if you add a new variant and forget to process it somewhere.
 
 ## `Option`
-What do we do whenever a function either returns either some value or _no value at all_?
+How to implement a function that either returns either some value or _no value at all_?
 + In C and in the old-style C++, we use a null pointer for the latter case
 + In Rust, it is idiomatic to use [`core::option::Option`](https://doc.rust-lang.org/core/option/enum.Option.html):
 ```rust
@@ -28,9 +29,9 @@ enum Option<T> {
     None
 }
 ```
-+ Two enum variants store _different_ values: `None` does not store anything, `Some` stores value of `T`.
++ Two enum variants store _different_ values: `None` does not store anything, `Some` stores a value of `T`.
 + `Option` is similar to C++ [`std::optional`](https://en.cppreference.com/w/cpp/utility/optional), which was introduced only in C++17.
-+ For types `T` that can never be 0 (in binary representation), Rust optimizes `None` to a null pointer, so no performance degradation at all!
++ For types `T` that can never be 0 (in binary representation), Rust optimizes `None` to a null pointer, so no performance loss at all!
 
 `Option` has many batteries included:
 + `#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]`

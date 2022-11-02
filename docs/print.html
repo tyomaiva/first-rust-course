@@ -684,7 +684,7 @@ fn main() {
 </code></pre></pre>
 <ul>
 <li>Code can be fixed by swapping two lines. Which ones?</li>
-<li>NOTE: references have scope rules other than normal variables: the reference scope ends once the reference is /used/ last (not at the end of the <code>{ ... }</code> block). It's called <a href="https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes">Non-Lexical Lifetimes (NLL)</a>.</li>
+<li>NOTE: references have scope rules other than normal variables: the reference scope ends once the reference is <em>used</em> last (not at the end of the <code>{ ... }</code> block). It's called <a href="https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes">Non-Lexical Lifetimes (NLL)</a>.</li>
 </ul>
 <p>Second trial (refactoring function into a method):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
@@ -780,7 +780,7 @@ fn main() {
 </ul>
 <h2 id="traits-from-core"><a class="header" href="#traits-from-core">Traits from <code>core</code></a></h2>
 <h3 id="copy-and-clone"><a class="header" href="#copy-and-clone"><code>Copy</code> and <code>Clone</code></a></h3>
-<p><a href="https://doc.rust-lang.org/core/marker/trait.Copy.html"><code>core::marker::Copy</code></a> is a trait used to simply copy values bit-by-bit, instead of moving the value</p>
+<p><a href="https://doc.rust-lang.org/core/marker/trait.Copy.html"><code>core::marker::Copy</code></a> is a trait used to implicitly copy values bit-by-bit, instead of moving the value</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Copy: Clone { }
@@ -803,7 +803,7 @@ fn main() {
 <ul>
 <li>Differences between cloning and copying:
 <ul>
-<li>If you want to clone, you always should do this explicitly, <code>a = b.clone();</code> No implicit cloning!</li>
+<li>If you want to clone, you always should do this explicitly, <code>a = b.clone();</code> No implicit cloning! (In this particular case, we get two values and two owners, <code>a</code> and <code>b</code>, <em>similar</em> to copying.)</li>
 <li>Cloning can be equivalent to copying, but can be totally different. On contrary, copying cannot be overriden.</li>
 </ul>
 </li>
@@ -817,7 +817,7 @@ struct MyPoint { x: f64, y: f64 }
 <span class="boring">}
 </span></code></pre></pre>
 <ul>
-<li>Some values can be neither copied nor cloned: for example for a unique resource like an open file or a hardware peripheral</li>
+<li>Some values can be neither copied nor cloned (only moved): for example for a unique resource like an open file or a hardware peripheral</li>
 </ul>
 <h3 id="debug"><a class="header" href="#debug"><code>Debug</code></a></h3>
 <p>It's useful to dump contents of a variable, e.g. during the debugging or error logging</p>
@@ -842,9 +842,7 @@ fn main() {
 <!-- assert_eq!() -->
 <h2 id="corefmtwrite"><a class="header" href="#corefmtwrite"><code>core::fmt::Write</code></a></h2>
 <p>Documentation for <a href="https://doc.rust-lang.org/core/fmt/trait.Write.html">core::fmt::Write</a> says:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>trait Write {
+<pre><code class="language-rust noplayground">trait Write {
     // Required method:
     fn write_str(&amp;mut self, s: &amp;str) -&gt; Result;
 
@@ -852,8 +850,7 @@ fn main() {
     fn write_char(&amp;mut self, c: char) -&gt; Result { ... }
     fn write_fmt(&amp;mut self, args: Arguments&lt;'_&gt;) -&gt; Result { ... }
 }
-<span class="boring">}
-</span></code></pre></pre>
+</code></pre>
 <ul>
 <li>This trait is normally used for unbuffered writes (like appending characters to a string)</li>
 <li>Allows to use <code>println!</code>-like formatted printing</li>
@@ -895,11 +892,12 @@ fn main() {
     }
 }
 </code></pre></pre>
+<p>Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.</p>
 <ul>
-<li>Pattern matching is exhaustive: if you forget to include an enum variant, code won't compile.</li>
+<li>Good safety feature if you add a new variant and forget to process it somewhere.</li>
 </ul>
 <h2 id="option"><a class="header" href="#option"><code>Option</code></a></h2>
-<p>What do we do whenever a function either returns either some value or <em>no value at all</em>?</p>
+<p>How to implement a function that either returns either some value or <em>no value at all</em>?</p>
 <ul>
 <li>In C and in the old-style C++, we use a null pointer for the latter case</li>
 <li>In Rust, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a>:</li>
@@ -913,9 +911,9 @@ fn main() {
 <span class="boring">}
 </span></code></pre></pre>
 <ul>
-<li>Two enum variants store <em>different</em> values: <code>None</code> does not store anything, <code>Some</code> stores value of <code>T</code>.</li>
+<li>Two enum variants store <em>different</em> values: <code>None</code> does not store anything, <code>Some</code> stores a value of <code>T</code>.</li>
 <li><code>Option</code> is similar to C++ <a href="https://en.cppreference.com/w/cpp/utility/optional"><code>std::optional</code></a>, which was introduced only in C++17.</li>
-<li>For types <code>T</code> that can never be 0 (in binary representation), Rust optimizes <code>None</code> to a null pointer, so no performance degradation at all!</li>
+<li>For types <code>T</code> that can never be 0 (in binary representation), Rust optimizes <code>None</code> to a null pointer, so no performance loss at all!</li>
 </ul>
 <p><code>Option</code> has many batteries included:</p>
 <ul>

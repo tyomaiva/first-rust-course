@@ -161,7 +161,7 @@ fn main() {
 }
 ```
 + Code can be fixed by swapping two lines. Which ones?
- + NOTE: references have scope rules other than normal variables: the reference scope ends once the reference is /used/ last (not at the end of the `{ ... }` block). It's called [Non-Lexical Lifetimes (NLL)](https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes).
+ + NOTE: references have scope rules other than normal variables: the reference scope ends once the reference is _used_ last (not at the end of the `{ ... }` block). It's called [Non-Lexical Lifetimes (NLL)](https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes).
 
 Second trial (refactoring function into a method):
 ```rust
