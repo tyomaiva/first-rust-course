@@ -24,3 +24,5 @@ _Out_ of scope:
 + [Teaching material](https://ferrous-systems.github.io/teaching-material/) developed by Ferrous Systems, a company which specializes in Rust development (including Embedded Rust) and in providing Rust trainings
 + The official [Rust book](https://doc.rust-lang.org/book/) is written extremely clear and is quite comprehensive. Absolute recommendation if you are serious about Rust!
 + [The Discovery book](https://docs.rust-embedded.org/discovery/microbit/) is an introductory resource on Embedded Rust using the same hardware platform that we cover here
+
+<p style="text-align: center;"><img src="https://visitor-badge.glitch.me/badge?page_id=https://tyomaiva.github.io/first-rust-course/&left_color=green&right_color=red" alt="Visitors" /></p>

@@ -94,7 +94,7 @@ fn main() {
 ```
 
 ## Borrow checker
-We don't actually need an independent copy of `MyPoint` on every method call. (We get now in total 3 different copies of the same value!) What we really need is to read the value, how to do that? _Borrowing_ is the way to go.
+We don't actually need an independent copy of `MyPoint` on every method call. (We get now in total 3 different copies of the same value!) What we really need is only to read the value, how to do that? _Borrowing_ is the way to go.
 
 Borrow rules:
 + You can access a value without owning it. You are then _borrowing_ it, which basically means you have a reference (or a pointer, if we dig at lower level) to the value
@@ -192,9 +192,9 @@ fn main() {
 To get the value back from a reference, use the dereferencing syntax `*`:
 ```rust,editable
 fn main() {
-    let value = 5;
+    let mut value = 5;
     let reference = &mut value;
-    *value += 1;
+    *reference += 1;
 }
 ```
 

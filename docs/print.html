@@ -172,6 +172,7 @@
 <li>The official <a href="https://doc.rust-lang.org/book/">Rust book</a> is written extremely clear and is quite comprehensive. Absolute recommendation if you are serious about Rust!</li>
 <li><a href="https://docs.rust-embedded.org/discovery/microbit/">The Discovery book</a> is an introductory resource on Embedded Rust using the same hardware platform that we cover here</li>
 </ul>
+<p style="text-align: center;"><img src="https://visitor-badge.glitch.me/badge?page_id=https://tyomaiva.github.io/first-rust-course/&left_color=green&right_color=red" alt="Visitors" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="setup"><a class="header" href="#setup">Setup</a></h1>
 <blockquote>
 <p><em>Note</em>: this Section is optional for the first part of the course. You need it only whenever you want to run the code examples <em>locally</em> on your system. Otherwise, use the online sandbox <a href="https://play.rust-lang.org/">Rust Playground</a>.
@@ -611,7 +612,7 @@ fn main() {
 }
 </code></pre></pre>
 <h2 id="borrow-checker"><a class="header" href="#borrow-checker">Borrow checker</a></h2>
-<p>We don't actually need an independent copy of <code>MyPoint</code> on every method call. (We get now in total 3 different copies of the same value!) What we really need is to read the value, how to do that? <em>Borrowing</em> is the way to go.</p>
+<p>We don't actually need an independent copy of <code>MyPoint</code> on every method call. (We get now in total 3 different copies of the same value!) What we really need is only to read the value, how to do that? <em>Borrowing</em> is the way to go.</p>
 <p>Borrow rules:</p>
 <ul>
 <li>You can access a value without owning it. You are then <em>borrowing</em> it, which basically means you have a reference (or a pointer, if we dig at lower level) to the value</li>
@@ -714,9 +715,9 @@ fn main() {
 </ul>
 <p>To get the value back from a reference, use the dereferencing syntax <code>*</code>:</p>
 <pre><pre class="playground"><code class="language-rust editable">fn main() {
-    let value = 5;
+    let mut value = 5;
     let reference = &amp;mut value;
-    *value += 1;
+    *reference += 1;
 }
 </code></pre></pre>
 <blockquote>
