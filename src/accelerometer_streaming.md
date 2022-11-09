@@ -4,6 +4,7 @@ Micro:bit has a built-in accelerometer that can communicate with the CPU using I
 
 > #### Exercise
 > Design an application that reads accelerometer values for X-, Y-, and Z-accelerations every 0.5 second and sends them to your PC using UART.
+> + Test it by shaking the board and observing the changes in resulting readings.
 
 Useful code fragments:
 ```rust,noplayground

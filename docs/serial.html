@@ -173,7 +173,7 @@ fn main() -&gt; ! {
 // Add your code here ...
 }
 </code></pre>
-<p>Apart from Micro:bit, we need to send and receive messages on the <em>host computer</em> somehow. One way is to use a standard tool (PuTTY on Windows, minicom on Linux), but it's more fun to use more Rust and less external applications. So, take code from <a href="https://github.com/tyomaiva/first-rust-course/blob/master/serial_port_processing">GitHub</a> and run it in a separate window using <code>cargo run</code>.</p>
+<p>Apart from Micro:bit, we need to send and receive messages on the <em>host computer</em> somehow. One way is to use a standard tool (PuTTY on Windows, minicom on Linux), but it's more fun to use more Rust and less external applications. So, take code from <a href="https://github.com/tyomaiva/first-rust-course/blob/master/serial_port_processing">GitHub</a> and run it in a separate window using <code>cargo run</code>. (Make sure to run it a couple of seconds earlier than the Micro:bit application, in order to capture the incoming message.)</p>
 <p><a href="https://docs.rs/microbit-v2/latest/microbit/hal/uarte/struct.Uarte.html"><code>microbit::hal::uarte::Uarte</code></a> implements</p>
 <ul>
 <li><code>read()</code> and <code>write()</code> methods, which receive and send serial messages, respectively</li>

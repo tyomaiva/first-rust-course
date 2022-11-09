@@ -11,7 +11,7 @@ fn main() {
     let port_name = &ports[0].port_name;
     println!("The port we gonna use is {}.", port_name);
     let mut port = serialport::new(port_name, 115_200)
-        .timeout(Duration::from_millis(10_000))
+        .timeout(Duration::from_millis(15_000))
         .open()
         .expect("Failed to open the port");
 
