@@ -5,13 +5,13 @@ Apart from the general Rust environment (including the Rust compiler and Cargo) 
 
 ```shell
 rustup target add thumbv7em-none-eabihf
-cargo install cargo-embed ?????
+cargo install cargo-embed
 ```
 
 ## First code example
 Get template that is tailored to our board from [GitHub](https://github.com/tyomaiva/first-rust-course/blob/master/microbit_template). For more details, look at the [original template](https://github.com/rust-embedded/cortex-m-quickstart).
 
-Attach the Micro:bit using USB, go to the root of the template project,  and run it:
+Attach the Micro:bit using USB, go to the root of the template project, and run it:
 ```shell
 cargo embed --target thumbv7em-none-eabihf --bin hello
 ```
@@ -24,7 +24,8 @@ The contents of `src/bin/hello.rs`:
 #![no_main]
 
 // Implements a panic handler for us.
-// The handler conveniently logs the error message to RTT before entering an infinite loop.
+// The handler conveniently logs the error message to RTT
+// before entering an infinite loop.
 use panic_rtt_target as _;
 // Enables to capture the output from Micro:bit while debugging, using the so-called
 // Real-Time Transfer (RTT). Look at https://docs.rs/rtt-target/ for more details.

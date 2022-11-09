@@ -145,6 +145,57 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="serial-communication-with-uart"><a class="header" href="#serial-communication-with-uart">Serial communication with UART</a></h1>
+<p>Universal Asynchronous Receiver-Transmitter (UART)</p>
+<ul>
+<li>Is a serial-communication protocol (data is sent serially, usually byte-by-byte)</li>
+<li>Full duplex (reception and transmission do not interfere with each other)</li>
+<li>More details are <a href="https://docs.rust-embedded.org/discovery/microbit/06-serial-communication/index.html">here</a></li>
+</ul>
+<p>Code for Micro:bit:</p>
+<pre><code class="language-rust noplayground">use microbit::hal::uarte;
+
+// Add your code here ...
+
+#[entry]
+fn main() -&gt; ! {
+    rtt_init_print!();
+    let board = microbit::Board::take().unwrap();
+
+    let mut serial = uarte::Uarte::new(
+        board.UARTE0,
+        board.uart.into(),
+        uarte::Parity::EXCLUDED,
+        uarte::Baudrate::BAUD115200,
+    );
+
+    display_message(&amp;mut serial, &quot;Hello, do you see me?&quot;);
+
+// Add your code here ...
+}
+</code></pre>
+<p>Apart from Micro:bit, we need to send and receive messages on the <em>host computer</em> somehow. One way is to use a standard tool (PuTTY on Windows, minicom on Linux), but it's more fun to use more Rust and less external applications. So, take code from <a href="https://github.com/tyomaiva/first-rust-course/blob/master/serial_port_processing">GitHub</a> and run it in a separate window using <code>cargo run</code>.</p>
+<p><a href="https://docs.rs/microbit-v2/latest/microbit/hal/uarte/struct.Uarte.html"><code>microbit::hal::uarte::Uarte</code></a> implements</p>
+<ul>
+<li><code>read()</code> and <code>write()</code> methods, which receive and send serial messages, respectively</li>
+<li><code>core::fmt::Write</code> trait (see <a href="./traits_generics.html">Section</a>)</li>
+</ul>
+<blockquote>
+<h4 id="exercise"><a class="header" href="#exercise">Exercise</a></h4>
+<ul>
+<li>Implement a standalone function <code>display_message()</code> that receives instance of <code>Uarte</code> and a message string (more precisely, a string slice, <code>&amp;str</code>) and does two things at the same time:
+<ul>
+<li>Sends the message via <code>Uarte</code></li>
+<li>Prints the message using <code>rprintln!</code></li>
+</ul>
+</li>
+<li>Make <code>display_message()</code> generic over any type that implements <code>core::fmt::Write</code> so that mocking of the UART peripheral becomes possible, in principle</li>
+<li>Echo the incoming messages back in an infinite loop using <code>display_message()</code>
+<ul>
+<li>Hint: use <a href="https://doc.rust-lang.org/beta/core/str/fn.from_utf8.html"><code>core::str::from_utf8()</code></a> to convert result of <code>read()</code> to <code>&amp;str</code></li>
+</ul>
+</li>
+</ul>
+</blockquote>
 
                     </main>
 

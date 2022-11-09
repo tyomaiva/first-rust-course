@@ -148,11 +148,11 @@
 <h2 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting up the environment</a></h2>
 <p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>. Make sure you look at the instructions for Micro:bit V2 (not V1)!</p>
 <pre><code class="language-shell">rustup target add thumbv7em-none-eabihf
-cargo install cargo-embed ?????
+cargo install cargo-embed
 </code></pre>
 <h2 id="first-code-example"><a class="header" href="#first-code-example">First code example</a></h2>
 <p>Get template that is tailored to our board from <a href="https://github.com/tyomaiva/first-rust-course/blob/master/microbit_template">GitHub</a>. For more details, look at the <a href="https://github.com/rust-embedded/cortex-m-quickstart">original template</a>.</p>
-<p>Attach the Micro:bit using USB, go to the root of the template project,  and run it:</p>
+<p>Attach the Micro:bit using USB, go to the root of the template project, and run it:</p>
 <pre><code class="language-shell">cargo embed --target thumbv7em-none-eabihf --bin hello
 </code></pre>
 <p>The contents of <code>src/bin/hello.rs</code>:</p>
@@ -162,7 +162,8 @@ cargo install cargo-embed ?????
 #![no_main]
 
 // Implements a panic handler for us.
-// The handler conveniently logs the error message to RTT before entering an infinite loop.
+// The handler conveniently logs the error message to RTT
+// before entering an infinite loop.
 use panic_rtt_target as _;
 // Enables to capture the output from Micro:bit while debugging, using the so-called
 // Real-Time Transfer (RTT). Look at https://docs.rs/rtt-target/ for more details.
