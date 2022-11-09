@@ -146,7 +146,7 @@
                     <main>
                         <h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 <h2 id="setting-up-the-environment"><a class="header" href="#setting-up-the-environment">Setting up the environment</a></h2>
-<p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>. Make sure you look at the instructions for Micro:bit V2 (not V1)!</p>
+<p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>. Make sure you look at the instructions for Micro:bit V2 (not V1)! The most important steps (apart from installing the ARM GNU toolchain and, in case of Linux, changing some permissions) are:</p>
 <pre><code class="language-shell">rustup target add thumbv7em-none-eabihf
 cargo install cargo-embed
 </code></pre>
@@ -185,7 +185,7 @@ fn main() -&gt; ! {
 }
 </code></pre>
 <ul>
-<li><code>cortex_m_rt</code> does linking (based on the layout in <code>memory.x</code> file) and RAM initialization for ARM Cortex-M chips</li>
+<li><code>cortex_m_rt</code> provides linking (based on the layout in <code>memory.x</code> file) and RAM initialization for ARM Cortex-M chips</li>
 </ul>
 
                     </main>

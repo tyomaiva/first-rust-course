@@ -145,7 +145,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="the-led-matrix"><a class="header" href="#the-led-matrix">The LED matrix</a></h1>
-<p>Now it's time to control some of the board peripherals, we start with the 5x5 LED matrix. The new things that we need compared to the &quot;Hello World&quot; example are</p>
+<p>Now it's time to control some of the board peripherals, we start with the 5x5 LED matrix. The new things that we need compared to the <a href="./hello_embedded_world.html">&quot;Hello World&quot; example</a> are</p>
 <pre><code class="language-rust noplayground">// Add your code here ...
 use microbit::{
     board::Board,
@@ -168,7 +168,7 @@ fn main() -&gt; ! {
 <li><code>TIMER0</code> is one of the 5 hardware timers available on the board</li>
 <li><code>display_pins</code> are the 10 GPIO pins that control the LED matrix
 <ul>
-<li>(*) How can 10 pins control 5 * 5 = 25 LEDs?</li>
+<li>(*) How can 5 * 5 = 25 LEDs be controlled by only 10 pins?</li>
 </ul>
 </li>
 </ul>
@@ -180,7 +180,11 @@ fn main() -&gt; ! {
 <h4 id="exercise"><a class="header" href="#exercise">Exercise</a></h4>
 <ul>
 <li>Make the matrix to light a pattern (e.g., all LEDs are on) for 1 second, then switch to another pattern (e.g., all LEDs are off) for another second, and repeat this switching indefinitely.</li>
-<li>(*) Make a dice: every second, light up one of 6 dice patterns, either in a deterministi fashion (e.g., first you show 1, then 2, and so on) or randomly (you can use the <a href="https://docs.rs/microbit-v2/latest/microbit/hal/struct.Timer.html#method.read"><code>hal::Timer::read()</code></a> method for generating random numbers).</li>
+<li>(*) Make a dice: every second, light up one of 6 dice patterns, either in a deterministic fashion (e.g., first you show 1, then 2, and so on) or randomly
+<ul>
+<li>You can either use <a href="https://docs.rs/microbit-v2/latest/microbit/hal/struct.Rng.html"><code>microbit::hal::Rng</code></a> as a proper method for generating random numbers, or use instead <a href="https://docs.rs/microbit-v2/latest/microbit/hal/struct.Timer.html#method.read"><code>hal::Timer::read()</code></a> as a hack.</li>
+</ul>
+</li>
 </ul>
 </blockquote>
 

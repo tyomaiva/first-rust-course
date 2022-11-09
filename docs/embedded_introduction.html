@@ -153,7 +153,7 @@
 <li>Spawn new threads and communicate between them</li>
 <li>Security
 <ul>
-<li>You don't even notice other processes unless you really want to</li>
+<li>You don't even notice other processes unless you really want to (or unless shared resources are over)</li>
 <li>OS takes care of emergency situations like the <a href="https://en.wikipedia.org/wiki/Stack_overflow">stack overflow</a></li>
 </ul>
 </li>
@@ -167,7 +167,7 @@
 <li>Make your own custom scheduler to provide multi-tasking (i.e., frequent switching between multiple tasks to make illusion of concurrent execution)
 <ul>
 <li>You often need a real-time response (e.g. every 1 millisecond, you need to finish processing new chunk of sensor data)</li>
-<li>Data races between different tasks are easily introduced</li>
+<li>Data races between different tasks are easy to introduce, hard to detect</li>
 </ul>
 </li>
 <li>Are responsible for <!-- writing your application into permanent (flash) memory and then --> initializing the RAM layout at runtime</li>
@@ -211,7 +211,7 @@
 <li>Hardware-Abstraction Layer (HAL) is a way to abstract the <em>MCU</em> peripherals into structs and methods. We will use <a href="https://crates.io/crates/nrf52833-hal">nrf52833-hal</a>.
 <ul>
 <li>As an example, at this layer you can create and start a built-in hardware timer or establish a serial (UART) communication.</li>
-<li>HALs in the Rust ecosystem normally build on top of the <a href="https://docs.rs/embedded-hal/"><code>embedded-hal</code></a> crate, which is basically a collection of universal traits like <a href="https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html"><code>digital::v2::OutputPin</code></a> for an output pin.</li>
+<li>HALs in the Rust ecosystem normally build on top of the <a href="https://docs.rs/embedded-hal/"><code>embedded-hal</code></a> crate, which is basically a collection of universal traits (e.g., <a href="https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html"><code>digital::v2::OutputPin</code></a> for an output pin).</li>
 <li>A lot of platform-agnostic drivers are written based on <code>embedded-hal</code>.</li>
 </ul>
 </li>

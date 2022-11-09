@@ -145,6 +145,29 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="putting-all-together-streaming-data-from-the-accelerometer"><a class="header" href="#putting-all-together-streaming-data-from-the-accelerometer">Putting all together: streaming data from the accelerometer</a></h1>
+<p>Micro:bit has a built-in accelerometer that can communicate with the CPU using I\(^2\)C protocol, see <a href="https://crates.io/crates/lsm303agr">this crate</a></p>
+<blockquote>
+<h4 id="exercise"><a class="header" href="#exercise">Exercise</a></h4>
+<p>Design an application that reads accelerometer values for X-, Y-, and Z-accelerations every 0.5 second and sends them to your PC using UART.</p>
+</blockquote>
+<p>Useful code fragments:</p>
+<pre><code class="language-rust noplayground">// TWIM is the same as I2C master, different name is used for legal reasons
+use microbit::hal::twim;
+use microbit::twim0::frequency::FREQUENCY_A;
+
+// ...
+let board = microbit::Board::take().unwrap();
+let mut i2c = twim::Twim::new(board.TWIM0, board.i2c_internal.into(), FREQUENCY_A::K100);
+let mut sensor = Lsm303agr::new_with_i2c(i2c);
+sensor.init().unwrap();
+// ...
+</code></pre>
+<p>Useful methods:</p>
+<ul>
+<li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.set_accel_odr"><code>set_accel_odr()</code></a></li>
+<li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.accel_status"><code>accel_status()</code></a></li>
+<li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.accel_data"><code>accel_data()</code></a></li>
+</ul>
 
                     </main>
 

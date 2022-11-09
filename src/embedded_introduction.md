@@ -6,7 +6,7 @@ Things that are easy to use from ordinary (non-embedded) applications:
 + Run a new process (you just specify the executable file, OS loads it automatically)
 + Spawn new threads and communicate between them
 + Security
-  + You don't even notice other processes unless you really want to
+  + You don't even notice other processes unless you really want to (or unless shared resources are over)
   + OS takes care of emergency situations like the [stack overflow](https://en.wikipedia.org/wiki/Stack_overflow)
 + Read/write/create a file
 + Networking (TCP/IP)
@@ -17,7 +17,7 @@ In bare-metal embedded systems, you normally instead
 + Avoid heap whatsoever (RAM is quite limited)
 + Make your own custom scheduler to provide multi-tasking (i.e., frequent switching between multiple tasks to make illusion of concurrent execution)
   + You often need a real-time response (e.g. every 1 millisecond, you need to finish processing new chunk of sensor data)
-  + Data races between different tasks are easily introduced
+  + Data races between different tasks are easy to introduce, hard to detect
 + Are responsible for <!-- writing your application into permanent (flash) memory and then --> initializing the RAM layout at runtime
 + Have access to all the peripherals - easy to ruin everything
 + Write/tailor drivers for the I/O (like accessing an SD card or an Ethernet controller)
@@ -44,7 +44,7 @@ You can work at 3 different abstraction layers:
   + Normally you want to stay away from this layer, unless higher-level layers do no provide all the functionality you need (or maybe you need to _optimize_ the existing functionality).
 + Hardware-Abstraction Layer (HAL) is a way to abstract the _MCU_ peripherals into structs and methods. We will use [nrf52833-hal](https://crates.io/crates/nrf52833-hal).
   + As an example, at this layer you can create and start a built-in hardware timer or establish a serial (UART) communication.
-  + HALs in the Rust ecosystem normally build on top of the [`embedded-hal`](https://docs.rs/embedded-hal/) crate, which is basically a collection of universal traits like [`digital::v2::OutputPin`](https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html) for an output pin.
+  + HALs in the Rust ecosystem normally build on top of the [`embedded-hal`](https://docs.rs/embedded-hal/) crate, which is basically a collection of universal traits (e.g., [`digital::v2::OutputPin`](https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html) for an output pin).
   + A lot of platform-agnostic drivers are written based on `embedded-hal`.
 + Board Support Package (BSP) is the highest layer, and provides access to all the peripherals of the board (not only the ones built into MCU) like the accelerometer and the LED.
 + More explanation on different layers is [here](https://docs.rust-embedded.org/discovery/microbit/04-meet-your-hardware/terminology.html), together with a useful videolink.

@@ -4,7 +4,8 @@
 #![no_main]
 
 // Implements a panic handler for us.
-// The handler conveniently logs the error message to RTT before entering an infinite loop.
+// The handler conveniently logs the error message to RTT
+// before entering an infinite loop.
 use panic_rtt_target as _;
 // Enables to capture the output from Micro:bit while debugging, using the so-called
 // Real-Time Transfer (RTT). Look at https://docs.rs/rtt-target/ for more details.

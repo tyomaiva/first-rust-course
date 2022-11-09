@@ -974,7 +974,7 @@ fn main() {
 <li>Spawn new threads and communicate between them</li>
 <li>Security
 <ul>
-<li>You don't even notice other processes unless you really want to</li>
+<li>You don't even notice other processes unless you really want to (or unless shared resources are over)</li>
 <li>OS takes care of emergency situations like the <a href="https://en.wikipedia.org/wiki/Stack_overflow">stack overflow</a></li>
 </ul>
 </li>
@@ -988,7 +988,7 @@ fn main() {
 <li>Make your own custom scheduler to provide multi-tasking (i.e., frequent switching between multiple tasks to make illusion of concurrent execution)
 <ul>
 <li>You often need a real-time response (e.g. every 1 millisecond, you need to finish processing new chunk of sensor data)</li>
-<li>Data races between different tasks are easily introduced</li>
+<li>Data races between different tasks are easy to introduce, hard to detect</li>
 </ul>
 </li>
 <li>Are responsible for <!-- writing your application into permanent (flash) memory and then --> initializing the RAM layout at runtime</li>
@@ -1032,7 +1032,7 @@ fn main() {
 <li>Hardware-Abstraction Layer (HAL) is a way to abstract the <em>MCU</em> peripherals into structs and methods. We will use <a href="https://crates.io/crates/nrf52833-hal">nrf52833-hal</a>.
 <ul>
 <li>As an example, at this layer you can create and start a built-in hardware timer or establish a serial (UART) communication.</li>
-<li>HALs in the Rust ecosystem normally build on top of the <a href="https://docs.rs/embedded-hal/"><code>embedded-hal</code></a> crate, which is basically a collection of universal traits like <a href="https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html"><code>digital::v2::OutputPin</code></a> for an output pin.</li>
+<li>HALs in the Rust ecosystem normally build on top of the <a href="https://docs.rs/embedded-hal/"><code>embedded-hal</code></a> crate, which is basically a collection of universal traits (e.g., <a href="https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html"><code>digital::v2::OutputPin</code></a> for an output pin).</li>
 <li>A lot of platform-agnostic drivers are written based on <code>embedded-hal</code>.</li>
 </ul>
 </li>
@@ -1041,7 +1041,7 @@ fn main() {
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-embedded-world"><a class="header" href="#hello-embedded-world">Hello, Embedded world!</a></h1>
 <h2 id="setting-up-the-environment-1"><a class="header" href="#setting-up-the-environment-1">Setting up the environment</a></h2>
-<p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>. Make sure you look at the instructions for Micro:bit V2 (not V1)!</p>
+<p>Apart from the general Rust environment (including the Rust compiler and Cargo) that we have since <a href="./setting_up.html">this Section</a>, we need embedded-specific tools. Their setup on different OS platforms is described in the <a href="https://docs.rust-embedded.org/discovery/microbit/03-setup/index.html">Discovery book</a>. Make sure you look at the instructions for Micro:bit V2 (not V1)! The most important steps (apart from installing the ARM GNU toolchain and, in case of Linux, changing some permissions) are:</p>
 <pre><code class="language-shell">rustup target add thumbv7em-none-eabihf
 cargo install cargo-embed
 </code></pre>
@@ -1080,7 +1080,7 @@ fn main() -&gt; ! {
 }
 </code></pre>
 <ul>
-<li><code>cortex_m_rt</code> does linking (based on the layout in <code>memory.x</code> file) and RAM initialization for ARM Cortex-M chips</li>
+<li><code>cortex_m_rt</code> provides linking (based on the layout in <code>memory.x</code> file) and RAM initialization for ARM Cortex-M chips</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="what-is-microbit"><a class="header" href="#what-is-microbit">What is Micro:bit?</a></h1>
 <p>The highlights of Micro:bit V2 <a href="https://github.com/microbit-foundation/microbit-v2-hardware/blob/main/V2.00/MicroBit_V2.0.0_S_schematic.PDF">schematics</a>:
@@ -1088,8 +1088,16 @@ fn main() -&gt; ! {
 <img src="images/led_matrix.png" alt="LEDs" /></p>
 <p>The NRF52833 functional diagram from <a href="https://infocenter.nordicsemi.com/index.jsp?topic=%2Fstruct_nrf52%2Fstruct%2Fnrf52833.html&amp;cp=3_1">the manufacturer</a>:
 <img src="images/NRF52833_diagram.png" alt="MCU" /></p>
+<ul>
+<li>The heart of the MCU is an ARM Cortex-M4 CPU core
+<ul>
+<li>That is where our Rust code executes</li>
+<li><code>thumbv7em-none-eabihf</code> Rust target basically tells what machine code to emit (e.g., we have 32-bit CPU registers and an FPU for fast floating-point calculations)</li>
+</ul>
+</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-led-matrix"><a class="header" href="#the-led-matrix">The LED matrix</a></h1>
-<p>Now it's time to control some of the board peripherals, we start with the 5x5 LED matrix. The new things that we need compared to the &quot;Hello World&quot; example are</p>
+<p>Now it's time to control some of the board peripherals, we start with the 5x5 LED matrix. The new things that we need compared to the <a href="./hello_embedded_world.html">&quot;Hello World&quot; example</a> are</p>
 <pre><code class="language-rust noplayground">// Add your code here ...
 use microbit::{
     board::Board,
@@ -1112,7 +1120,7 @@ fn main() -&gt; ! {
 <li><code>TIMER0</code> is one of the 5 hardware timers available on the board</li>
 <li><code>display_pins</code> are the 10 GPIO pins that control the LED matrix
 <ul>
-<li>(*) How can 10 pins control 5 * 5 = 25 LEDs?</li>
+<li>(*) How can 5 * 5 = 25 LEDs be controlled by only 10 pins?</li>
 </ul>
 </li>
 </ul>
@@ -1124,7 +1132,11 @@ fn main() -&gt; ! {
 <h4 id="exercise-4"><a class="header" href="#exercise-4">Exercise</a></h4>
 <ul>
 <li>Make the matrix to light a pattern (e.g., all LEDs are on) for 1 second, then switch to another pattern (e.g., all LEDs are off) for another second, and repeat this switching indefinitely.</li>
-<li>(*) Make a dice: every second, light up one of 6 dice patterns, either in a deterministi fashion (e.g., first you show 1, then 2, and so on) or randomly (you can use the <a href="https://docs.rs/microbit-v2/latest/microbit/hal/struct.Timer.html#method.read"><code>hal::Timer::read()</code></a> method for generating random numbers).</li>
+<li>(*) Make a dice: every second, light up one of 6 dice patterns, either in a deterministic fashion (e.g., first you show 1, then 2, and so on) or randomly
+<ul>
+<li>You can either use <a href="https://docs.rs/microbit-v2/latest/microbit/hal/struct.Rng.html"><code>microbit::hal::Rng</code></a> as a proper method for generating random numbers, or use instead <a href="https://docs.rs/microbit-v2/latest/microbit/hal/struct.Timer.html#method.read"><code>hal::Timer::read()</code></a> as a hack.</li>
+</ul>
+</li>
 </ul>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="serial-communication-with-uart"><a class="header" href="#serial-communication-with-uart">Serial communication with UART</a></h1>
@@ -1180,6 +1192,29 @@ fn main() -&gt; ! {
 </ul>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="putting-all-together-streaming-data-from-the-accelerometer"><a class="header" href="#putting-all-together-streaming-data-from-the-accelerometer">Putting all together: streaming data from the accelerometer</a></h1>
+<p>Micro:bit has a built-in accelerometer that can communicate with the CPU using I\(^2\)C protocol, see <a href="https://crates.io/crates/lsm303agr">this crate</a></p>
+<blockquote>
+<h4 id="exercise-6"><a class="header" href="#exercise-6">Exercise</a></h4>
+<p>Design an application that reads accelerometer values for X-, Y-, and Z-accelerations every 0.5 second and sends them to your PC using UART.</p>
+</blockquote>
+<p>Useful code fragments:</p>
+<pre><code class="language-rust noplayground">// TWIM is the same as I2C master, different name is used for legal reasons
+use microbit::hal::twim;
+use microbit::twim0::frequency::FREQUENCY_A;
+
+// ...
+let board = microbit::Board::take().unwrap();
+let mut i2c = twim::Twim::new(board.TWIM0, board.i2c_internal.into(), FREQUENCY_A::K100);
+let mut sensor = Lsm303agr::new_with_i2c(i2c);
+sensor.init().unwrap();
+// ...
+</code></pre>
+<p>Useful methods:</p>
+<ul>
+<li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.set_accel_odr"><code>set_accel_odr()</code></a></li>
+<li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.accel_status"><code>accel_status()</code></a></li>
+<li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.accel_data"><code>accel_data()</code></a></li>
+</ul>
 
                     </main>
 

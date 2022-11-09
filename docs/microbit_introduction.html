@@ -150,6 +150,14 @@
 <img src="images/led_matrix.png" alt="LEDs" /></p>
 <p>The NRF52833 functional diagram from <a href="https://infocenter.nordicsemi.com/index.jsp?topic=%2Fstruct_nrf52%2Fstruct%2Fnrf52833.html&amp;cp=3_1">the manufacturer</a>:
 <img src="images/NRF52833_diagram.png" alt="MCU" /></p>
+<ul>
+<li>The heart of the MCU is an ARM Cortex-M4 CPU core
+<ul>
+<li>That is where our Rust code executes</li>
+<li><code>thumbv7em-none-eabihf</code> Rust target basically tells what machine code to emit (e.g., we have 32-bit CPU registers and an FPU for fast floating-point calculations)</li>
+</ul>
+</li>
+</ul>
 
                     </main>
 
