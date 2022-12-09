@@ -91,7 +91,7 @@ fn main() {
     assert_eq!(point.is_close_to_origin(), false);
 }
 ```
-+ Implementing `new()` is a customary way of initializing structs. It's like a class constructor in C++, with two major differences:
++ Implementing `new()` is a customary way of initializing structs in Rust. It's like a class constructor in C++, with two major differences:
   + Call of `new()` should be always _explicit_ (no implicit construction)
   + There can be only one implementation of `new()`, since Rust intentionally does not have function overloading. If you need multiple ways to construct an object (e.g. construct a default struct value and a custom one), use the [Builder pattern](https://rust-unofficial.github.io/patterns/patterns/creational/builder.html) instead
 + `Self` is an alias to the current struct _type_, so `Self` \\( \iff \\) `MyPoint`
@@ -117,9 +117,9 @@ fn main() {
 fn main() {
     let point1 = MyPoint::new(2., 1.);
     let point2 = MyPoint::new(-2., -1.);
-    let segment1 = Line::new(point1, point2);
+    let line1 = Line::new(point1, point2);
     let point3 = MyPoint::new(4., 2.);
-    assert_eq!(segment1.is_point_on_line(point3), true);
+    assert_eq!(line1.is_point_on_line(point3), true);
 }
 ```
 <!-- struct Line(MyPoint, MyPoint); -->

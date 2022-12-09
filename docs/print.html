@@ -154,10 +154,10 @@
 </ul>
 <p><em>Out</em> of scope:</p>
 <ul>
-<li>Motivation to learn Rust (we tried to accomplish that in the previous sessions)</li>
+<li>Motivation to learn Rust (it is a whole separate topic).</li>
 <li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems. Also no file access and no other forms of I/O (printing to standard output is the only exception). In general, we omit the Rust standard library.</li>
-<li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS</li>
-<li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
+<li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS.</li>
+<li>Unit testing, modularization, and other good development practices, since all of our projects will be very small.</li>
 <li>PAC layer of Embedded Rust. We start directly with the higher abstraction levels which are HAL and BSP. So no direct register manipulation.</li>
 </ul>
 <!-- + Smart pointers like [Box](https://doc.rust-lang.org/std/boxed/struct.Box.html), for the same reason -->
@@ -168,9 +168,10 @@
 <h2 id="resources"><a class="header" href="#resources">Resources</a></h2>
 <ul>
 <li><a href="https://fasterthanli.me/articles/a-half-hour-to-learn-rust">A half-hour to learn Rust</a> is a nice crash course without much theory. Note: it may actually take more than 30 minutes to read and digest 😊</li>
-<li><a href="https://ferrous-systems.github.io/teaching-material/">Teaching material</a> developed by Ferrous Systems, a company which specializes in Rust development (including Embedded Rust) and in providing Rust trainings</li>
+<li><a href="https://ferrous-systems.github.io/teaching-material/">Teaching material</a> developed by Ferrous Systems, a company which specializes in Rust development (including Embedded Rust) and in providing Rust trainings.</li>
+<li><a href="https://practice.rs/">Rust by practice</a> is a large set of exercises structured by topics (e.g., Basic Types, Ownership and Borrowing) where you normally have to fix several lines of code to make an example working.</li>
 <li>The official <a href="https://doc.rust-lang.org/book/">Rust book</a> is written extremely clear and is quite comprehensive. Absolute recommendation if you are serious about Rust!</li>
-<li><a href="https://docs.rust-embedded.org/discovery/microbit/">The Discovery book</a> is an introductory resource on Embedded Rust using the same hardware platform that we cover here</li>
+<li><a href="https://docs.rust-embedded.org/discovery/microbit/">The Discovery book</a> is an introductory resource on Embedded Rust using the same hardware platform that we cover here.</li>
 </ul>
 <p style="text-align: center;"><img src="https://visitor-badge.glitch.me/badge?page_id=https://tyomaiva.github.io/first-rust-course/&left_color=green&right_color=red" alt="Visitors" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="setup"><a class="header" href="#setup">Setup</a></h1>
@@ -200,9 +201,9 @@ sudo apt install build-essential
 <pre><code class="language-shell">xcode-select install
 </code></pre>
 <h3 id="what-ides-can-be-used"><a class="header" href="#what-ides-can-be-used">What IDEs can be used?</a></h3>
-<p>Mainly for syntax highlighting, code completion, etc. Both have Rust plugins:</p>
+<p>Interactive Development Environment (IDE) is a good thing to have since it provides you syntax highlighting, code completion, reports you errors, etc. Two IDEs that we have tried and that have good Rust support are:</p>
 <ul>
-<li>Visual Studio Code (<a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">rust-analyzer</a>)</li>
+<li>Visual Studio Code (<a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">rust-analyzer</a> is the extra plugin you need to install there)</li>
 <li>IntelliJ IDEA</li>
 </ul>
 <h2 id="setting-up-a-basic-project"><a class="header" href="#setting-up-a-basic-project">Setting up a basic project</a></h2>
@@ -317,7 +318,7 @@ fn main() {
 }
 </code></pre></pre>
 <ul>
-<li>Implementing <code>new()</code> is a customary way of initializing structs. It's like a class constructor in C++, with two major differences:
+<li>Implementing <code>new()</code> is a customary way of initializing structs in Rust. It's like a class constructor in C++, with two major differences:
 <ul>
 <li>Call of <code>new()</code> should be always <em>explicit</em> (no implicit construction)</li>
 <li>There can be only one implementation of <code>new()</code>, since Rust intentionally does not have function overloading. If you need multiple ways to construct an object (e.g. construct a default struct value and a custom one), use the <a href="https://rust-unofficial.github.io/patterns/patterns/creational/builder.html">Builder pattern</a> instead</li>
@@ -349,9 +350,9 @@ fn main() {
 fn main() {
     let point1 = MyPoint::new(2., 1.);
     let point2 = MyPoint::new(-2., -1.);
-    let segment1 = Line::new(point1, point2);
+    let line1 = Line::new(point1, point2);
     let point3 = MyPoint::new(4., 2.);
-    assert_eq!(segment1.is_point_on_line(point3), true);
+    assert_eq!(line1.is_point_on_line(point3), true);
 }
 </code></pre></pre>
 <!-- struct Line(MyPoint, MyPoint); -->
@@ -563,7 +564,7 @@ fn main() {
 <li>No unitialized data</li>
 </ul>
 </li>
-<li>Deallocation is similar to RAII in C++: the value is droppped when the last owner goes out of scope
+<li>Deallocation is similar to RAII in C++: the value is dropped when the last owner goes out of scope
 <ul>
 <li>All the potential code locations for deallocation (typically there is only one location) can be determined at compile-time, so no need for garbage collection (unlike Java and C#)</li>
 </ul>

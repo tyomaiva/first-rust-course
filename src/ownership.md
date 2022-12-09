@@ -51,7 +51,7 @@ Here are the basic rules for ownership:
     + Move does not touch the value (neither the contents nor the memory location), no non-trivial move constructors (à la C++) are allowed.
 + Owner always has a valid value as well
   + No unitialized data
-+ Deallocation is similar to RAII in C++: the value is droppped when the last owner goes out of scope
++ Deallocation is similar to RAII in C++: the value is dropped when the last owner goes out of scope
   + All the potential code locations for deallocation (typically there is only one location) can be determined at compile-time, so no need for garbage collection (unlike Java and C#)
 
 It explains the problem with the double call,

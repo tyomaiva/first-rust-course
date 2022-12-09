@@ -153,10 +153,10 @@
 </ul>
 <p><em>Out</em> of scope:</p>
 <ul>
-<li>Motivation to learn Rust (we tried to accomplish that in the previous sessions)</li>
+<li>Motivation to learn Rust (it is a whole separate topic).</li>
 <li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems. Also no file access and no other forms of I/O (printing to standard output is the only exception). In general, we omit the Rust standard library.</li>
-<li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS</li>
-<li>Unit testing, modularization, and other good development practices, since all of our projects will be very small</li>
+<li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS.</li>
+<li>Unit testing, modularization, and other good development practices, since all of our projects will be very small.</li>
 <li>PAC layer of Embedded Rust. We start directly with the higher abstraction levels which are HAL and BSP. So no direct register manipulation.</li>
 </ul>
 <!-- + Smart pointers like [Box](https://doc.rust-lang.org/std/boxed/struct.Box.html), for the same reason -->
@@ -167,9 +167,10 @@
 <h2 id="resources"><a class="header" href="#resources">Resources</a></h2>
 <ul>
 <li><a href="https://fasterthanli.me/articles/a-half-hour-to-learn-rust">A half-hour to learn Rust</a> is a nice crash course without much theory. Note: it may actually take more than 30 minutes to read and digest 😊</li>
-<li><a href="https://ferrous-systems.github.io/teaching-material/">Teaching material</a> developed by Ferrous Systems, a company which specializes in Rust development (including Embedded Rust) and in providing Rust trainings</li>
+<li><a href="https://ferrous-systems.github.io/teaching-material/">Teaching material</a> developed by Ferrous Systems, a company which specializes in Rust development (including Embedded Rust) and in providing Rust trainings.</li>
+<li><a href="https://practice.rs/">Rust by practice</a> is a large set of exercises structured by topics (e.g., Basic Types, Ownership and Borrowing) where you normally have to fix several lines of code to make an example working.</li>
 <li>The official <a href="https://doc.rust-lang.org/book/">Rust book</a> is written extremely clear and is quite comprehensive. Absolute recommendation if you are serious about Rust!</li>
-<li><a href="https://docs.rust-embedded.org/discovery/microbit/">The Discovery book</a> is an introductory resource on Embedded Rust using the same hardware platform that we cover here</li>
+<li><a href="https://docs.rust-embedded.org/discovery/microbit/">The Discovery book</a> is an introductory resource on Embedded Rust using the same hardware platform that we cover here.</li>
 </ul>
 <p style="text-align: center;"><img src="https://visitor-badge.glitch.me/badge?page_id=https://tyomaiva.github.io/first-rust-course/&left_color=green&right_color=red" alt="Visitors" /></p>
 
