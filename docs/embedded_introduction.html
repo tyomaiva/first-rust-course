@@ -153,7 +153,7 @@
 <li>Spawn new threads and communicate between them</li>
 <li>Security
 <ul>
-<li>You don't even notice other processes unless you really want to (or unless shared resources are over)</li>
+<li>You don't even notice other processes unless you really want to (or unless shared resources like RAM or disk space are over)</li>
 <li>OS takes care of emergency situations like the <a href="https://en.wikipedia.org/wiki/Stack_overflow">stack overflow</a></li>
 </ul>
 </li>
@@ -181,7 +181,7 @@
 </ul>
 <p>There is one reward in embedded development: you have the <em>full</em> overview of your code (including all the dependencies).</p>
 <ul>
-<li>You design the <em>whole</em> application. Not only the userland part.</li>
+<li>You design the <em>whole</em> application. Not only the user-space part of it.</li>
 <li>You can inspect any function you use, in principle. No &quot;hidden layer&quot; (like the OS kernel) beneath what you write. No external library of unknown/uncontrolled version.</li>
 </ul>
 <p>Anyways, embedded development sounds scary... Can Rust help here?</p>
@@ -205,17 +205,17 @@
 <ul>
 <li>Peripheral-Access Crate (PAC) is the lowest layer, you access here individual MCU (MicroController Unit) registers. <a href="https://crates.io/crates/nrf52833-pac/">nrf52833-pac</a> is the PAC that we actually use under the hood for Micro:bit V2. This crate is generated automatically from an <a href="https://raw.githubusercontent.com/nrf-rs/nrf-pacs/master/svds/nrf52833.svd">XML file</a> provided by the manufacturer.
 <ul>
-<li>Normally you want to stay away from this layer, unless higher-level layers do no provide all the functionality you need (or maybe you need to <em>optimize</em> the existing functionality).</li>
+<li>Normally you want to stay away from this layer, unless either higher-level layers do no provide all the features you need or you need to optimize the <em>existing</em> functionality.</li>
 </ul>
 </li>
-<li>Hardware-Abstraction Layer (HAL) is a way to abstract the <em>MCU</em> peripherals into structs and methods. We will use <a href="https://crates.io/crates/nrf52833-hal">nrf52833-hal</a>.
+<li>Hardware-Abstraction Layer (HAL) is a way to abstract the <em>MCU peripherals</em> into structs and methods. We will use <a href="https://crates.io/crates/nrf52833-hal">nrf52833-hal</a> for that.
 <ul>
 <li>As an example, at this layer you can create and start a built-in hardware timer or establish a serial (UART) communication.</li>
 <li>HALs in the Rust ecosystem normally build on top of the <a href="https://docs.rs/embedded-hal/"><code>embedded-hal</code></a> crate, which is basically a collection of universal traits (e.g., <a href="https://docs.rs/embedded-hal/latest/embedded_hal/digital/v2/trait.OutputPin.html"><code>digital::v2::OutputPin</code></a> for an output pin).</li>
-<li>A lot of platform-agnostic drivers are written based on <code>embedded-hal</code>.</li>
+<li>A lot of platform-agnostic (and thus portable) drivers are written based on <code>embedded-hal</code>.</li>
 </ul>
 </li>
-<li>Board Support Package (BSP) is the highest layer, and provides access to all the peripherals of the board (not only the ones built into MCU) like the accelerometer and the LED.</li>
+<li>Board Support Package (BSP) is the highest layer, and provides access to all the peripherals of the board (not only the ones built into MCU) like the accelerometer and the LEDs.</li>
 <li>More explanation on different layers is <a href="https://docs.rust-embedded.org/discovery/microbit/04-meet-your-hardware/terminology.html">here</a>, together with a useful videolink.</li>
 </ul>
 

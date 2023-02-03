@@ -10,7 +10,7 @@ cargo install cargo-embed
 ## First code example
 Get template that is tailored to our board from [GitHub](https://github.com/tyomaiva/first-rust-course/blob/master/microbit_template). For more details, look at the [original template](https://github.com/rust-embedded/cortex-m-quickstart).
 
-Attach the Micro:bit using USB, go to the root of the template project, and run it:
+Attach the Micro:bit using USB, go to the root of the template project, and run the following:
 ```shell
 cargo embed --target thumbv7em-none-eabihf --bin hello
 ```

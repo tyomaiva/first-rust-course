@@ -187,7 +187,7 @@ fn main() {
     println!("Coordinates are: {}, {}", point.x, point.y);
 }
 ```
-+ We have two multiple borrows, but we don't violate any rules, since these two have different scopes.
++ We have two mutable borrows, but we don't violate any rules, since these two have different scopes.
 
 To get the value back from a reference, use the dereferencing syntax `*`:
 ```rust,editable
