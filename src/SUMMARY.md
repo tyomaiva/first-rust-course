@@ -18,3 +18,7 @@
 - [The LED matrix](./blink.md)
 - [Serial communication with UART](./serial.md)
 - [Putting all together: streaming data from the accelerometer](./accelerometer_streaming.md)
+
+# Advanced topics
+
+- [Parallel and concurrent programming](./parallel.md)

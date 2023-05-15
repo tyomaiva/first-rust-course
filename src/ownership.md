@@ -42,7 +42,6 @@ What's the difference?
 
 ## Ownership
 The ownership and access system in Rust is quite restrictive and also non-intuitive at first for developers with C++/Java/C# background. As we will see, the reason is to guarantee safety, at compile time.
-<!-- In this Section, we will use the [RustViz](https://github.com/rustviz/rustviz) tool to visualize the ownership and access concepts. -->
 
 Here are the basic rules for ownership:
 + Values in Rust have exactly _one_ owner at a time, meaning there is _one and only one_ responsible for deallocating the value when it's not needed anymore.

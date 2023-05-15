@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setup</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="traits_generics.html"><strong aria-hidden="true">5.</strong> Traits and generics</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">6.</strong> Enums</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">7.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">8.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">9.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">10.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">11.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">12.</strong> Putting all together: streaming data from the accelerometer</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Basics of Rust</li><li class="chapter-item expanded "><a href="setting_up.html"><strong aria-hidden="true">2.</strong> Setup</a></li><li class="chapter-item expanded "><a href="syntax_basics.html"><strong aria-hidden="true">3.</strong> Syntax basics</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">4.</strong> Ownership and borrow checker</a></li><li class="chapter-item expanded "><a href="traits_generics.html"><strong aria-hidden="true">5.</strong> Traits and generics</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">6.</strong> Enums</a></li><li class="chapter-item expanded affix "><li class="part-title">Embedded Rust</li><li class="chapter-item expanded "><a href="embedded_introduction.html"><strong aria-hidden="true">7.</strong> What makes Embedded Rust special</a></li><li class="chapter-item expanded "><a href="hello_embedded_world.html"><strong aria-hidden="true">8.</strong> Hello, Embedded world!</a></li><li class="chapter-item expanded "><a href="microbit_introduction.html"><strong aria-hidden="true">9.</strong> What is Micro:bit?</a></li><li class="chapter-item expanded "><a href="blink.html"><strong aria-hidden="true">10.</strong> The LED matrix</a></li><li class="chapter-item expanded "><a href="serial.html"><strong aria-hidden="true">11.</strong> Serial communication with UART</a></li><li class="chapter-item expanded "><a href="accelerometer_streaming.html"><strong aria-hidden="true">12.</strong> Putting all together: streaming data from the accelerometer</a></li><li class="chapter-item expanded affix "><li class="part-title">Advanced topics</li><li class="chapter-item expanded "><a href="parallel.html"><strong aria-hidden="true">13.</strong> Parallel and concurrent programming</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -156,7 +156,7 @@
 <ul>
 <li>Motivation to learn Rust (it is a whole separate topic).</li>
 <li>Data collections like <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html">Vec</a> or <a href="https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html">HashMap</a>, since they involve heap allocation, which is often undesirable in embedded systems. Also no file access and no other forms of I/O (printing to standard output is the only exception). In general, we omit the Rust standard library.</li>
-<li>Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS.</li>
+<li>Multi-threading and asynchronous programming in context of embedded systems, though both are quite easy with Rust (see <a href="https://embassy.dev/">here</a> and <a href="https://rtic.rs/1/book/en/">here</a>), and almost unavoidable when implementing an RTOS. NOTE: take a look at the <a href="./parallel.html">Parallel and concurrent programming</a> chapter for the <em>OS-based</em> multi-threading and async.</li>
 <li>Unit testing, modularization, and other good development practices, since all of our projects will be very small.</li>
 <li>PAC layer of Embedded Rust. We start directly with the higher abstraction levels which are HAL and BSP. So no direct register manipulation.</li>
 </ul>
@@ -546,7 +546,6 @@ fn main() {
 <p>What's the difference?</p>
 <h2 id="ownership"><a class="header" href="#ownership">Ownership</a></h2>
 <p>The ownership and access system in Rust is quite restrictive and also non-intuitive at first for developers with C++/Java/C# background. As we will see, the reason is to guarantee safety, at compile time.</p>
-<!-- In this Section, we will use the [RustViz](https://github.com/rustviz/rustviz) tool to visualize the ownership and access concepts. -->
 <p>Here are the basic rules for ownership:</p>
 <ul>
 <li>Values in Rust have exactly <em>one</em> owner at a time, meaning there is <em>one and only one</em> responsible for deallocating the value when it's not needed anymore.
@@ -1218,6 +1217,46 @@ sensor.init().unwrap();
 <li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.set_accel_odr"><code>set_accel_odr()</code></a></li>
 <li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.accel_status"><code>accel_status()</code></a></li>
 <li><a href="https://docs.rs/lsm303agr/0.2.2/lsm303agr/struct.Lsm303agr.html#method.accel_data"><code>accel_data()</code></a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="parallel-and-concurrent-programming"><a class="header" href="#parallel-and-concurrent-programming">Parallel and concurrent programming</a></h1>
+<h2 id="parallel-vs-concurrent"><a class="header" href="#parallel-vs-concurrent">Parallel vs. concurrent</a></h2>
+<p>Two types of execution (in addition to the &quot;regular&quot; serial execution):</p>
+<ul>
+<li><em>Parallel</em> means that two different pieces of code run at the same time (for example, on different CPU cores)</li>
+<li><em>Concurrent</em> means that two different pieces of code run at different moments, but provide an <em>illusion</em> of parallel execution (first piece starts, then it suspends, second piece kicks in, then it suspends, the first one resumes, and so on...).</li>
+</ul>
+<p>These two types:</p>
+<ul>
+<li>are known to be extremely hard to implement properly and even harder to debug (execution order is non-deterministic and hence non-reproducible):
+<ul>
+<li>concurrent problems were traditionally turned into serial ones using callbacks, but any more-less complex logic leads to so-called <a href="https://en.wiktionary.org/wiki/callback_hell">callback hell</a> where it's hard to reason who calls what.</li>
+</ul>
+</li>
+<li>are typically combined, so we won't distinguish them unless we really need to.</li>
+<li>are supported by Rust via thread and async mechanisms.</li>
+</ul>
+<h2 id="threads"><a class="header" href="#threads">Threads</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/thread/"><code>std::thread</code></a> is an abstraction on top of the native OS threads (1-to-1 correspondence: 1 OS thread corresponds to 1 Rust thread).
+<ul>
+<li>The preferred way to communicate data between threads is message passing via <a href="https://doc.rust-lang.org/std/sync/mpsc/fn.channel.html"><code>std::sync::mpsc::channel</code></a>. You can have multiple &quot;producers&quot; of a data and a single &quot;consumer&quot;. Rust channels are lock-free (at the API level).</li>
+<li>The less preferred way is locking shared data by means of <a href="https://doc.rust-lang.org/std/sync/struct.Mutex.html"><code>std::sync::Mutex</code></a> (MUTual EXclusion). Welcome to the world of deadlocks and threads blocking each other! (How long is your critical section?)</li>
+<li>Both ways of communication are guaranteed to be thread-safe (no data races) at the compile level by means of special marker traits <a href="https://doc.rust-lang.org/core/marker/trait.Send.html"><code>core::marker::Send</code></a> and <a href="https://doc.rust-lang.org/core/marker/trait.Sync.html"><code>core::marker::Sync</code></a>. The idea is that you cannot accidentally share some value to another thread if it's type does not allow it. (Of course, you are welcome to spoil everything by using <code>unsafe</code> code.)</li>
+<li>The level of parallelism is limited physically by the number of CPU cores. (If you have 8 cores and you spawned 80 threads that are all awake at the same time, you will have 10 concurrent tasks per core, on average.)</li>
+<li>Spawning a thread is relatively slow and resource-heavy since it is done eventually by the OS (it involves a context switch and plenty of internal kernel administration and setup like allocating a dedicated stack).</li>
+<li>See the link to the Rust book below for more details.</li>
+</ul>
+</li>
+</ul>
+<h2 id="async"><a class="header" href="#async">Async</a></h2>
+<ul>
+<li>Combines parallel with concurrent (but you are free to make it purely concurrent by running everything on a single thread, if you really wish)</li>
+<li>Is lazy: your future does not get polled if you never used it</li>
+</ul>
+<h2 id="resources-for-deeper-understanding-4"><a class="header" href="#resources-for-deeper-understanding-4">Resources for deeper understanding</a></h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/ch16-00-concurrency.html">Chapter 16</a> of the Rust book</li>
+<li><a href="https://rust-lang.github.io/async-book/">Async book</a> is a good starting point to understand how async Rust works under the hood, without tying yourself to specifics of Tokio or other async runtime.</li>
 </ul>
 
                     </main>

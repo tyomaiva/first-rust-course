@@ -9,7 +9,7 @@ The goals of the course:
 _Out_ of scope:
 + Motivation to learn Rust (it is a whole separate topic).
 + Data collections like [Vec](https://doc.rust-lang.org/std/vec/struct.Vec.html) or [HashMap](https://doc.rust-lang.org/stable/std/collections/struct.HashMap.html), since they involve heap allocation, which is often undesirable in embedded systems. Also no file access and no other forms of I/O (printing to standard output is the only exception). In general, we omit the Rust standard library.
-+ Multithreading and asynchronous programming, though both are quite easy with Embedded Rust (see [here](https://embassy.dev/) and [here](https://rtic.rs/1/book/en/)), and almost unavoidable when implementing an RTOS.
++ Multi-threading and asynchronous programming in context of embedded systems, though both are quite easy with Rust (see [here](https://embassy.dev/) and [here](https://rtic.rs/1/book/en/)), and almost unavoidable when implementing an RTOS. NOTE: take a look at the [Parallel and concurrent programming](./parallel.md) chapter for the _OS-based_ multi-threading and async.
 + Unit testing, modularization, and other good development practices, since all of our projects will be very small.
 + PAC layer of Embedded Rust. We start directly with the higher abstraction levels which are HAL and BSP. So no direct register manipulation.
 <!-- + Smart pointers like [Box](https://doc.rust-lang.org/std/boxed/struct.Box.html), for the same reason -->
