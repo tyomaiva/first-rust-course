@@ -1230,6 +1230,8 @@ sensor.init().unwrap();
 <li>are known to be extremely hard to implement properly and even harder to debug (execution order is non-deterministic and hence non-reproducible):
 <ul>
 <li>concurrent problems were traditionally turned into serial ones using callbacks, but any more-less complex logic leads to so-called <a href="https://en.wiktionary.org/wiki/callback_hell">callback hell</a> where it's hard to reason who calls what.</li>
+<li>in embedded systems (where you typically have a single CPU core), it is common to solve concurrent problems (like the real-time OS scheduling) via a super-loop that goes over all the scheduled tasks and polls them one-by-one. The disadvantage is that you may have 100 tasks and only 3 of them are really active at the moment, but you keep polling each and every task all the time.</li>
+<li>co-routines like in <a href="https://en.cppreference.com/w/cpp/language/coroutines">C++20</a> is another approach for concurrency but it gives you only a limited control over the program execution.</li>
 </ul>
 </li>
 <li>are typically combined, so we won't distinguish them unless we really need to.</li>
@@ -1239,11 +1241,16 @@ sensor.init().unwrap();
 <ul>
 <li><a href="https://doc.rust-lang.org/std/thread/"><code>std::thread</code></a> is an abstraction on top of the native OS threads (1-to-1 correspondence: 1 OS thread corresponds to 1 Rust thread).
 <ul>
-<li>The preferred way to communicate data between threads is message passing via <a href="https://doc.rust-lang.org/std/sync/mpsc/fn.channel.html"><code>std::sync::mpsc::channel</code></a>. You can have multiple &quot;producers&quot; of a data and a single &quot;consumer&quot;. Rust channels are lock-free (at the API level).</li>
+<li>The preferred way to communicate data between threads is message passing via <a href="https://doc.rust-lang.org/std/sync/mpsc/fn.channel.html"><code>std::sync::mpsc::channel</code></a>. You can have multiple &quot;producers&quot; of a data and a single &quot;consumer&quot;. Rust channels are lock-free (at the API level).
+<ul>
+<li>(Absence of) flow control is a potential issue: producers may generate data at higher rate than consumers are able to process that, so RAM gets overloaded with the buffered values. NOTE: there exists <a href="https://doc.rust-lang.org/std/sync/mpsc/fn.sync_channel.html"><code>sync_channel</code></a> that has a bounded capacity, but it blocks <em>all the producers</em> when that capacity is reached.</li>
+</ul>
+</li>
 <li>The less preferred way is locking shared data by means of <a href="https://doc.rust-lang.org/std/sync/struct.Mutex.html"><code>std::sync::Mutex</code></a> (MUTual EXclusion). Welcome to the world of deadlocks and threads blocking each other! (How long is your critical section?)</li>
 <li>Both ways of communication are guaranteed to be thread-safe (no data races) at the compile level by means of special marker traits <a href="https://doc.rust-lang.org/core/marker/trait.Send.html"><code>core::marker::Send</code></a> and <a href="https://doc.rust-lang.org/core/marker/trait.Sync.html"><code>core::marker::Sync</code></a>. The idea is that you cannot accidentally share some value to another thread if it's type does not allow it. (Of course, you are welcome to spoil everything by using <code>unsafe</code> code.)</li>
 <li>The level of parallelism is limited physically by the number of CPU cores. (If you have 8 cores and you spawned 80 threads that are all awake at the same time, you will have 10 concurrent tasks per core, on average.)</li>
-<li>Spawning a thread is relatively slow and resource-heavy since it is done eventually by the OS (it involves a context switch and plenty of internal kernel administration and setup like allocating a dedicated stack).</li>
+<li>Spawning a thread is relatively slow and resource-heavy since it is done eventually by the OS (it involves a context switch and plenty of internal kernel administration and setup like allocating a dedicated stack). Keeping a thread pool improves the situation, but now you become responsible for scheduling the tasks for that pool.</li>
+<li>Threads are good for solving <em>CPU-bound</em> problems like matrix multiplication or other mathematical algorithms that do not involve I/O. (Though you should think then seriosly about offloading these problems to a GPU/FPGA instead.)</li>
 <li>See the link to the Rust book below for more details.</li>
 </ul>
 </li>
@@ -1252,11 +1259,13 @@ sensor.init().unwrap();
 <ul>
 <li>Combines parallel with concurrent (but you are free to make it purely concurrent by running everything on a single thread, if you really wish)</li>
 <li>Is lazy: your future does not get polled if you never used it</li>
+<li>Async is good for solving <em>I/O-bound</em> problems (e.g., accessing files or listening for a TCP/UDP connection)</li>
 </ul>
 <h2 id="resources-for-deeper-understanding-4"><a class="header" href="#resources-for-deeper-understanding-4">Resources for deeper understanding</a></h2>
 <ul>
 <li><a href="https://doc.rust-lang.org/book/ch16-00-concurrency.html">Chapter 16</a> of the Rust book</li>
 <li><a href="https://rust-lang.github.io/async-book/">Async book</a> is a good starting point to understand how async Rust works under the hood, without tying yourself to specifics of Tokio or other async runtime.</li>
+<li><a href="https://tokio.rs/tokio/tutorial">Tokio tutorial</a></li>
 </ul>
 
                     </main>
