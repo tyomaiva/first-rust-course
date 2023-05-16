@@ -150,7 +150,7 @@
 <blockquote>
 <p>You can edit and run most of the code snippets on this page without leaving your browser. Alternatively, you can copy them to the <a href="https://play.rust-lang.org/">Rust Playground</a> and run there</p>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let mut index = 10; // Define a variable
     while index != 0 {
         println!(&quot;Counting down: {}&quot;, index);
@@ -179,7 +179,7 @@
 <li>If we change <code>10</code> to <code>10.</code>, we get instead the double-precision floating-point type, <code>f64</code></li>
 <li>If you want to use a different type, you need to specify it explicitly</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let index: u8 = 10;
     // OR
     let index = 10_u8;
@@ -198,14 +198,14 @@
 <h3 id="tuples"><a class="header" href="#tuples">Tuples</a></h3>
 <!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
 <p>A tuple combines values of different types</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let tuple = (&quot;Something&quot;, 2);
     println!(&quot;The tuple contents are: {}, {}&quot;, tuple.0, tuple.1);
 }
 </code></pre></pre>
 <h3 id="structs"><a class="header" href="#structs">Structs</a></h3>
 <p>Structs are similar to tuples in that they combine potentially different types, but each field is <em>named</em> and the struct type itself has a name:</p>
-<pre><pre class="playground"><code class="language-rust editable">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust editable edition2021">struct MyPoint {
     x: f64,
     y: f64,
 }
@@ -218,7 +218,7 @@ fn main() {
 <li>Note that if you pass <code>{x: 3, y: 4}</code> instead of <code>{x: 3., y:4.}</code>, you get a compiler error (try it!): you need to convert the types explicitly, e.g. <code>{x: 3 as f64, y: 4 as f64)</code> will do the trick. It is a safety feature, to avoid accidental type castings</li>
 </ul>
 <p>You can associate methods with the struct type (encapsulation):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -256,7 +256,7 @@ fn main() {
 <li><code>Line</code> has a method <code>is_point_on_line()</code> which checks whether a given point belongs to the line or not</li>
 </ul>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64
 </span><span class="boring">}
@@ -295,7 +295,7 @@ fn main() {
 </blockquote>
 <h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
 <p>Array is a fixed-size collection of elements of the <em>same</em> type (similar to C arrays)</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let mut array = [7, 21, 42];
     array[0] += 20;
     println!(&quot;{:?}&quot;, array);
@@ -305,7 +305,7 @@ fn main() {
 <li>Note the <code>{:?}</code> syntax which normally tells to dump the contents of the variable. We will elaborate on this <a href="./traits.html">later</a>, while discussing the <code>Debug</code> trait.</li>
 </ul>
 <p>What happens if we access an index out of range?</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let array = [7, 21, 42];
     let mut index = 0;
     loop {
@@ -319,7 +319,7 @@ fn main() {
 <li><code>loop</code> denotes an infinite loop (a dedicated language construct, unlike the hacky <code>while(1)</code> and <code>for(;;)</code> in C)</li>
 </ul>
 <p>More idiomatic (and less error-prone) alternative is to use Rust <em>iterators</em></p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let array = [7, 21, 42];
     for (index, element) in array.iter().enumerate() {
         println!(&quot;The element #{} is {}&quot;, index, element);
@@ -331,7 +331,7 @@ fn main() {
 <h4 id="exercise-1"><a class="header" href="#exercise-1">Exercise</a></h4>
 <p>Implement a method <code>display()</code> for the type <code>LedMatrix</code> below which prints '.' for each 0 and '*' for each 1 that it encounters in <code>pattern</code></p>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust">struct LedMatrix {
+<pre><pre class="playground"><code class="language-rust edition2021">struct LedMatrix {
     // Syntax for a nested array of size 5x5
     pattern: [[u8; 5]; 5]
 }
@@ -361,7 +361,7 @@ fn main() {
 <li><code>LedMatrix</code> now needs an extra field to indicate the <em>logical</em> size of the pattern,</li>
 </ul>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Syntax for a compile-time constant (let will not work here)
 const STATIC_DIMENSION: usize = 5;
@@ -376,7 +376,7 @@ struct LedMatrix {
 <li>Add the <code>new()</code> method, which constructs an instance of <code>LedMatrix</code> that has an extra parameter <code>dimension</code>. Make the runtime check whether <code>dimension</code> has a valid value. <a href="https://doc.rust-lang.org/std/macro.panic.html"><code>panic!</code></a> if things go wrong.</li>
 </ul>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl LedMatrix {
     fn new(pattern: [[u8; STATIC_DIMENSION]; STATIC_DIMENSION], dimension: usize) -&gt; Self {
@@ -411,7 +411,7 @@ struct LedMatrix {
 <!--         } -->
 <!--     } -->
 <!-- } -->
-<pre><pre class="playground"><code class="language-rust">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
     let matrix1 = LedMatrix::new([[1; STATIC_DIMENSION]; STATIC_DIMENSION], 3);
     matrix1.show();
     // The command above should print

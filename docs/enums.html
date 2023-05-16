@@ -147,7 +147,7 @@
                         <h1 id="enums"><a class="header" href="#enums">Enums</a></h1>
 <h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
 <p>Often we have a limited number of possible values, for example on our Micro:bit we have two buttons, A and B:</p>
-<pre><pre class="playground"><code class="language-rust editable">enum KeyPress {
+<pre><pre class="playground"><code class="language-rust editable edition2021">enum KeyPress {
     A,
     B,
 }
@@ -170,7 +170,7 @@ fn main() {
 <li>In C and in the old-style C++, we use a null pointer for the latter case</li>
 <li>In Rust, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a>:</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Option&lt;T&gt; {
     Some(T),
@@ -188,21 +188,21 @@ fn main() {
 <li><code>#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]</code></li>
 <li>Plenty of helper functions</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let x: Option&lt;u8&gt; = Some(2);
     assert_eq!(x.is_some(), true);
     assert_eq!(x.unwrap(), 2);
     assert_eq!(x.expect(&quot;Oops!&quot;), 2);
 }
 </code></pre></pre>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let x: Option&lt;u8&gt; = None;
     x.expect(&quot;Oops!&quot;);
 }
 </code></pre></pre>
 <h2 id="result"><a class="header" href="#result"><code>Result</code></a></h2>
 <p>Whenever an operation may <em>fail</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/result/enum.Result.html"><code>core::result::Result</code></a> instead of <code>Option</code></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Result&lt;T, E&gt; {
     Ok(T),
@@ -215,7 +215,7 @@ fn main() {
 <li>If a function returns a <code>Result</code> and the caller ignores the returned value, the compiler gives a warning</li>
 <li>It is very popular to use the <code>?</code> syntactic sugar to propagate errors in an elegant way:</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust editable">fn problematic_function() -&gt; Result&lt;u8, ()&gt; {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn problematic_function() -&gt; Result&lt;u8, ()&gt; {
     let x: Result&lt;u8, ()&gt; = Err(());
     println!(&quot;{:?}&quot;, x?);
     Ok(4)

@@ -25,9 +25,56 @@ These two types:
   + See the link to the Rust book below for more details.
 
 ## Async
-+ Combines parallel with concurrent (but you are free to make it purely concurrent by running everything on a single thread, if you really wish)
-+ Is lazy: your future does not get polled if you never used it
-+ Async is good for solving _I/O-bound_ problems (e.g., accessing files or listening for a TCP/UDP connection)
++ Note that typically each language (like C++, Javascript) has it's own way of doing async, Rust is not an exception.
++ Rust language has a built-in keyword [`async`](https://doc.rust-lang.org/std/keyword.async.html) that first appeared in Rust 2018.
+```rust
+async fn first_async_trial() -> u8 {
+  println!("Hello, Rust async!");
+  1 + 2
+}
+
+fn main() {
+  first_async_trial();
+}
+```
++ The code compiles but it does not print anything! The reason is that async in Rust is _lazy_: no progress is ever done if you never poll your async code.
++ `async` is basically a syntactic sugar that actually turns your function into a [`Future`](https://doc.rust-lang.org/core/future/trait.Future.html)
+```rust,noplayground
+pub trait Future {
+  type Output;
+
+  // Required method
+  fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>;
+}
+```
++ In our specific case, `Output = u8`
++ [`Poll`](https://doc.rust-lang.org/core/task/enum.Poll.html) is an enum that describes two possible states of the Future:
+```rust,noplayground
+pub enum Poll<T> {
+  Ready(T),
+  Pending,
+}
+```
++ `Context` is basically a wrapper around the callback function which notifies the async runtime that `Future` is finished, but the catch is that you don't need to pass it explicitly. Instead of calling `poll()` directly, you have another syntactic sugar, [`await`](https://doc.rust-lang.org/std/keyword.await.html) keyword:
+```rust
+# async fn first_async_trial() -> u8 {
+#   println!("Hello, Rust async!");
+#   1 + 2
+# }
+#[tokio::main]
+async fn main() {
+  let value = first_async_trial().await;
+  println!("The computed value is {}", value);
+}
+```
++ Note that we made `main()` async as well (`await` can be called exclusively from an `async` function). But then we need an executor (`main()` does not have any `Context` by default), so we used Tokio for that.
+
+Features of Rust async
++ Typical async runtime (like Tokio) combines concurrent execution with parallel, automatically. (But you are free to make it purely concurrent by pinning everything to a single thread, if you really wish.)
++ Async does not rely on `std` library (it does not need either OS or heap allocation) and hence can run even on a bare-metal micro-controller. Take a look at the [Embassy](https://embassy.dev/) framework which implements async runtime for STM32, Micro:bit, and Raspberry Pi Pico.
++ Async itself is lightweight, runtimes (like Tokio) give more overhead but still very performant.
++ Tokio in particular uses OS-provided async facilities like [`epoll`](https://man7.org/linux/man-pages/man7/epoll.7.html) in case of Linux. It means that if you are watching 1000 files, you don't have to poll them again and again, but OS will tell you directly which ones have changed. (Since in UNIX "everything is a file", even timers like [`timerfd`](https://man7.org/linux/man-pages/man2/timerfd_create.2.html), the approach is very scalable.)
++ Async is good for solving _I/O-bound_ problems (e.g., accessing multiple files and listening for mutliple TCP/UDP connections)
 
 ## Resources for deeper understanding
 + [Chapter 16](https://doc.rust-lang.org/book/ch16-00-concurrency.html) of the Rust book

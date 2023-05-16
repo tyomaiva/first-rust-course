@@ -147,7 +147,7 @@
                         <h1 id="ownership-and-borrow-checker"><a class="header" href="#ownership-and-borrow-checker">Ownership and borrow checker</a></h1>
 <h2 id="warm-up-example"><a class="header" href="#warm-up-example">Warm-up example</a></h2>
 <p>The code below looks good, we only call the struct method twice. Why is compiler not happy?</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -168,7 +168,7 @@ fn main() {
 }
 </code></pre></pre>
 <p>At the same time, the following example is compiling without issues:</p>
-<pre><pre class="playground"><code class="language-rust editable">fn print_me(x: i32) {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn print_me(x: i32) {
     println!(&quot;The value is {}&quot;, x);
 }
 
@@ -207,7 +207,7 @@ fn main() {
 </li>
 </ul>
 <p>It explains the problem with the double call,</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    assert_eq!(point.is_close_to_origin(), false);
     assert_eq!(point.is_close_to_origin(), false);
@@ -215,7 +215,7 @@ fn main() {
 </span></code></pre></pre>
 <p>since <code>point</code> is consumed at the first call of <code>is_close_to_origin()</code>.</p>
 <p>But why then <code>x</code> is not consumed in the second example above?</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
@@ -228,7 +228,7 @@ fn main() {
 <li>No accidental implicit copies for non-<code>Copy</code> types are possible (in contrast with C++)</li>
 <li><code>MyPoint</code> has only stack-allocated values inside, can't we make it <code>Copy</code> as well? Yes, we can:</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust">#[derive(Copy,Clone)]
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Copy,Clone)]
 struct MyPoint {
     x: f64,
     y: f64,
@@ -271,7 +271,7 @@ fn main() {
 <li>References are never null pointers</li>
 </ul>
 <p>So what we need for the previous example is an immutable borrow:</p>
-<pre><pre class="playground"><code class="language-rust">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021">struct MyPoint {
     x: f64,
     y: f64,
 }
@@ -295,7 +295,7 @@ fn main() {
 </ul>
 <p>When do we need a mutable borrow?</p>
 <p>First trial:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -325,7 +325,7 @@ fn main() {
 <li>NOTE: references have scope rules other than normal variables: the reference scope ends once the reference is <em>used</em> last (not at the end of the <code>{ ... }</code> block). It's called <a href="https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes">Non-Lexical Lifetimes (NLL)</a>.</li>
 </ul>
 <p>Second trial (refactoring function into a method):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -351,7 +351,7 @@ fn main() {
 <li>We have two mutable borrows, but we don't violate any rules, since these two have different scopes.</li>
 </ul>
 <p>To get the value back from a reference, use the dereferencing syntax <code>*</code>:</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let mut value = 5;
     let reference = &amp;mut value;
     *reference += 1;

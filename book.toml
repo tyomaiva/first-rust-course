@@ -5,6 +5,9 @@ multilingual = false
 src = "src"
 title = "Rust Course"
 
+[rust]
+edition = "2021"
+
 [build]
 build-dir = "docs"
 

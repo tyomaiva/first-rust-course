@@ -230,7 +230,7 @@ cd my_rust_sandbox
 <blockquote>
 <p>You can edit and run most of the code snippets on this page without leaving your browser. Alternatively, you can copy them to the <a href="https://play.rust-lang.org/">Rust Playground</a> and run there</p>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let mut index = 10; // Define a variable
     while index != 0 {
         println!(&quot;Counting down: {}&quot;, index);
@@ -259,7 +259,7 @@ cd my_rust_sandbox
 <li>If we change <code>10</code> to <code>10.</code>, we get instead the double-precision floating-point type, <code>f64</code></li>
 <li>If you want to use a different type, you need to specify it explicitly</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let index: u8 = 10;
     // OR
     let index = 10_u8;
@@ -278,14 +278,14 @@ cd my_rust_sandbox
 <h3 id="tuples"><a class="header" href="#tuples">Tuples</a></h3>
 <!-- tuples go before arrays as an example for the latter needs an iterator that produces a tuple -->
 <p>A tuple combines values of different types</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let tuple = (&quot;Something&quot;, 2);
     println!(&quot;The tuple contents are: {}, {}&quot;, tuple.0, tuple.1);
 }
 </code></pre></pre>
 <h3 id="structs"><a class="header" href="#structs">Structs</a></h3>
 <p>Structs are similar to tuples in that they combine potentially different types, but each field is <em>named</em> and the struct type itself has a name:</p>
-<pre><pre class="playground"><code class="language-rust editable">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust editable edition2021">struct MyPoint {
     x: f64,
     y: f64,
 }
@@ -298,7 +298,7 @@ fn main() {
 <li>Note that if you pass <code>{x: 3, y: 4}</code> instead of <code>{x: 3., y:4.}</code>, you get a compiler error (try it!): you need to convert the types explicitly, e.g. <code>{x: 3 as f64, y: 4 as f64)</code> will do the trick. It is a safety feature, to avoid accidental type castings</li>
 </ul>
 <p>You can associate methods with the struct type (encapsulation):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -336,7 +336,7 @@ fn main() {
 <li><code>Line</code> has a method <code>is_point_on_line()</code> which checks whether a given point belongs to the line or not</li>
 </ul>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64
 </span><span class="boring">}
@@ -375,7 +375,7 @@ fn main() {
 </blockquote>
 <h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
 <p>Array is a fixed-size collection of elements of the <em>same</em> type (similar to C arrays)</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let mut array = [7, 21, 42];
     array[0] += 20;
     println!(&quot;{:?}&quot;, array);
@@ -385,7 +385,7 @@ fn main() {
 <li>Note the <code>{:?}</code> syntax which normally tells to dump the contents of the variable. We will elaborate on this <a href="./traits.html">later</a>, while discussing the <code>Debug</code> trait.</li>
 </ul>
 <p>What happens if we access an index out of range?</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let array = [7, 21, 42];
     let mut index = 0;
     loop {
@@ -399,7 +399,7 @@ fn main() {
 <li><code>loop</code> denotes an infinite loop (a dedicated language construct, unlike the hacky <code>while(1)</code> and <code>for(;;)</code> in C)</li>
 </ul>
 <p>More idiomatic (and less error-prone) alternative is to use Rust <em>iterators</em></p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let array = [7, 21, 42];
     for (index, element) in array.iter().enumerate() {
         println!(&quot;The element #{} is {}&quot;, index, element);
@@ -411,7 +411,7 @@ fn main() {
 <h4 id="exercise-1"><a class="header" href="#exercise-1">Exercise</a></h4>
 <p>Implement a method <code>display()</code> for the type <code>LedMatrix</code> below which prints '.' for each 0 and '*' for each 1 that it encounters in <code>pattern</code></p>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust">struct LedMatrix {
+<pre><pre class="playground"><code class="language-rust edition2021">struct LedMatrix {
     // Syntax for a nested array of size 5x5
     pattern: [[u8; 5]; 5]
 }
@@ -441,7 +441,7 @@ fn main() {
 <li><code>LedMatrix</code> now needs an extra field to indicate the <em>logical</em> size of the pattern,</li>
 </ul>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Syntax for a compile-time constant (let will not work here)
 const STATIC_DIMENSION: usize = 5;
@@ -456,7 +456,7 @@ struct LedMatrix {
 <li>Add the <code>new()</code> method, which constructs an instance of <code>LedMatrix</code> that has an extra parameter <code>dimension</code>. Make the runtime check whether <code>dimension</code> has a valid value. <a href="https://doc.rust-lang.org/std/macro.panic.html"><code>panic!</code></a> if things go wrong.</li>
 </ul>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl LedMatrix {
     fn new(pattern: [[u8; STATIC_DIMENSION]; STATIC_DIMENSION], dimension: usize) -&gt; Self {
@@ -491,7 +491,7 @@ struct LedMatrix {
 <!--         } -->
 <!--     } -->
 <!-- } -->
-<pre><pre class="playground"><code class="language-rust">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
     let matrix1 = LedMatrix::new([[1; STATIC_DIMENSION]; STATIC_DIMENSION], 3);
     matrix1.show();
     // The command above should print
@@ -510,7 +510,7 @@ struct LedMatrix {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ownership-and-borrow-checker"><a class="header" href="#ownership-and-borrow-checker">Ownership and borrow checker</a></h1>
 <h2 id="warm-up-example"><a class="header" href="#warm-up-example">Warm-up example</a></h2>
 <p>The code below looks good, we only call the struct method twice. Why is compiler not happy?</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -531,7 +531,7 @@ fn main() {
 }
 </code></pre></pre>
 <p>At the same time, the following example is compiling without issues:</p>
-<pre><pre class="playground"><code class="language-rust editable">fn print_me(x: i32) {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn print_me(x: i32) {
     println!(&quot;The value is {}&quot;, x);
 }
 
@@ -570,7 +570,7 @@ fn main() {
 </li>
 </ul>
 <p>It explains the problem with the double call,</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    assert_eq!(point.is_close_to_origin(), false);
     assert_eq!(point.is_close_to_origin(), false);
@@ -578,7 +578,7 @@ fn main() {
 </span></code></pre></pre>
 <p>since <code>point</code> is consumed at the first call of <code>is_close_to_origin()</code>.</p>
 <p>But why then <code>x</code> is not consumed in the second example above?</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    let x = 5;
     let y = x;
@@ -591,7 +591,7 @@ fn main() {
 <li>No accidental implicit copies for non-<code>Copy</code> types are possible (in contrast with C++)</li>
 <li><code>MyPoint</code> has only stack-allocated values inside, can't we make it <code>Copy</code> as well? Yes, we can:</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust">#[derive(Copy,Clone)]
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Copy,Clone)]
 struct MyPoint {
     x: f64,
     y: f64,
@@ -634,7 +634,7 @@ fn main() {
 <li>References are never null pointers</li>
 </ul>
 <p>So what we need for the previous example is an immutable borrow:</p>
-<pre><pre class="playground"><code class="language-rust">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021">struct MyPoint {
     x: f64,
     y: f64,
 }
@@ -658,7 +658,7 @@ fn main() {
 </ul>
 <p>When do we need a mutable borrow?</p>
 <p>First trial:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -688,7 +688,7 @@ fn main() {
 <li>NOTE: references have scope rules other than normal variables: the reference scope ends once the reference is <em>used</em> last (not at the end of the <code>{ ... }</code> block). It's called <a href="https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes">Non-Lexical Lifetimes (NLL)</a>.</li>
 </ul>
 <p>Second trial (refactoring function into a method):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">struct MyPoint {
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct MyPoint {
 </span><span class="boring">    x: f64,
 </span><span class="boring">    y: f64,
 </span><span class="boring">}
@@ -714,7 +714,7 @@ fn main() {
 <li>We have two mutable borrows, but we don't violate any rules, since these two have different scopes.</li>
 </ul>
 <p>To get the value back from a reference, use the dereferencing syntax <code>*</code>:</p>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let mut value = 5;
     let reference = &amp;mut value;
     *reference += 1;
@@ -748,7 +748,7 @@ fn main() {
 </ul>
 </li>
 </ul>
-<pre><pre class="playground"><code class="language-rust editable">trait SerialPort {
+<pre><pre class="playground"><code class="language-rust editable edition2021">trait SerialPort {
     fn read_byte(&amp;self) -&gt; u8;
 }
 
@@ -782,7 +782,7 @@ fn main() {
 <h2 id="traits-from-core"><a class="header" href="#traits-from-core">Traits from <code>core</code></a></h2>
 <h3 id="copy-and-clone"><a class="header" href="#copy-and-clone"><code>Copy</code> and <code>Clone</code></a></h3>
 <p><a href="https://doc.rust-lang.org/core/marker/trait.Copy.html"><code>core::marker::Copy</code></a> is a trait used to implicitly copy values bit-by-bit, instead of moving the value</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Copy: Clone { }
 <span class="boring">}
@@ -792,7 +792,7 @@ fn main() {
 <li>Syntax with <code>:</code> means a <em>trait bound</em>: any type implementing <code>Copy</code> should implement <code>Clone</code> as well.</li>
 <li><a href="https://doc.rust-lang.org/core/clone/trait.Clone.html"><code>core::clone::Clone</code></a> is a trait that allows <em>cloning</em> the values:</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Clone {
     fn clone(&amp;self) -&gt; Self;
@@ -811,7 +811,7 @@ fn main() {
 <li>Good thing: you only need to implement <code>clone()</code> (it is called a &quot;required method&quot;). Once that is done, the other method (<code>clone_from()</code>) is provided automatically for you (&quot;provided method&quot;).</li>
 <li>Both <code>Copy</code> and <code>Clone</code> can be automatically derived (with some default implementation), we saw that in <a href="./ownership.html">Section on Ownership</a></li>
 </ul>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(Copy,Clone)]
 struct MyPoint { x: f64, y: f64 }
@@ -822,7 +822,7 @@ struct MyPoint { x: f64, y: f64 }
 </ul>
 <h3 id="debug"><a class="header" href="#debug"><code>Debug</code></a></h3>
 <p>It's useful to dump contents of a variable, e.g. during the debugging or error logging</p>
-<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
 struct MyPoint {
     x: f64,
     y: f64,
@@ -880,7 +880,7 @@ fn main() {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="enums"><a class="header" href="#enums">Enums</a></h1>
 <h2 id="motivation-1"><a class="header" href="#motivation-1">Motivation</a></h2>
 <p>Often we have a limited number of possible values, for example on our Micro:bit we have two buttons, A and B:</p>
-<pre><pre class="playground"><code class="language-rust editable">enum KeyPress {
+<pre><pre class="playground"><code class="language-rust editable edition2021">enum KeyPress {
     A,
     B,
 }
@@ -903,7 +903,7 @@ fn main() {
 <li>In C and in the old-style C++, we use a null pointer for the latter case</li>
 <li>In Rust, it is idiomatic to use <a href="https://doc.rust-lang.org/core/option/enum.Option.html"><code>core::option::Option</code></a>:</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Option&lt;T&gt; {
     Some(T),
@@ -921,21 +921,21 @@ fn main() {
 <li><code>#[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]</code></li>
 <li>Plenty of helper functions</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let x: Option&lt;u8&gt; = Some(2);
     assert_eq!(x.is_some(), true);
     assert_eq!(x.unwrap(), 2);
     assert_eq!(x.expect(&quot;Oops!&quot;), 2);
 }
 </code></pre></pre>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn main() {
     let x: Option&lt;u8&gt; = None;
     x.expect(&quot;Oops!&quot;);
 }
 </code></pre></pre>
 <h2 id="result"><a class="header" href="#result"><code>Result</code></a></h2>
 <p>Whenever an operation may <em>fail</em>, it is idiomatic to use <a href="https://doc.rust-lang.org/core/result/enum.Result.html"><code>core::result::Result</code></a> instead of <code>Option</code></p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Result&lt;T, E&gt; {
     Ok(T),
@@ -948,7 +948,7 @@ fn main() {
 <li>If a function returns a <code>Result</code> and the caller ignores the returned value, the compiler gives a warning</li>
 <li>It is very popular to use the <code>?</code> syntactic sugar to propagate errors in an elegant way:</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust editable">fn problematic_function() -&gt; Result&lt;u8, ()&gt; {
+<pre><pre class="playground"><code class="language-rust editable edition2021">fn problematic_function() -&gt; Result&lt;u8, ()&gt; {
     let x: Result&lt;u8, ()&gt; = Err(());
     println!(&quot;{:?}&quot;, x?);
     Ok(4)
@@ -1257,9 +1257,61 @@ sensor.init().unwrap();
 </ul>
 <h2 id="async"><a class="header" href="#async">Async</a></h2>
 <ul>
-<li>Combines parallel with concurrent (but you are free to make it purely concurrent by running everything on a single thread, if you really wish)</li>
-<li>Is lazy: your future does not get polled if you never used it</li>
-<li>Async is good for solving <em>I/O-bound</em> problems (e.g., accessing files or listening for a TCP/UDP connection)</li>
+<li>Note that typically each language (like C++, Javascript) has it's own way of doing async, Rust is not an exception.</li>
+<li>Rust language has a built-in keyword <a href="https://doc.rust-lang.org/std/keyword.async.html"><code>async</code></a> that first appeared in Rust 2018.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2021">async fn first_async_trial() -&gt; u8 {
+  println!(&quot;Hello, Rust async!&quot;);
+  1 + 2
+}
+
+fn main() {
+  first_async_trial();
+}
+</code></pre></pre>
+<ul>
+<li>The code compiles but it does not print anything! The reason is that async in Rust is <em>lazy</em>: no progress is ever done if you never poll your async code.</li>
+<li><code>async</code> is basically a syntactic sugar that actually turns your function into a <a href="https://doc.rust-lang.org/core/future/trait.Future.html"><code>Future</code></a></li>
+</ul>
+<pre><code class="language-rust noplayground">pub trait Future {
+  type Output;
+
+  // Required method
+  fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt;;
+}
+</code></pre>
+<ul>
+<li>In our specific case, <code>Output = u8</code></li>
+<li><a href="https://doc.rust-lang.org/core/task/enum.Poll.html"><code>Poll</code></a> is an enum that describes two possible states of the Future:</li>
+</ul>
+<pre><code class="language-rust noplayground">pub enum Poll&lt;T&gt; {
+  Ready(T),
+  Pending,
+}
+</code></pre>
+<ul>
+<li><code>Context</code> is basically a wrapper around the callback function which notifies the async runtime that <code>Future</code> is finished, but the catch is that you don't need to pass it explicitly. Instead of calling <code>poll()</code> directly, you have another syntactic sugar, <a href="https://doc.rust-lang.org/std/keyword.await.html"><code>await</code></a> keyword:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">async fn first_async_trial() -&gt; u8 {
+</span><span class="boring">  println!(&quot;Hello, Rust async!&quot;);
+</span><span class="boring">  1 + 2
+</span><span class="boring">}
+</span>#[tokio::main]
+async fn main() {
+  let value = first_async_trial().await;
+  println!(&quot;The computed value is {}&quot;, value);
+}
+</code></pre></pre>
+<ul>
+<li>Note that we made <code>main()</code> async as well (<code>await</code> can be called exclusively from an <code>async</code> function). But then we need an executor (<code>main()</code> does not have any <code>Context</code> by default), so we used Tokio for that.</li>
+</ul>
+<p>Features of Rust async</p>
+<ul>
+<li>Typical async runtime (like Tokio) combines concurrent execution with parallel, automatically. (But you are free to make it purely concurrent by pinning everything to a single thread, if you really wish.)</li>
+<li>Async does not rely on <code>std</code> library (it does not need either OS or heap allocation) and hence can run even on a bare-metal micro-controller. Take a look at the <a href="https://embassy.dev/">Embassy</a> framework which implements async runtime for STM32, Micro:bit, and Raspberry Pi Pico.</li>
+<li>Async itself is lightweight, runtimes (like Tokio) give more overhead but still very performant.</li>
+<li>Tokio in particular uses OS-provided async facilities like <a href="https://man7.org/linux/man-pages/man7/epoll.7.html"><code>epoll</code></a> in case of Linux. It means that if you are watching 1000 files, you don't have to poll them again and again, but OS will tell you directly which ones have changed. (Since in UNIX &quot;everything is a file&quot;, even timers like <a href="https://man7.org/linux/man-pages/man2/timerfd_create.2.html"><code>timerfd</code></a>, the approach is very scalable.)</li>
+<li>Async is good for solving <em>I/O-bound</em> problems (e.g., accessing multiple files and listening for mutliple TCP/UDP connections)</li>
 </ul>
 <h2 id="resources-for-deeper-understanding-4"><a class="header" href="#resources-for-deeper-understanding-4">Resources for deeper understanding</a></h2>
 <ul>

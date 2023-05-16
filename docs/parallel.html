@@ -183,9 +183,61 @@
 </ul>
 <h2 id="async"><a class="header" href="#async">Async</a></h2>
 <ul>
-<li>Combines parallel with concurrent (but you are free to make it purely concurrent by running everything on a single thread, if you really wish)</li>
-<li>Is lazy: your future does not get polled if you never used it</li>
-<li>Async is good for solving <em>I/O-bound</em> problems (e.g., accessing files or listening for a TCP/UDP connection)</li>
+<li>Note that typically each language (like C++, Javascript) has it's own way of doing async, Rust is not an exception.</li>
+<li>Rust language has a built-in keyword <a href="https://doc.rust-lang.org/std/keyword.async.html"><code>async</code></a> that first appeared in Rust 2018.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2021">async fn first_async_trial() -&gt; u8 {
+  println!(&quot;Hello, Rust async!&quot;);
+  1 + 2
+}
+
+fn main() {
+  first_async_trial();
+}
+</code></pre></pre>
+<ul>
+<li>The code compiles but it does not print anything! The reason is that async in Rust is <em>lazy</em>: no progress is ever done if you never poll your async code.</li>
+<li><code>async</code> is basically a syntactic sugar that actually turns your function into a <a href="https://doc.rust-lang.org/core/future/trait.Future.html"><code>Future</code></a></li>
+</ul>
+<pre><code class="language-rust noplayground">pub trait Future {
+  type Output;
+
+  // Required method
+  fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt;;
+}
+</code></pre>
+<ul>
+<li>In our specific case, <code>Output = u8</code></li>
+<li><a href="https://doc.rust-lang.org/core/task/enum.Poll.html"><code>Poll</code></a> is an enum that describes two possible states of the Future:</li>
+</ul>
+<pre><code class="language-rust noplayground">pub enum Poll&lt;T&gt; {
+  Ready(T),
+  Pending,
+}
+</code></pre>
+<ul>
+<li><code>Context</code> is basically a wrapper around the callback function which notifies the async runtime that <code>Future</code> is finished, but the catch is that you don't need to pass it explicitly. Instead of calling <code>poll()</code> directly, you have another syntactic sugar, <a href="https://doc.rust-lang.org/std/keyword.await.html"><code>await</code></a> keyword:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">async fn first_async_trial() -&gt; u8 {
+</span><span class="boring">  println!(&quot;Hello, Rust async!&quot;);
+</span><span class="boring">  1 + 2
+</span><span class="boring">}
+</span>#[tokio::main]
+async fn main() {
+  let value = first_async_trial().await;
+  println!(&quot;The computed value is {}&quot;, value);
+}
+</code></pre></pre>
+<ul>
+<li>Note that we made <code>main()</code> async as well (<code>await</code> can be called exclusively from an <code>async</code> function). But then we need an executor (<code>main()</code> does not have any <code>Context</code> by default), so we used Tokio for that.</li>
+</ul>
+<p>Features of Rust async</p>
+<ul>
+<li>Typical async runtime (like Tokio) combines concurrent execution with parallel, automatically. (But you are free to make it purely concurrent by pinning everything to a single thread, if you really wish.)</li>
+<li>Async does not rely on <code>std</code> library (it does not need either OS or heap allocation) and hence can run even on a bare-metal micro-controller. Take a look at the <a href="https://embassy.dev/">Embassy</a> framework which implements async runtime for STM32, Micro:bit, and Raspberry Pi Pico.</li>
+<li>Async itself is lightweight, runtimes (like Tokio) give more overhead but still very performant.</li>
+<li>Tokio in particular uses OS-provided async facilities like <a href="https://man7.org/linux/man-pages/man7/epoll.7.html"><code>epoll</code></a> in case of Linux. It means that if you are watching 1000 files, you don't have to poll them again and again, but OS will tell you directly which ones have changed. (Since in UNIX &quot;everything is a file&quot;, even timers like <a href="https://man7.org/linux/man-pages/man2/timerfd_create.2.html"><code>timerfd</code></a>, the approach is very scalable.)</li>
+<li>Async is good for solving <em>I/O-bound</em> problems (e.g., accessing multiple files and listening for mutliple TCP/UDP connections)</li>
 </ul>
 <h2 id="resources-for-deeper-understanding"><a class="header" href="#resources-for-deeper-understanding">Resources for deeper understanding</a></h2>
 <ul>
